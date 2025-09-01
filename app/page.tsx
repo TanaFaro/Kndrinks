@@ -260,7 +260,7 @@ export default function Home() {
                 <div className="text-yellow-400 text-3xl mb-6 flex justify-center">
                   {'⭐'.repeat(testimonial.rating)}
                 </div>
-                <p className="text-slate-600 mb-6 italic text-lg leading-relaxed">"{testimonial.text}"</p>
+                <p className="text-slate-600 mb-6 italic text-lg leading-relaxed">&quot;{testimonial.text}&quot;</p>
                 <div className="flex items-center justify-center">
                   <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-3">
                     {testimonial.name.charAt(0)}

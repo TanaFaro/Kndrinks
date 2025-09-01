@@ -34,7 +34,7 @@ const WhatsAppButton = () => {
     {
       icon: Mail,
       label: 'Email',
-      action: () => window.open(`mailto:${whatsappConfig.contactInfo.email}`, '_self'),
+      action: () => window.open(`mailto:info@kndrinks.com`, '_self'),
       color: 'bg-blue-500 hover:bg-blue-600'
     },
     {

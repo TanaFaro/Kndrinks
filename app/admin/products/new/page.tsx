@@ -25,7 +25,7 @@ export default function NewProduct() {
   })
   const [selectedImage, setSelectedImage] = useState('')
   const [showImageSelector, setShowImageSelector] = useState(false)
-  const [availableImages, setAvailableImages] = useState([])
+  const [availableImages, setAvailableImages] = useState<{name: string, path: string}[]>([])
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
@@ -116,7 +116,7 @@ export default function NewProduct() {
       router.push('/admin/dashboard')
     } catch (error) {
       console.error('Error al crear producto:', error)
-      alert('Error al crear el producto: ' + error.message)
+      alert('Error al crear el producto: ' + (error instanceof Error ? error.message : 'Error desconocido'))
     } finally {
       setLoading(false)
     }
@@ -368,8 +368,8 @@ export default function NewProduct() {
                          </p>
                          <ul className="text-xs text-blue-700 mt-1 space-y-1">
                            <li>• Colócalas en la carpeta <code className="bg-blue-100 px-1 rounded">public/images/</code></li>
-                           <li>• O ejecuta <code className="bg-blue-100 px-1 rounded">update-images.bat</code> para copiar desde "Fotos Bebidas"</li>
-                           <li>• Haz clic en "🔄 Actualizar" para recargar la lista</li>
+                           <li>• O ejecuta <code className="bg-blue-100 px-1 rounded">update-images.bat</code> para copiar desde &quot;Fotos Bebidas&quot;</li>
+                                                        <li>• Haz clic en &quot;🔄 Actualizar&quot; para recargar la lista</li>
                          </ul>
                        </div>
                     </div>

@@ -15,6 +15,7 @@ interface Oferta {
   category: string
   validUntil: string
   active: boolean
+  comboProducts?: any[]
 }
 
 export default function AdminOfertas() {

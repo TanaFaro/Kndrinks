@@ -5,7 +5,7 @@ import path from 'path'
 export async function GET() {
   try {
     const imagesDir = path.join(process.cwd(), 'public', 'images')
-    const images = []
+    const images: {name: string, path: string, filename: string}[] = []
     
     if (fs.existsSync(imagesDir)) {
       const files = fs.readdirSync(imagesDir)
