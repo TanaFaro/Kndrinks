@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+import { createWithEqualityFn } from 'zustand/traditional'
 import { persist } from 'zustand/middleware'
 
 export interface CartItem {
@@ -21,7 +21,7 @@ interface CartStore {
   getItemQuantity: (id: string) => number
 }
 
-export const useCartStore = create<CartStore>()(
+export const useCartStore = createWithEqualityFn<CartStore>()(
   persist(
     (set, get) => ({
       items: [],
