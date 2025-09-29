@@ -26,6 +26,44 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Forzar estilos móviles
+              function forceMobileStyles() {
+                if (window.innerWidth <= 768) {
+                  document.body.classList.add('mobile-forced');
+                  // Forzar recarga de estilos
+                  const style = document.createElement('style');
+                  style.textContent = \`
+                    @media (max-width: 768px) {
+                      .hero-buttons { display: flex !important; flex-direction: row !important; }
+                      .products-grid { grid-template-columns: repeat(2, 1fr) !important; }
+                      .ofertas-grid { grid-template-columns: repeat(2, 1fr) !important; }
+                    }
+                  \`;
+                  document.head.appendChild(style);
+                }
+              }
+              
+              // Ejecutar al cargar
+              if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', forceMobileStyles);
+              } else {
+                forceMobileStyles();
+              }
+              
+              // Ejecutar al redimensionar
+              window.addEventListener('resize', forceMobileStyles);
+            `,
+          }}
+        />
+      </head>
       <body className={inter.className}>
         <div className="min-h-screen flex flex-col">
           {/* Header Responsivo */}

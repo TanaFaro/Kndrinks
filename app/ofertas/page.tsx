@@ -287,7 +287,7 @@ export default function Ofertas() {
           </h2>
           
           {ofertas.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="ofertas-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {getActiveOfertas().map((oferta) => {
                 // Validar que la oferta tiene la estructura correcta
                 if (!oferta.comboProducts || !Array.isArray(oferta.comboProducts)) {
@@ -296,7 +296,7 @@ export default function Ofertas() {
                 
                 const individualPrice = calculateIndividualPrice(oferta.comboProducts)
                 return (
-                  <div key={oferta.id} className={`group bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105 border ${oferta.featured ? 'border-yellow-400/50 shadow-yellow-200/50' : 'border-violet-200/30'}`}>
+                  <div key={oferta.id} className={`oferta-card group bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105 border ${oferta.featured ? 'border-yellow-400/50 shadow-yellow-200/50' : 'border-violet-200/30'}`}>
                     {/* Badge de destacado */}
                     {oferta.featured && (
                       <div className="absolute top-4 left-4 z-10 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
@@ -307,7 +307,7 @@ export default function Ofertas() {
                     {/* Badge de popularidad con estrellas */}
                     {oferta.priority && oferta.priority >= 2 && (
                       <div className="absolute top-4 right-4 z-10 bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
-                        <div className="flex items-center space-x-1">
+                        <div className="priority-stars flex items-center space-x-1">
                           <span>{getPriorityStars(oferta.priority)}</span>
                           <span>{getPopularityText(oferta.priority)}</span>
                         </div>
@@ -327,7 +327,7 @@ export default function Ofertas() {
                       <div className="bg-green-500 text-white text-sm font-bold px-3 py-1 rounded-full inline-block mb-4">
                         COMBO
                       </div>
-                      <h3 className="text-2xl font-bold text-slate-800 mb-4 group-hover:text-slate-900 transition-colors">
+                      <h3 className="oferta-title text-2xl font-bold text-slate-800 mb-4 group-hover:text-slate-900 transition-colors">
                         {oferta.title}
                       </h3>
                       <p className="text-slate-600 mb-4 text-sm">
@@ -351,7 +351,7 @@ export default function Ofertas() {
                           <p className="line-through">Individual: ${individualPrice.toLocaleString()}</p>
                         </div>
                         <div className="text-right">
-                          <span className="text-3xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
+                          <span className="oferta-price text-3xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
                             ${oferta.finalPrice.toLocaleString()}
                           </span>
                           <p className="text-xs text-slate-500">Precio combo</p>

@@ -99,67 +99,187 @@
   @apply bg-primary-600;
 }
 
-/* Estilos para consistencia móvil-desktop */
+/* Estilos agresivos para móviles - Forzar consistencia total */
 @media (max-width: 768px) {
-  /* Forzar el mismo tamaño de fuente en móvil */
+  /* Reset completo para móviles */
+  * {
+    box-sizing: border-box !important;
+  }
+  
+  /* Hero Section - Forzar layout horizontal */
+  .hero-section {
+    padding: 2rem 1rem !important;
+    min-height: 60vh !important;
+  }
+  
   .hero-title {
-    font-size: 3rem !important;
+    font-size: 2.5rem !important;
     line-height: 1.1 !important;
+    margin-bottom: 1rem !important;
   }
   
   .hero-subtitle {
-    font-size: 1.5rem !important;
+    font-size: 1.25rem !important;
     line-height: 1.4 !important;
+    margin-bottom: 2rem !important;
   }
   
-  /* Mantener el mismo padding en móvil */
-  .hero-section {
-    padding: 4rem 1rem !important;
-  }
-  
-  /* Botones del mismo tamaño */
+  /* Botones - Forzar layout horizontal */
   .hero-buttons {
+    display: flex !important;
     flex-direction: row !important;
     gap: 1rem !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
   }
   
   .hero-button {
-    padding: 1rem 2rem !important;
-    font-size: 1.125rem !important;
+    padding: 0.75rem 1.5rem !important;
+    font-size: 1rem !important;
     width: auto !important;
+    min-width: 140px !important;
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
   }
   
-  /* Productos con el mismo layout */
+  /* Productos - Forzar 2 columnas */
   .products-grid {
+    display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 1rem !important;
+    gap: 0.75rem !important;
+    padding: 0 0.5rem !important;
   }
   
   .product-card {
-    padding: 1rem !important;
+    padding: 0.75rem !important;
+    margin: 0 !important;
   }
   
   .product-title {
-    font-size: 1.125rem !important;
+    font-size: 1rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 0.5rem !important;
   }
   
   .product-price {
-    font-size: 1.5rem !important;
+    font-size: 1.25rem !important;
+    margin-bottom: 0.75rem !important;
   }
   
-  /* Header consistente */
+  /* Imágenes de productos */
+  .product-card img {
+    height: 120px !important;
+    object-fit: cover !important;
+  }
+  
+  /* Botones de WhatsApp */
+  .product-card button {
+    padding: 0.5rem !important;
+    font-size: 0.875rem !important;
+  }
+  
+  /* Header - Forzar layout móvil */
   .header-logo {
-    height: 3rem !important;
+    height: 2.5rem !important;
+    width: auto !important;
   }
   
   .header-nav {
     display: none !important;
   }
   
-  /* Footer con el mismo layout */
+  /* Footer - 2 columnas */
   .footer-grid {
+    display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 1.5rem !important;
+    gap: 1rem !important;
+    padding: 1rem !important;
+  }
+  
+  /* Ofertas - Forzar 2 columnas */
+  .ofertas-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+    padding: 0 0.5rem !important;
+  }
+  
+  .oferta-card {
+    padding: 0.75rem !important;
+    margin: 0 !important;
+  }
+  
+  .oferta-title {
+    font-size: 1rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .oferta-price {
+    font-size: 1.25rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+  
+  /* Imágenes de ofertas */
+  .oferta-card img {
+    height: 120px !important;
+    object-fit: cover !important;
+  }
+  
+  /* Botones de ofertas */
+  .oferta-card button {
+    padding: 0.5rem !important;
+    font-size: 0.875rem !important;
+  }
+  
+  /* Estrellas de popularidad */
+  .priority-stars {
+    font-size: 0.75rem !important;
+  }
+  
+  /* Títulos de secciones */
+  h2 {
+    font-size: 1.75rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  /* Padding general */
+  section {
+    padding: 1.5rem 0.5rem !important;
+  }
+  
+  /* Contenedores */
+  .max-w-6xl {
+    max-width: 100% !important;
+    padding: 0 0.5rem !important;
+  }
+  
+  /* Espaciado */
+  .mb-8, .mb-12, .mb-16 {
+    margin-bottom: 1rem !important;
+  }
+  
+  .py-24 {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+  
+  /* Forzar visibilidad */
+  .hidden {
+    display: none !important;
+  }
+  
+  .block {
+    display: block !important;
+  }
+  
+  .flex {
+    display: flex !important;
+  }
+  
+  .grid {
+    display: grid !important;
   }
 }
 
