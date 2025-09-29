@@ -23,66 +23,31 @@ export default function AdminDashboard() {
   const { isAuthenticated, user, loading: authLoading, logout } = useSession()
 
   useEffect(() => {
-    // Verificar autenticación
-    if (!authLoading && !isAuthenticated) {
-      console.log('❌ No autenticado, redirigiendo al login...')
-      router.push('/admin')
-      return
-    }
-
-    if (authLoading) {
-      console.log('⏳ Verificando autenticación...')
-      return
-    }
+    // Solo cargar datos si estamos autenticados
+    if (!isAuthenticated || authLoading) return
 
     console.log('✅ Admin autenticado:', user)
 
     // Cargar productos desde localStorage
-    const savedProducts = localStorage.getItem('products')
-    console.log('Dashboard - Productos guardados:', savedProducts)
-    
-    if (savedProducts) {
-      const parsedProducts = JSON.parse(savedProducts)
-      console.log('Dashboard - Productos parseados:', parsedProducts)
-      setProducts(parsedProducts)
-    } else {
-      console.log('Dashboard - No hay productos guardados, creando productos iniciales')
-      // Productos iniciales de ejemplo
-      const initialProducts: Product[] = [
-        {
-          id: 1,
-          name: 'Whisky Premium',
-          price: 15000,
-          category: 'Licores',
-          stock: 10,
-          image: '/images/Logo Bebidas.jpeg',
-          description: 'Whisky de alta calidad'
-        },
-        {
-          id: 2,
-          name: 'Vino Tinto Reserva',
-          price: 8500,
-          category: 'Vinos',
-          stock: 15,
-          image: '/images/Logo Bebidas.jpeg',
-          description: 'Vino tinto reserva especial'
-        },
-        {
-          id: 3,
-          name: 'Cerveza Artesanal',
-          price: 1200,
-          category: 'Cervezas',
-          stock: 50,
-          image: '/images/Logo Bebidas.jpeg',
-          description: 'Cerveza artesanal premium'
+    if (typeof window !== 'undefined') {
+      const savedProducts = localStorage.getItem('products')
+      console.log('Dashboard - Productos guardados:', savedProducts)
+      
+      if (savedProducts) {
+        try {
+          const parsedProducts = JSON.parse(savedProducts)
+          console.log('Dashboard - Productos parseados:', parsedProducts)
+          setProducts(parsedProducts)
+        } catch (error) {
+          console.error('Error parsing products:', error)
         }
-      ]
-      setProducts(initialProducts)
-      localStorage.setItem('products', JSON.stringify(initialProducts))
-      console.log('Dashboard - Productos iniciales creados')
+      } else {
+        console.log('Dashboard - No hay productos guardados')
+        setProducts([])
+      }
     }
     setLoading(false)
-  }, [router, isAuthenticated, authLoading])
+  }, [isAuthenticated, authLoading, user])
 
   const handleLogout = () => {
     logout()
@@ -95,25 +60,8 @@ export default function AdminDashboard() {
     localStorage.setItem('products', JSON.stringify(updatedProducts))
   }
 
-  if (loading || authLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-violet-600 mx-auto"></div>
-          <p className="mt-4 text-slate-600">
-            {authLoading ? 'Verificando sesión...' : 'Cargando...'}
-          </p>
-        </div>
-      </div>
-    )
-  }
-
-  // Si no está autenticado, no mostrar nada (se redirigirá)
-  if (!isAuthenticated) {
-    return null
-  }
-
   return (
+    <ProtectedRoute>
     <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100">
       {/* Header */}
       <header className="bg-white shadow-lg">
@@ -313,5 +261,6 @@ export default function AdminDashboard() {
         </div>
       </main>
     </div>
+    </ProtectedRoute>
   )
 }
