@@ -245,15 +245,17 @@ export default function Ofertas() {
                         </div>
                       </div>
                       
-                      <div className="flex items-center justify-between mb-6">
-                        <div className="text-sm text-slate-500">
-                          <p className="line-through">Individual: ${individualPrice.toLocaleString()}</p>
-                        </div>
-                        <div className="text-right">
-                          <span className="oferta-price text-3xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
+                      {/* Precio destacado centrado */}
+                      <div className="text-center mb-6">
+                        <div className="bg-gradient-to-r from-violet-50 to-purple-50 rounded-2xl p-4 border border-violet-200">
+                          <p className="text-sm text-slate-500 mb-2">Precio individual: <span className="line-through">${individualPrice.toLocaleString()}</span></p>
+                          <div className="oferta-price text-4xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent mb-1">
                             ${oferta.finalPrice.toLocaleString()}
-                          </span>
-                          <p className="text-xs text-slate-500">Precio combo</p>
+                          </div>
+                          <p className="text-sm font-semibold text-green-600">Precio combo especial</p>
+                          <div className="text-xs text-slate-500 mt-1">
+                            Ahorras: ${(individualPrice - oferta.finalPrice).toLocaleString()}
+                          </div>
                         </div>
                       </div>
                       

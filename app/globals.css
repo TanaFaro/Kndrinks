@@ -365,12 +365,41 @@
     margin-bottom: 0.75rem !important;
   }
   
-  /* Forzar botones de WhatsApp */
-  .product-card button,
-  .oferta-card button {
-    padding: 0.5rem !important;
-    font-size: 0.875rem !important;
-  }
+      /* Forzar botones de WhatsApp */
+      .product-card button,
+      .oferta-card button {
+        padding: 0.5rem !important;
+        font-size: 0.875rem !important;
+      }
+      
+      /* Estilos específicos para ofertas en móvil */
+      .oferta-card .text-center {
+        text-align: center !important;
+        padding: 0.5rem !important;
+      }
+      
+      .oferta-card .bg-gradient-to-r.from-violet-50.to-purple-50 {
+        padding: 0.75rem !important;
+        margin: 0.5rem 0 !important;
+      }
+      
+      .oferta-price {
+        font-size: 1.75rem !important;
+        line-height: 1.2 !important;
+        margin: 0.25rem 0 !important;
+        text-align: center !important;
+        display: block !important;
+      }
+      
+      .oferta-card .text-sm {
+        font-size: 0.75rem !important;
+        margin: 0.25rem 0 !important;
+      }
+      
+      .oferta-card .text-xs {
+        font-size: 0.625rem !important;
+        margin: 0.125rem 0 !important;
+      }
   
   /* Forzar secciones más pequeñas */
   section {
