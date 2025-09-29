@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '@/lib/useAuth'
+import { useSession } from '@/lib/useSession'
 import Link from 'next/link'
 import ProtectedRoute from '@/components/ProtectedRoute'
 
@@ -20,7 +20,7 @@ export default function AdminDashboard() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const router = useRouter()
-  const { isAuthenticated, user, loading: authLoading, logout } = useAuth()
+  const { isAuthenticated, user, loading: authLoading, logout } = useSession()
 
   useEffect(() => {
     // Verificar autenticación

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { loginAdmin } from '@/lib/auth'
+import { useSession } from '@/lib/useSession'
 
 export default function AdminLogin() {
   const [username, setUsername] = useState('')
@@ -10,6 +10,7 @@ export default function AdminLogin() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const { login } = useSession()
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -18,8 +19,8 @@ export default function AdminLogin() {
 
     // Credenciales simples (en producción usarías una base de datos)
     if (username === 'KNDrinks' && password === 'KNDrinks2025') {
-      // Usar la función de login mejorada
-      loginAdmin(username)
+      // Usar el nuevo sistema de sesión
+      login(username)
       console.log('🚀 Redirigiendo al dashboard...')
       router.push('/admin/dashboard')
     } else {
