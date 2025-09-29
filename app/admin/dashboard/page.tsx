@@ -2,10 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useSimpleAuth } from '@/lib/useSimpleAuth'
 import Link from 'next/link'
-import ProtectedRoute from '@/components/ProtectedRoute'
-import { saveProducts, notifyDataChange } from '@/lib/dataSync'
 
 interface Product {
   id: number
@@ -20,44 +17,51 @@ interface Product {
 export default function AdminDashboard() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState<string | null>(null)
   const router = useRouter()
-  const { user, logout } = useSimpleAuth()
 
   useEffect(() => {
-    // Cargar datos independientemente del estado de autenticación
-    // El ProtectedRoute ya maneja la autenticación
-    console.log('🔄 Cargando datos del dashboard...')
+    // Verificar autenticación
+    const session = localStorage.getItem('kndrinks_admin_session')
+    if (!session) {
+      router.push('/admin')
+      return
+    }
 
-    // Cargar productos desde localStorage
-    if (typeof window !== 'undefined') {
-      const savedProducts = localStorage.getItem('products')
-      console.log('Dashboard - Productos guardados:', savedProducts)
-      
-      if (savedProducts) {
-        try {
-          const parsedProducts = JSON.parse(savedProducts)
-          console.log('Dashboard - Productos parseados:', parsedProducts)
-          setProducts(parsedProducts)
-        } catch (error) {
-          console.error('Error parsing products:', error)
-        }
-      } else {
-        console.log('Dashboard - No hay productos guardados')
-        setProducts([])
+    try {
+      const sessionData = JSON.parse(session)
+      if (!sessionData.isLoggedIn) {
+        router.push('/admin')
+        return
+      }
+      setUser(sessionData.username)
+    } catch {
+      router.push('/admin')
+      return
+    }
+
+    // Cargar productos
+    const savedProducts = localStorage.getItem('products')
+    if (savedProducts) {
+      try {
+        const parsedProducts = JSON.parse(savedProducts)
+        setProducts(parsedProducts)
+      } catch (error) {
+        console.error('Error parsing products:', error)
       }
     }
     setLoading(false)
-  }, [])
+  }, [router])
 
   const handleLogout = () => {
-    logout()
+    localStorage.removeItem('kndrinks_admin_session')
     router.push('/admin')
   }
 
   const deleteProduct = (id: number) => {
     const updatedProducts = products.filter(product => product.id !== id)
     setProducts(updatedProducts)
-    saveProducts(updatedProducts)
+    localStorage.setItem('products', JSON.stringify(updatedProducts))
   }
 
   if (loading) {
@@ -72,7 +76,6 @@ export default function AdminDashboard() {
   }
 
   return (
-    <ProtectedRoute>
     <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100">
       {/* Header */}
       <header className="bg-white shadow-lg">
@@ -89,17 +92,13 @@ export default function AdminDashboard() {
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-slate-600">Sesión activa</span>
+                <span className="text-slate-700 font-medium">Bienvenido, {user || 'Admin'}</span>
               </div>
-              <span className="text-slate-600">Bienvenido, {user || 'Admin'}</span>
               <button
                 onClick={handleLogout}
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                </svg>
-                <span>Cerrar Sesión</span>
+                Cerrar Sesión
               </button>
             </div>
           </div>
@@ -107,171 +106,142 @@ export default function AdminDashboard() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-2xl p-6 shadow-lg">
-            <div className="flex items-center">
-              <div className="p-3 bg-blue-100 rounded-xl">
-                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                </svg>
+      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div className="px-4 py-6 sm:px-0">
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="bg-white overflow-hidden shadow rounded-lg">
+              <div className="p-5">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0">
+                    <div className="w-8 h-8 bg-blue-500 rounded-md flex items-center justify-center">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="ml-5 w-0 flex-1">
+                    <dl>
+                      <dt className="text-sm font-medium text-gray-500 truncate">Total Productos</dt>
+                      <dd className="text-lg font-medium text-gray-900">{products.length}</dd>
+                    </dl>
+                  </div>
+                </div>
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-slate-600">Total Productos</p>
-                <p className="text-2xl font-bold text-slate-900">{products.length}</p>
+            </div>
+
+            <div className="bg-white overflow-hidden shadow rounded-lg">
+              <div className="p-5">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0">
+                    <div className="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="ml-5 w-0 flex-1">
+                    <dl>
+                      <dt className="text-sm font-medium text-gray-500 truncate">Productos Activos</dt>
+                      <dd className="text-lg font-medium text-gray-900">{products.filter(p => p.stock > 0).length}</dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white overflow-hidden shadow rounded-lg">
+              <div className="p-5">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0">
+                    <div className="w-8 h-8 bg-yellow-500 rounded-md flex items-center justify-center">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="ml-5 w-0 flex-1">
+                    <dl>
+                      <dt className="text-sm font-medium text-gray-500 truncate">Stock Bajo</dt>
+                      <dd className="text-lg font-medium text-gray-900">{products.filter(p => p.stock < 10).length}</dd>
+                    </dl>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 shadow-lg">
-            <div className="flex items-center">
-              <div className="p-3 bg-green-100 rounded-xl">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          {/* Action Buttons */}
+          <div className="mb-8">
+            <div className="flex flex-wrap gap-4">
+              <Link
+                href="/admin/products/new"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                 </svg>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-slate-600">En Stock</p>
-                <p className="text-2xl font-bold text-slate-900">
-                  {products.reduce((total, product) => total + product.stock, 0)}
-                </p>
-              </div>
+                Nuevo Producto
+              </Link>
+              <Link
+                href="/admin/ofertas/new"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              >
+                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                Nueva Oferta
+              </Link>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 shadow-lg">
-            <div className="flex items-center">
-              <div className="p-3 bg-yellow-100 rounded-xl">
-                <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                </svg>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-slate-600">Valor Total</p>
-                <p className="text-2xl font-bold text-slate-900">
-                  ${products.reduce((total, product) => total + (product.price * product.stock), 0).toLocaleString()}
-                </p>
-              </div>
+          {/* Products List */}
+          <div className="bg-white shadow overflow-hidden sm:rounded-md">
+            <div className="px-4 py-5 sm:px-6">
+              <h3 className="text-lg leading-6 font-medium text-gray-900">Productos</h3>
+              <p className="mt-1 max-w-2xl text-sm text-gray-500">Lista de todos los productos</p>
             </div>
-          </div>
-
-          <div className="bg-white rounded-2xl p-6 shadow-lg">
-            <div className="flex items-center">
-              <div className="p-3 bg-purple-100 rounded-xl">
-                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                </svg>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-slate-600">Categorías</p>
-                <p className="text-2xl font-bold text-slate-900">
-                  {new Set(products.map(p => p.category)).size}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Actions */}
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold text-slate-800">Gestión de Productos</h2>
-          <div className="flex space-x-4">
-            <Link
-              href="/admin/ofertas"
-              className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
-            >
-              Gestionar Ofertas
-            </Link>
-            <Link
-              href="/admin/products/new"
-              className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
-            >
-              + Agregar Producto
-            </Link>
-          </div>
-        </div>
-
-        {/* Products Table */}
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-slate-200">
-              <thead className="bg-slate-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                    Producto
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                    Categoría
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                    Precio
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                    Stock
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                    Acciones
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-slate-200">
-                {products.map((product) => (
-                  <tr key={product.id} className="hover:bg-slate-50">
-                    <td className="px-6 py-4 whitespace-nowrap">
+            <ul className="divide-y divide-gray-200">
+              {products.length > 0 ? (
+                products.map((product) => (
+                  <li key={product.id} className="px-4 py-4 sm:px-6">
+                    <div className="flex items-center justify-between">
                       <div className="flex items-center">
-                        <div className="h-10 w-10 flex-shrink-0">
-                          <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-violet-100 to-purple-100 flex items-center justify-center">
-                            <span className="text-violet-600 font-bold">{product.name.charAt(0)}</span>
-                          </div>
+                        <div className="flex-shrink-0 h-10 w-10">
+                          <img className="h-10 w-10 rounded-full object-cover" src={product.image} alt={product.name} />
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-slate-900">{product.name}</div>
-                          <div className="text-sm text-slate-500">{product.description}</div>
+                          <div className="text-sm font-medium text-gray-900">{product.name}</div>
+                          <div className="text-sm text-gray-500">{product.category} - Stock: {product.stock}</div>
                         </div>
                       </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-violet-100 text-violet-800">
-                        {product.category}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-900">
-                      ${product.price.toLocaleString()}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        product.stock > 10 ? 'bg-green-100 text-green-800' : 
-                        product.stock > 0 ? 'bg-yellow-100 text-yellow-800' : 
-                        'bg-red-100 text-red-800'
-                      }`}>
-                        {product.stock} unidades
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex space-x-2">
+                      <div className="flex items-center space-x-2">
+                        <span className="text-sm font-medium text-gray-900">${product.price.toLocaleString()}</span>
                         <Link
                           href={`/admin/products/edit/${product.id}`}
-                          className="text-violet-600 hover:text-violet-900 bg-violet-50 hover:bg-violet-100 px-3 py-1 rounded-lg transition-colors"
+                          className="text-blue-600 hover:text-blue-900 text-sm font-medium"
                         >
                           Editar
                         </Link>
                         <button
                           onClick={() => deleteProduct(product.id)}
-                          className="text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 px-3 py-1 rounded-lg transition-colors"
+                          className="text-red-600 hover:text-red-900 text-sm font-medium"
                         >
                           Eliminar
                         </button>
                       </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                    </div>
+                  </li>
+                ))
+              ) : (
+                <li className="px-4 py-4 sm:px-6">
+                  <div className="text-center text-gray-500">No hay productos registrados</div>
+                </li>
+              )}
+            </ul>
           </div>
         </div>
       </main>
     </div>
-    </ProtectedRoute>
   )
 }

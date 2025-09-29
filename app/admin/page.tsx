@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useSimpleAuth } from '@/lib/useSimpleAuth'
 
 export default function AdminLogin() {
   const [username, setUsername] = useState('')
@@ -10,18 +9,20 @@ export default function AdminLogin() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
-  const { login } = useSimpleAuth()
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError('')
 
-    // Credenciales simples (en producción usarías una base de datos)
+    // Credenciales simples
     if (username === 'KNDrinks' && password === 'KNDrinks2025') {
-      // Usar el nuevo sistema de sesión
-      login(username)
-      console.log('🚀 Redirigiendo al dashboard...')
+      // Guardar sesión en localStorage
+      localStorage.setItem('kndrinks_admin_session', JSON.stringify({
+        isLoggedIn: true,
+        username: username,
+        loginTime: new Date().toISOString()
+      }))
       router.push('/admin/dashboard')
     } else {
       setError('Usuario o contraseña incorrectos')
