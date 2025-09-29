@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useClientOnly } from '@/lib/useClientOnly'
 
 interface Product {
   id: number
@@ -18,12 +19,9 @@ export default function Productos() {
   const [selectedCategory, setSelectedCategory] = useState('Todas')
   const [currentPage, setCurrentPage] = useState(1)
   const [productsPerPage] = useState(8) // 8 productos por página
-  const [mounted, setMounted] = useState(false)
+  const { isClient, mounted, isReady } = useClientOnly()
 
   useEffect(() => {
-    // Marcar como montado en el cliente
-    setMounted(true)
-    
     // Verificar que estamos en el cliente
     if (typeof window === 'undefined') return
     
@@ -96,7 +94,7 @@ export default function Productos() {
   }, [selectedCategory])
 
   // Evitar renderizado hasta que esté montado en el cliente
-  if (!mounted) {
+  if (!isReady) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { normalizeImagePath, handleImageError, handleImageLoad } from '@/lib/imageUtils'
+import { useClientOnly } from '@/lib/useClientOnly'
 
 interface Product {
   id: number
@@ -36,12 +37,9 @@ export default function Home() {
   const [products, setProducts] = useState<Product[]>([])
   const [ofertas, setOfertas] = useState<Oferta[]>([])
   const [loading, setLoading] = useState(true)
-  const [mounted, setMounted] = useState(false)
+  const { isClient, mounted, isReady } = useClientOnly()
 
   useEffect(() => {
-    // Marcar como montado en el cliente
-    setMounted(true)
-    
     const loadData = () => {
       // Verificar que estamos en el cliente antes de acceder a localStorage
       if (typeof window === 'undefined') return
@@ -312,7 +310,7 @@ export default function Home() {
   const featuredProducts = getProductsWithOffers()
 
   // Evitar renderizado hasta que esté montado en el cliente
-  if (!mounted) {
+  if (!isReady) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
