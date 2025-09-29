@@ -37,13 +37,13 @@ export default function RootLayout({
                   <img 
                     src="/images/Logo Bebidas.jpeg" 
                     alt="KNDrinks Logo" 
-                    className="h-12 sm:h-16 w-auto object-contain rounded-xl"
+                    className="header-logo h-12 sm:h-16 w-auto object-contain rounded-xl"
                   />
                   <span className="hidden sm:block text-xl font-bold text-gray-800">KNDrinks</span>
                 </div>
                 
                 {/* Navegación Desktop */}
-                <nav className="hidden md:flex items-center space-x-8">
+                <nav className="header-nav hidden md:flex items-center space-x-8">
                   <a href="/" className="text-gray-700 hover:text-blue-600 transition-colors">Inicio</a>
                   <a href="/productos" className="text-gray-700 hover:text-blue-600 transition-colors">Productos</a>
                   <a href="/ofertas" className="text-gray-700 hover:text-blue-600 transition-colors">Ofertas</a>
@@ -81,7 +81,7 @@ export default function RootLayout({
           {/* Footer Responsivo */}
           <footer className="bg-gray-900 text-white">
             <div className="max-w-6xl mx-auto px-4 py-8 sm:py-12">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+              <div className="footer-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                 <div>
                   <h3 className="text-xl font-bold text-blue-400 mb-4">KNDrinks</h3>
                   <p className="text-gray-300 mb-4">

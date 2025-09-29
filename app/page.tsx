@@ -222,9 +222,13 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100">
       {/* Hero Section Moderno */}
-      <section className="relative py-24 px-4 text-center overflow-hidden">
+      <section className="hero-section relative py-24 px-4 text-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-violet-600/10 to-purple-600/10"></div>
         <div className="relative max-w-6xl mx-auto">
+          <h1 className="hero-title text-5xl md:text-6xl font-bold bg-gradient-to-r from-violet-800 via-purple-800 to-indigo-800 bg-clip-text text-transparent mb-8">
+            ¡Bienvenido a KNDrinks!
+          </h1>
+          
           {/* Logo de KNDrinks */}
           <div className="mb-12 flex justify-center">
             <img 
@@ -234,13 +238,13 @@ export default function Home() {
             />
           </div>
           
-          <p className="text-2xl md:text-3xl text-slate-700 mb-10 max-w-4xl mx-auto leading-relaxed font-medium">
+          <p className="hero-subtitle text-2xl md:text-3xl text-slate-700 mb-10 max-w-4xl mx-auto leading-relaxed font-medium">
             Tu tienda de bebidas favorita con la mejor selección de licores, vinos y cervezas
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
+          <div className="hero-buttons flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
             <a
               href="/productos"
-              className="group bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white px-6 sm:px-10 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl font-bold transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 w-full sm:w-auto text-center"
+              className="hero-button group bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white px-6 sm:px-10 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl font-bold transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 w-full sm:w-auto text-center"
             >
               <span className="flex items-center justify-center space-x-2">
                 <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -252,7 +256,7 @@ export default function Home() {
             </a>
             <a
               href="/ofertas"
-              className="group bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white px-6 sm:px-10 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl font-bold transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 w-full sm:w-auto text-center"
+              className="hero-button group bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white px-6 sm:px-10 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl font-bold transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 w-full sm:w-auto text-center"
             >
               <span className="flex items-center justify-center space-x-2">
                 <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -272,9 +276,9 @@ export default function Home() {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center bg-gradient-to-r from-violet-800 via-purple-800 to-indigo-800 bg-clip-text text-transparent mb-8 sm:mb-12 lg:mb-16">
             Productos Destacados en Oferta
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="products-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {featuredProducts.map((product) => (
-              <div key={product.name} className="group bg-violet-50/80 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105 border border-violet-200/20">
+              <div key={product.name} className="product-card group bg-violet-50/80 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105 border border-violet-200/20">
                 <div className="h-48 sm:h-56 bg-gradient-to-br from-violet-100 via-purple-100 to-indigo-100 flex items-center justify-center group-hover:from-violet-200 group-hover:via-purple-200 group-hover:to-indigo-200 transition-all duration-500 relative overflow-hidden">
                   <img 
                     src={product.image} 
@@ -284,15 +288,15 @@ export default function Home() {
                     onLoad={handleImageLoad}
                   />
                 </div>
-                <div className="p-4 sm:p-6 lg:p-8">
+                <div className="product-card p-4 sm:p-6 lg:p-8">
                   <div className="text-xs sm:text-sm text-violet-600 font-semibold mb-2 uppercase tracking-wide">
                     {product.category}
                   </div>
-                  <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-800 mb-3 group-hover:text-slate-900 transition-colors">
+                  <h3 className="product-title text-lg sm:text-xl lg:text-2xl font-bold text-slate-800 mb-3 group-hover:text-slate-900 transition-colors">
                     {product.name}
                   </h3>
                   <div className="mb-4 sm:mb-6">
-                    <p className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
+                    <p className="product-price text-2xl sm:text-3xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
                       ${product.finalPrice ? product.finalPrice.toLocaleString() : product.price ? product.price.toLocaleString() : '0'}
                     </p>
                   </div>

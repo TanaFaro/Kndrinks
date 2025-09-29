@@ -99,5 +99,69 @@
   @apply bg-primary-600;
 }
 
+/* Estilos para consistencia móvil-desktop */
+@media (max-width: 768px) {
+  /* Forzar el mismo tamaño de fuente en móvil */
+  .hero-title {
+    font-size: 3rem !important;
+    line-height: 1.1 !important;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.5rem !important;
+    line-height: 1.4 !important;
+  }
+  
+  /* Mantener el mismo padding en móvil */
+  .hero-section {
+    padding: 4rem 1rem !important;
+  }
+  
+  /* Botones del mismo tamaño */
+  .hero-buttons {
+    flex-direction: row !important;
+    gap: 1rem !important;
+  }
+  
+  .hero-button {
+    padding: 1rem 2rem !important;
+    font-size: 1.125rem !important;
+    width: auto !important;
+  }
+  
+  /* Productos con el mismo layout */
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+  }
+  
+  .product-card {
+    padding: 1rem !important;
+  }
+  
+  .product-title {
+    font-size: 1.125rem !important;
+  }
+  
+  .product-price {
+    font-size: 1.5rem !important;
+  }
+  
+  /* Header consistente */
+  .header-logo {
+    height: 3rem !important;
+  }
+  
+  .header-nav {
+    display: none !important;
+  }
+  
+  /* Footer con el mismo layout */
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+}
+
 
 
