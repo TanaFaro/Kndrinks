@@ -27,8 +27,37 @@ export function normalizeImagePath(imagePath: string | undefined | null): string
  * @param fallbackImage - Imagen de fallback (opcional)
  */
 export function handleImageError(event: React.SyntheticEvent<HTMLImageElement, Event>, fallbackImage: string = '/images/Logo Bebidas.jpeg') {
-  console.log('❌ Error cargando imagen:', event.currentTarget.src)
-  event.currentTarget.src = fallbackImage
+  const img = event.currentTarget
+  const originalSrc = img.src
+  
+  console.log('❌ Error cargando imagen:', originalSrc)
+  
+  // Intentar diferentes variaciones de la ruta antes de usar el fallback
+  const tryAlternativePaths = (src: string) => {
+    // Si es una ruta absoluta, intentar sin el dominio
+    if (src.includes('vercel.app') || src.includes('localhost')) {
+      const url = new URL(src)
+      const pathname = url.pathname
+      img.src = pathname
+      return
+    }
+    
+    // Si no tiene /images/, agregarlo
+    if (!src.includes('/images/')) {
+      img.src = `/images/${src.split('/').pop()}`
+      return
+    }
+    
+    // Si todo falla, usar el fallback
+    img.src = fallbackImage
+  }
+  
+  // Solo intentar alternativas si no es ya el fallback
+  if (!originalSrc.includes('Logo Bebidas.jpeg')) {
+    tryAlternativePaths(originalSrc)
+  } else {
+    img.src = fallbackImage
+  }
 }
 
 /**
