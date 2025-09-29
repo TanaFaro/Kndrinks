@@ -37,8 +37,12 @@ interface Oferta {
 export default function Ofertas() {
   const [ofertas, setOfertas] = useState<Oferta[]>([])
   const [loading, setLoading] = useState(true)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    // Marcar como montado en el cliente
+    setMounted(true)
+    
     loadOfertas()
     
     // Escuchar cambios en localStorage
@@ -204,6 +208,18 @@ export default function Ofertas() {
       }
       return total + (product.price * product.quantity)
     }, 0)
+  }
+
+  // Evitar renderizado hasta que esté montado en el cliente
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-violet-600 mx-auto mb-4"></div>
+          <p className="text-slate-600">Cargando...</p>
+        </div>
+      </div>
+    )
   }
 
   if (loading) {

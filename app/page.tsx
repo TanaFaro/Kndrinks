@@ -36,8 +36,12 @@ export default function Home() {
   const [products, setProducts] = useState<Product[]>([])
   const [ofertas, setOfertas] = useState<Oferta[]>([])
   const [loading, setLoading] = useState(true)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    // Marcar como montado en el cliente
+    setMounted(true)
+    
     const loadData = () => {
       // Verificar que estamos en el cliente antes de acceder a localStorage
       if (typeof window === 'undefined') return
@@ -306,6 +310,18 @@ export default function Home() {
   }
 
   const featuredProducts = getProductsWithOffers()
+
+  // Evitar renderizado hasta que esté montado en el cliente
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-violet-600 mx-auto mb-4"></div>
+          <p className="text-slate-600">Cargando...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100">

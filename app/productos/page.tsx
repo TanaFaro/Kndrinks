@@ -18,8 +18,12 @@ export default function Productos() {
   const [selectedCategory, setSelectedCategory] = useState('Todas')
   const [currentPage, setCurrentPage] = useState(1)
   const [productsPerPage] = useState(8) // 8 productos por página
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    // Marcar como montado en el cliente
+    setMounted(true)
+    
     // Verificar que estamos en el cliente
     if (typeof window === 'undefined') return
     
@@ -90,6 +94,18 @@ export default function Productos() {
   useEffect(() => {
     setCurrentPage(1)
   }, [selectedCategory])
+
+  // Evitar renderizado hasta que esté montado en el cliente
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-violet-600 mx-auto mb-4"></div>
+          <p className="text-slate-600">Cargando...</p>
+        </div>
+      </div>
+    )
+  }
 
   if (loading) {
     return (
