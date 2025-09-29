@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import MobileMenu from '@/components/MobileMenu'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
   description: 'Descubre la mejor selección de bebidas, licores, vinos y más. Envío rápido y precios increíbles.',
   keywords: 'bebidas, licores, vinos, cervezas, whisky, vodka, ron, tequila',
   authors: [{ name: 'KNDrinks' }],
+  viewport: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no',
   openGraph: {
     title: 'KNDrinks - Tu tienda de bebidas favorita',
     description: 'Descubre la mejor selección de bebidas, licores, vinos y más.',
@@ -26,40 +28,47 @@ export default function RootLayout({
     <html lang="es">
       <body className={inter.className}>
         <div className="min-h-screen flex flex-col">
-          {/* Header Estático */}
-          <header className="bg-white shadow-md">
+          {/* Header Responsivo */}
+          <header className="bg-white shadow-md relative">
             <div className="max-w-6xl mx-auto px-4 py-4">
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  {/* Logo de KNDrinks */}
+                {/* Logo */}
+                <div className="flex items-center space-x-2 sm:space-x-4">
                   <img 
                     src="/images/Logo Bebidas.jpeg" 
                     alt="KNDrinks Logo" 
-                    className="h-16 w-auto object-contain rounded-xl"
+                    className="h-12 sm:h-16 w-auto object-contain rounded-xl"
                   />
+                  <span className="hidden sm:block text-xl font-bold text-gray-800">KNDrinks</span>
                 </div>
+                
+                {/* Navegación Desktop */}
                 <nav className="hidden md:flex items-center space-x-8">
                   <a href="/" className="text-gray-700 hover:text-blue-600 transition-colors">Inicio</a>
                   <a href="/productos" className="text-gray-700 hover:text-blue-600 transition-colors">Productos</a>
                   <a href="/ofertas" className="text-gray-700 hover:text-blue-600 transition-colors">Ofertas</a>
                   <a href="/contacto" className="text-gray-700 hover:text-blue-600 transition-colors">Contacto</a>
                 </nav>
-                <div className="flex items-center space-x-4">
-                  {/* Botón de búsqueda */}
-                  <button className="p-2 text-gray-700 hover:text-blue-600 transition-colors">
+                
+                {/* Botones de acción */}
+                <div className="flex items-center space-x-2 sm:space-x-4">
+                  {/* Botón de búsqueda - Solo desktop */}
+                  <button className="hidden md:block p-2 text-gray-700 hover:text-blue-600 transition-colors">
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                   </button>
                   
-                  
-                  {/* Botón de administrador */}
-                  <a href="/admin" className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                  {/* Botón de administrador - Solo desktop */}
+                  <a href="/admin" className="hidden md:flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                     </svg>
                     <span>Admin</span>
                   </a>
+                  
+                  {/* Menú móvil */}
+                  <MobileMenu />
                 </div>
               </div>
             </div>
@@ -69,10 +78,10 @@ export default function RootLayout({
             {children}
           </main>
 
-          {/* Footer Estático */}
+          {/* Footer Responsivo */}
           <footer className="bg-gray-900 text-white">
-            <div className="max-w-6xl mx-auto px-4 py-12">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="max-w-6xl mx-auto px-4 py-8 sm:py-12">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                 <div>
                   <h3 className="text-xl font-bold text-blue-400 mb-4">KNDrinks</h3>
                   <p className="text-gray-300 mb-4">
@@ -119,21 +128,39 @@ export default function RootLayout({
                 
                 <div>
                   <h4 className="text-lg font-semibold mb-4">Contacto</h4>
-                  <div className="space-y-2 text-gray-300">
-                    <p>📍 Rimini 343 - Córdoba, Argentina</p>
-                    <p>📞 +54 9 351 773-8174</p>
-                    <p>🕒 Dom-Jue: 10:00 - 02:00 | Vie-Sáb: 24h</p>
+                  <div className="space-y-2 text-gray-300 text-sm sm:text-base">
+                    <p className="flex items-start space-x-2">
+                      <span>📍</span>
+                      <span>Rimini 343 - Córdoba, Argentina</span>
+                    </p>
+                    <p className="flex items-center space-x-2">
+                      <span>📞</span>
+                      <a href="tel:+543517738174" className="hover:text-white transition-colors">
+                        +54 9 351 773-8174
+                      </a>
+                    </p>
+                    <p className="flex items-start space-x-2">
+                      <span>🕒</span>
+                      <span className="text-xs sm:text-sm">
+                        Dom-Jue: 10:00 - 02:00<br />
+                        Vie-Sáb: 24h
+                      </span>
+                    </p>
                   </div>
                 </div>
               </div>
               
-              <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-                <p className="text-gray-400">
-                  © 2024 KNDrinks. Todos los derechos reservados. | 
-                  <a href="/terminos" className="hover:text-white transition-colors ml-2">Términos y Condiciones</a> | 
-                  <a href="/privacidad" className="hover:text-white transition-colors ml-2">Política de Privacidad</a> | 
-                  <a href="/admin" className="hover:text-white transition-colors ml-2">Panel Admin</a>
+              <div className="border-t border-gray-800 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center">
+                <p className="text-gray-400 text-xs sm:text-sm">
+                  © 2024 KNDrinks. Todos los derechos reservados.
                 </p>
+                <div className="mt-2 flex flex-wrap justify-center gap-2 sm:gap-4 text-xs sm:text-sm">
+                  <a href="/terminos" className="text-gray-400 hover:text-white transition-colors">Términos y Condiciones</a>
+                  <span className="text-gray-600">|</span>
+                  <a href="/privacidad" className="text-gray-400 hover:text-white transition-colors">Política de Privacidad</a>
+                  <span className="text-gray-600">|</span>
+                  <a href="/admin" className="text-gray-400 hover:text-white transition-colors">Panel Admin</a>
+                </div>
               </div>
             </div>
           </footer>
