@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { normalizeImagePath, handleImageError, handleImageLoad } from '@/lib/imageUtils'
-import { useClientOnly } from '@/lib/useClientOnly'
+import dynamic from 'next/dynamic'
 
 interface Product {
   id: number
@@ -33,13 +33,15 @@ interface Oferta {
   priority?: number
 }
 
-export default function Home() {
+function HomeContent() {
   const [products, setProducts] = useState<Product[]>([])
   const [ofertas, setOfertas] = useState<Oferta[]>([])
   const [loading, setLoading] = useState(true)
-  const { isClient, mounted, isReady } = useClientOnly()
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
+    
     const loadData = () => {
       // Verificar que estamos en el cliente antes de acceder a localStorage
       if (typeof window === 'undefined') return
@@ -310,7 +312,7 @@ export default function Home() {
   const featuredProducts = getProductsWithOffers()
 
   // Evitar renderizado hasta que esté montado en el cliente
-  if (!isReady) {
+  if (!mounted) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
@@ -517,3 +519,16 @@ export default function Home() {
     </div>
   )
 }
+
+// Exportar con dynamic import para evitar SSR
+export default dynamic(() => Promise.resolve(HomeContent), {
+  ssr: false,
+  loading: () => (
+    <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-violet-600 mx-auto mb-4"></div>
+        <p className="text-slate-600">Cargando...</p>
+      </div>
+    </div>
+  )
+})

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { normalizeImagePath, handleImageError, handleImageLoad } from '@/lib/imageUtils'
-import { useClientOnly } from '@/lib/useClientOnly'
+import dynamic from 'next/dynamic'
 
 interface Product {
   id: number
@@ -35,12 +35,13 @@ interface Oferta {
   priority?: number
 }
 
-export default function Ofertas() {
+function OfertasContent() {
   const [ofertas, setOfertas] = useState<Oferta[]>([])
   const [loading, setLoading] = useState(true)
-  const { isClient, mounted, isReady } = useClientOnly()
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
     loadOfertas()
     
     // Escuchar cambios en localStorage
@@ -209,7 +210,7 @@ export default function Ofertas() {
   }
 
   // Evitar renderizado hasta que esté montado en el cliente
-  if (!isReady) {
+  if (!mounted) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
@@ -451,3 +452,16 @@ export default function Ofertas() {
     </div>
   )
 }
+
+// Exportar con dynamic import para evitar SSR
+export default dynamic(() => Promise.resolve(OfertasContent), {
+  ssr: false,
+  loading: () => (
+    <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-violet-600 mx-auto mb-4"></div>
+        <p className="text-slate-600">Cargando...</p>
+      </div>
+    </div>
+  )
+})

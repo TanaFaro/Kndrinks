@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useClientOnly } from '@/lib/useClientOnly'
+import dynamic from 'next/dynamic'
 
 interface Product {
   id: number
@@ -13,15 +13,17 @@ interface Product {
   description: string
 }
 
-export default function Productos() {
+function ProductosContent() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState('Todas')
   const [currentPage, setCurrentPage] = useState(1)
   const [productsPerPage] = useState(8) // 8 productos por página
-  const { isClient, mounted, isReady } = useClientOnly()
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
+    
     // Verificar que estamos en el cliente
     if (typeof window === 'undefined') return
     
@@ -94,7 +96,7 @@ export default function Productos() {
   }, [selectedCategory])
 
   // Evitar renderizado hasta que esté montado en el cliente
-  if (!isReady) {
+  if (!mounted) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
@@ -337,3 +339,16 @@ export default function Productos() {
     </div>
   )
 }
+
+// Exportar con dynamic import para evitar SSR
+export default dynamic(() => Promise.resolve(ProductosContent), {
+  ssr: false,
+  loading: () => (
+    <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-violet-600 mx-auto mb-4"></div>
+        <p className="text-slate-600">Cargando...</p>
+      </div>
+    </div>
+  )
+})
