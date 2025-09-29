@@ -1,9 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { normalizeImagePath, handleImageError, handleImageLoad } from '@/lib/imageUtils'
-import dynamic from 'next/dynamic'
-import ClientOnly from '@/components/ClientOnly'
+import { normalizeImagePath, handleImageError } from '@/lib/imageUtils'
 
 interface Product {
   id: number
@@ -38,37 +36,24 @@ export default function Home() {
   const [products, setProducts] = useState<Product[]>([])
   const [ofertas, setOfertas] = useState<Oferta[]>([])
   const [loading, setLoading] = useState(true)
-  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     // Solo ejecutar en el cliente
     if (typeof window === 'undefined') return
     
-    console.log('🚀 Iniciando carga de datos...')
-    setMounted(true)
-    
     const loadData = () => {
-      console.log('🔄 Cargando datos de la página principal...')
-      console.log('📱 User Agent:', navigator.userAgent)
-      console.log('📱 Ancho de pantalla:', window.innerWidth)
-      
       // Cargar productos y ofertas desde localStorage
       const savedProducts = localStorage.getItem('products')
       const savedOfertas = localStorage.getItem('ofertas')
       
-      console.log('📦 Productos en localStorage:', savedProducts ? 'SÍ' : 'NO')
-      console.log('🎯 Ofertas en localStorage:', savedOfertas ? 'SÍ' : 'NO')
-      
       if (savedProducts) {
         try {
           const parsedProducts = JSON.parse(savedProducts)
-          console.log('✅ Productos parseados:', parsedProducts)
           setProducts(parsedProducts)
         } catch (error) {
-          console.error('❌ Error parsing products:', error)
+          console.error('Error parsing products:', error)
         }
       } else {
-        console.log('⚠️ No hay productos guardados, creando datos de ejemplo')
         // Datos de ejemplo si no hay productos guardados
         const exampleProducts = [
           {
@@ -100,21 +85,17 @@ export default function Home() {
           }
         ]
         setProducts(exampleProducts)
-        // Guardar los datos de ejemplo en localStorage
         localStorage.setItem('products', JSON.stringify(exampleProducts))
-        console.log('💾 Productos de ejemplo guardados en localStorage')
       }
       
       if (savedOfertas) {
         try {
           const parsedOfertas = JSON.parse(savedOfertas)
-          console.log('✅ Ofertas parseadas:', parsedOfertas)
           setOfertas(parsedOfertas)
         } catch (error) {
-          console.error('❌ Error parsing ofertas:', error)
+          console.error('Error parsing ofertas:', error)
         }
       } else {
-        console.log('⚠️ No hay ofertas guardadas, creando datos de ejemplo')
         // Datos de ejemplo si no hay ofertas guardadas
         const exampleOfertas = [
           {
@@ -144,69 +125,16 @@ export default function Home() {
               { name: "Skyy Vodka 750ml", price: 3800, quantity: 1 },
               { name: "Speed XL", price: 1000, quantity: 1 }
             ]
-          },
-          {
-            id: 3,
-            title: "Combo Smirnoff + Speed",
-            description: "Smirnoff Vodka 750ml + 2 Speed XL",
-            finalPrice: 5500,
-            image: "/images/Smirnoff mas 2 speed.png",
-            active: true,
-            featured: false,
-            priority: 3,
-            comboProducts: [
-              { name: "Smirnoff Vodka 750ml", price: 3500, quantity: 1 },
-              { name: "Speed XL", price: 1000, quantity: 2 }
-            ]
-          },
-          {
-            id: 4,
-            title: "Combo Du + Speed",
-            description: "Du Vodka 750ml + Speed XL",
-            finalPrice: 7500,
-            image: "/images/Du con speed.jfif",
-            active: true,
-            featured: false,
-            priority: 2,
-            comboProducts: [
-              { name: "Du Vodka 750ml", price: 6500, quantity: 1 },
-              { name: "Speed XL", price: 1000, quantity: 1 }
-            ]
           }
         ]
         setOfertas(exampleOfertas)
-        // Guardar los datos de ejemplo en localStorage
         localStorage.setItem('ofertas', JSON.stringify(exampleOfertas))
-        console.log('💾 Ofertas de ejemplo guardadas en localStorage')
       }
       
       setLoading(false)
     }
 
     loadData()
-
-    // Escuchar cambios en localStorage (solo en el cliente)
-    if (typeof window !== 'undefined') {
-      const handleStorageChange = () => {
-        console.log('🔄 Cambio detectado en localStorage, recargando datos...')
-        loadData()
-      }
-
-      // Escuchar cambios en localStorage
-      window.addEventListener('storage', handleStorageChange)
-      
-      // También recargar cuando se regrese a la página
-      window.addEventListener('focus', loadData)
-      
-      // Escuchar cambios personalizados
-      window.addEventListener('dataUpdated', loadData)
-
-      return () => {
-        window.removeEventListener('storage', handleStorageChange)
-        window.removeEventListener('focus', loadData)
-        window.removeEventListener('dataUpdated', loadData)
-      }
-    }
   }, [])
 
   // Función para convertir prioridad a estrellas
@@ -343,9 +271,8 @@ export default function Home() {
 
   const featuredProducts = getProductsWithOffers()
 
-  // Mostrar loading si no está montado o está cargando
-  if (!mounted || loading) {
-    console.log('⏳ Mostrando loading...', { mounted, loading })
+  // Mostrar loading si está cargando
+  if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
@@ -355,13 +282,6 @@ export default function Home() {
       </div>
     )
   }
-
-  console.log('🎯 Renderizando página principal con datos:', {
-    products: products.length,
-    ofertas: ofertas.length,
-    mounted,
-    loading
-  })
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100">
@@ -429,7 +349,6 @@ export default function Home() {
                     alt={product.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     onError={(e) => handleImageError(e)}
-                    onLoad={handleImageLoad}
                   />
                 </div>
                 <div className="product-card p-4 sm:p-6 lg:p-8">
