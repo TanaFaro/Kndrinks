@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { loginAdmin } from '@/lib/auth'
 
 export default function AdminLogin() {
   const [username, setUsername] = useState('')
@@ -17,9 +18,9 @@ export default function AdminLogin() {
 
     // Credenciales simples (en producción usarías una base de datos)
     if (username === 'KNDrinks' && password === 'KNDrinks2025') {
-      // Guardar sesión en localStorage
-      localStorage.setItem('adminLoggedIn', 'true')
-      localStorage.setItem('adminUser', username)
+      // Usar la función de login mejorada
+      loginAdmin(username)
+      console.log('🚀 Redirigiendo al dashboard...')
       router.push('/admin/dashboard')
     } else {
       setError('Usuario o contraseña incorrectos')

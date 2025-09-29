@@ -16,6 +16,8 @@ export default function Productos() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState('Todas')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [productsPerPage] = useState(8) // 8 productos por página
 
   useEffect(() => {
     // Cargar productos desde localStorage
@@ -68,8 +70,19 @@ export default function Productos() {
     ? products 
     : products.filter(product => product.category === selectedCategory)
 
+  // Calcular paginación
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage)
+  const startIndex = (currentPage - 1) * productsPerPage
+  const endIndex = startIndex + productsPerPage
+  const currentProducts = filteredProducts.slice(startIndex, endIndex)
+
   // Obtener categorías únicas
   const categories = ['Todas', ...Array.from(new Set(products.map(p => p.category)))]
+
+  // Resetear página cuando cambie la categoría
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [selectedCategory])
 
   if (loading) {
     return (
@@ -161,11 +174,11 @@ export default function Productos() {
                   {selectedCategory === 'Todas' ? 'Todos los Productos' : `Productos - ${selectedCategory}`}
                 </h2>
                 <p className="text-slate-600">
-                  {filteredProducts.length} producto{filteredProducts.length !== 1 ? 's' : ''} encontrado{filteredProducts.length !== 1 ? 's' : ''}
+                  Mostrando {currentProducts.length} de {filteredProducts.length} producto{filteredProducts.length !== 1 ? 's' : ''} (Página {currentPage} de {totalPages})
                 </p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                {filteredProducts.map((product) => (
+                {currentProducts.map((product) => (
                   <div key={product.id} className="group bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105 border border-violet-200/30">
                     <div className="h-48 bg-gradient-to-br from-violet-100 via-purple-100 to-indigo-100 flex items-center justify-center group-hover:from-violet-200 group-hover:via-purple-200 group-hover:to-indigo-200 transition-all duration-500 overflow-hidden">
                       {product.image ? (
@@ -226,26 +239,76 @@ export default function Productos() {
         </div>
       </section>
 
-      {/* Paginación Elegante */}
-      {filteredProducts.length > 0 && (
+      {/* Paginación Funcional */}
+      {filteredProducts.length > productsPerPage && (
         <section className="py-16 px-4 bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100">
           <div className="max-w-6xl mx-auto">
-            <div className="flex justify-center items-center space-x-4">
-              {[1, 2, 3, 4, 5].map((page) => (
-                <button
-                  key={page}
-                  className={`w-12 h-12 rounded-2xl font-bold transition-all duration-300 ${
-                    page === 1
-                      ? 'bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-xl'
-                      : 'bg-white/80 text-slate-600 hover:bg-violet-100 hover:text-slate-800 shadow-lg hover:shadow-xl'
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
-              <button className="w-12 h-12 bg-white/80 hover:bg-violet-100 text-slate-600 hover:text-slate-800 rounded-2xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl">
+            <div className="flex justify-center items-center space-x-2 flex-wrap gap-2">
+              {/* Botón Anterior */}
+              <button
+                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className={`w-12 h-12 rounded-2xl font-bold transition-all duration-300 flex items-center justify-center ${
+                  currentPage === 1
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-white/80 text-slate-600 hover:bg-violet-100 hover:text-slate-800 shadow-lg hover:shadow-xl'
+                }`}
+              >
+                ←
+              </button>
+
+              {/* Números de página */}
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                // Mostrar solo algunas páginas alrededor de la actual
+                const showPage = page === 1 || page === totalPages || 
+                  (page >= currentPage - 1 && page <= currentPage + 1)
+                
+                if (!showPage) {
+                  // Mostrar puntos suspensivos
+                  if (page === currentPage - 2 || page === currentPage + 2) {
+                    return (
+                      <span key={`dots-${page}`} className="text-slate-400 font-bold">
+                        ...
+                      </span>
+                    )
+                  }
+                  return null
+                }
+
+                return (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`w-12 h-12 rounded-2xl font-bold transition-all duration-300 ${
+                      page === currentPage
+                        ? 'bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-xl'
+                        : 'bg-white/80 text-slate-600 hover:bg-violet-100 hover:text-slate-800 shadow-lg hover:shadow-xl'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                )
+              })}
+
+              {/* Botón Siguiente */}
+              <button
+                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                className={`w-12 h-12 rounded-2xl font-bold transition-all duration-300 flex items-center justify-center ${
+                  currentPage === totalPages
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-white/80 text-slate-600 hover:bg-violet-100 hover:text-slate-800 shadow-lg hover:shadow-xl'
+                }`}
+              >
                 →
               </button>
+            </div>
+            
+            {/* Información de paginación */}
+            <div className="text-center mt-4">
+              <p className="text-slate-600 text-sm">
+                Página {currentPage} de {totalPages} • {filteredProducts.length} productos total
+              </p>
             </div>
           </div>
         </section>

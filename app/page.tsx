@@ -1,8 +1,7 @@
-
-
 'use client'
 
 import { useState, useEffect } from 'react'
+import { normalizeImagePath, handleImageError, handleImageLoad } from '@/lib/imageUtils'
 
 interface Product {
   id: number
@@ -14,19 +13,23 @@ interface Product {
   description: string
 }
 
+interface ComboProduct {
+  productId: number
+  quantity: number
+  price: number
+}
+
 interface Oferta {
   id: number
-  productId: number
-  productName: string
   title: string
   description: string
-  discount: number
-  originalPrice: number
+  comboProducts: ComboProduct[]
   finalPrice: number
   image: string
   category: string
-  validUntil: string
   active: boolean
+  featured?: boolean
+  priority?: number
 }
 
 export default function Home() {
@@ -35,27 +38,69 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Cargar productos y ofertas desde localStorage
-    const savedProducts = localStorage.getItem('products')
-    const savedOfertas = localStorage.getItem('ofertas')
-    
-    if (savedProducts) {
-      setProducts(JSON.parse(savedProducts))
+    const loadData = () => {
+      // Cargar productos y ofertas desde localStorage
+      const savedProducts = localStorage.getItem('products')
+      const savedOfertas = localStorage.getItem('ofertas')
+      
+      if (savedProducts) {
+        setProducts(JSON.parse(savedProducts))
+      }
+      
+      if (savedOfertas) {
+        setOfertas(JSON.parse(savedOfertas))
+      }
+      
+      setLoading(false)
     }
-    
-    if (savedOfertas) {
-      setOfertas(JSON.parse(savedOfertas))
+
+    loadData()
+
+    // Escuchar cambios en localStorage
+    const handleStorageChange = () => {
+      loadData()
     }
+
+    window.addEventListener('storage', handleStorageChange)
     
-    setLoading(false)
+    // También recargar cuando se regrese a la página
+    window.addEventListener('focus', loadData)
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange)
+      window.removeEventListener('focus', loadData)
+    }
   }, [])
 
   // Obtener productos con ofertas activas
   const getProductsWithOffers = () => {
-    const activeOfertas = ofertas.filter(oferta => oferta.active && new Date(oferta.validUntil) >= new Date())
+    console.log('🔍 Ofertas cargadas:', ofertas)
+    console.log('🔍 Total de ofertas:', ofertas.length)
+    
+    // Filtrar ofertas activas que tengan la estructura correcta
+    const activeOfertas = ofertas.filter(oferta => {
+      const isActive = oferta.active
+      const hasValidPrice = oferta.finalPrice && oferta.finalPrice > 0
+      const hasImage = oferta.image && oferta.image.trim() !== ''
+      
+      console.log('🔍 Oferta:', oferta.title, {
+        isActive,
+        hasValidPrice,
+        hasImage,
+        image: oferta.image,
+        finalPrice: oferta.finalPrice,
+        featured: oferta.featured,
+        priority: oferta.priority
+      })
+      
+      return isActive && hasValidPrice && hasImage
+    })
+    
+    console.log('🔍 Ofertas activas encontradas:', activeOfertas.length)
     
     // Si no hay ofertas activas, mostrar productos destacados por defecto
     if (activeOfertas.length === 0) {
+      console.log('⚠️ No hay ofertas activas, mostrando productos por defecto')
       return [
         { 
           name: 'Whisky Premium', 
@@ -87,16 +132,54 @@ export default function Home() {
       ]
     }
 
-    // Tomar hasta 3 ofertas activas
-    return activeOfertas.slice(0, 3).map(oferta => ({
-      name: oferta.productName,
-      price: oferta.originalPrice,
-      finalPrice: oferta.finalPrice,
-      discount: oferta.discount,
-      image: oferta.image,
-      category: oferta.category,
-      hasOffer: true
-    }))
+    // Ordenar ofertas por prioridad y destacados
+    const sortedOfertas = activeOfertas.sort((a, b) => {
+      // Primero los destacados
+      if (a.featured && !b.featured) return -1
+      if (!a.featured && b.featured) return 1
+      
+      // Luego por prioridad (mayor prioridad primero)
+      if (a.priority && b.priority) {
+        return b.priority - a.priority
+      }
+      if (a.priority && !b.priority) return -1
+      if (!a.priority && b.priority) return 1
+      
+      // Finalmente por precio (menor precio primero para ofertas)
+      return a.finalPrice - b.finalPrice
+    })
+    
+    console.log('🎯 Ofertas ordenadas:', sortedOfertas.map(o => ({
+      title: o.title,
+      featured: o.featured,
+      priority: o.priority,
+      price: o.finalPrice
+    })))
+    
+    // Tomar hasta 6 ofertas activas (más combos visibles)
+    return sortedOfertas.slice(0, 6).map(oferta => {
+      console.log('🎯 Procesando oferta:', oferta.title)
+      console.log('🖼️ Imagen original:', oferta.image)
+      
+      // Normalizar la ruta de la imagen
+      const imagePath = normalizeImagePath(oferta.image)
+      
+      console.log('✅ Imagen final:', imagePath)
+      
+      return {
+        name: oferta.title,
+        price: oferta.finalPrice,
+        finalPrice: oferta.finalPrice,
+        discount: 0,
+        image: imagePath,
+        category: oferta.category || 'Combos',
+        hasOffer: true,
+        description: oferta.description,
+        featured: oferta.featured || false,
+        priority: oferta.priority || 0,
+        comboProducts: oferta.comboProducts || []
+      }
+    })
   }
 
   const featuredProducts = getProductsWithOffers()
@@ -162,15 +245,9 @@ export default function Home() {
                     src={product.image} 
                     alt={product.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    onError={(e) => {
-                      e.currentTarget.src = '/images/Logo Bebidas.jpeg'
-                    }}
+                    onError={(e) => handleImageError(e)}
+                    onLoad={handleImageLoad}
                   />
-                  {product.hasOffer && (
-                    <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
-                      -{product.discount}%
-                    </div>
-                  )}
                 </div>
                 <div className="p-8">
                   <div className="text-sm text-violet-600 font-semibold mb-2 uppercase tracking-wide">
@@ -180,27 +257,23 @@ export default function Home() {
                     {product.name}
                   </h3>
                   <div className="mb-6">
-                    {product.hasOffer ? (
-                      <div className="space-y-2">
-                        <p className="text-lg line-through text-slate-400">
-                          ${product.price ? product.price.toLocaleString() : '0'}
-                        </p>
-                        <p className="text-3xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">
-                          ${product.finalPrice ? product.finalPrice.toLocaleString() : '0'}
-                        </p>
-                      </div>
-                    ) : (
-                      <p className="text-3xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
-                        ${product.price ? product.price.toLocaleString() : '0'}
-                      </p>
-                    )}
+                    <p className="text-3xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
+                      ${product.finalPrice ? product.finalPrice.toLocaleString() : product.price ? product.price.toLocaleString() : '0'}
+                    </p>
                   </div>
-                  <button className="w-full bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white py-4 rounded-2xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                  <button 
+                    onClick={() => {
+                      const message = `Hola! Me interesa el producto: ${product.name} - $${product.finalPrice ? product.finalPrice.toLocaleString() : product.price ? product.price.toLocaleString() : '0'}`
+                      const whatsappUrl = `https://wa.me/5491112345678?text=${encodeURIComponent(message)}`
+                      window.open(whatsappUrl, '_blank')
+                    }}
+                    className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-4 rounded-2xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                  >
                     <span className="flex items-center justify-center space-x-2">
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
                       </svg>
-                      <span>Agregar al Carrito</span>
+                      <span>Consultar por WhatsApp</span>
                     </span>
                   </button>
                 </div>
@@ -252,9 +325,9 @@ export default function Home() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { name: 'María G.', text: 'Excelente servicio y productos de calidad. Muy recomendable!', rating: 5 },
-              { name: 'Carlos L.', text: 'Los mejores precios. Envío rápido y seguro.', rating: 5 },
-              { name: 'Ana M.', text: 'Gran variedad de bebidas. Super satisfecha!', rating: 5 }
+              { name: "María G.", text: "Excelente servicio y productos de calidad. Muy recomendable!", rating: 5 },
+              { name: "Carlos L.", text: "Los mejores precios. Envío rápido y seguro.", rating: 5 },
+              { name: "Ana M.", text: "Gran variedad de bebidas. Super satisfecha!", rating: 5 }
             ].map((testimonial) => (
               <div key={testimonial.name} className="group bg-violet-50/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 border border-violet-200/20">
                 <div className="text-yellow-400 text-3xl mb-6 flex justify-center">

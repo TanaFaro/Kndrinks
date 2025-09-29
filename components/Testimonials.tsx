@@ -7,7 +7,7 @@ const testimonials = [
   {
     id: 1,
     name: 'María González',
-    location: 'Buenos Aires',
+    location: 'Las flores',
     rating: 5,
     comment: 'Excelente servicio y productos de primera calidad. El envío fue súper rápido y todo llegó perfectamente embalado.',
     avatar: '/images/avatars/maria.jpg',
@@ -17,7 +17,7 @@ const testimonials = [
   {
     id: 2,
     name: 'Carlos Rodríguez',
-    location: 'Córdoba',
+    location: 'Kennedy',
     rating: 5,
     comment: 'La mejor tienda de bebidas online que he probado. Precios increíbles y atención al cliente excepcional.',
     avatar: '/images/avatars/carlos.jpg',
@@ -27,7 +27,7 @@ const testimonials = [
   {
     id: 3,
     name: 'Ana Martínez',
-    location: 'Rosario',
+    location: 'Inaudi',
     rating: 5,
     comment: 'Compré para una fiesta y quedé encantada. Los productos son auténticos y el delivery fue puntual.',
     avatar: '/images/avatars/ana.jpg',
@@ -37,7 +37,7 @@ const testimonials = [
   {
     id: 4,
     name: 'Luis Fernández',
-    location: 'Mendoza',
+    location: 'Villa el libertador',
     rating: 5,
     comment: 'Gran variedad de productos premium. El control de stock es preciso y las ofertas son reales.',
     avatar: '/images/avatars/luis.jpg',

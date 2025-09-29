@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { logoutAdmin } from '@/lib/auth'
+import { useAuth } from '@/lib/useAuth'
 import Link from 'next/link'
 
 interface Product {
@@ -18,14 +20,22 @@ export default function AdminDashboard() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const router = useRouter()
+  const { isAuthenticated, user, loading: authLoading } = useAuth()
 
   useEffect(() => {
-    // Verificar si el admin está logueado
-    const isLoggedIn = localStorage.getItem('adminLoggedIn')
-    if (!isLoggedIn) {
+    // Verificar autenticación
+    if (!authLoading && !isAuthenticated) {
+      console.log('❌ No autenticado, redirigiendo al login...')
       router.push('/admin')
       return
     }
+
+    if (authLoading) {
+      console.log('⏳ Verificando autenticación...')
+      return
+    }
+
+    console.log('✅ Admin autenticado:', user)
 
     // Cargar productos desde localStorage
     const savedProducts = localStorage.getItem('products')
@@ -72,11 +82,10 @@ export default function AdminDashboard() {
       console.log('Dashboard - Productos iniciales creados')
     }
     setLoading(false)
-  }, [router])
+  }, [router, isAuthenticated, authLoading])
 
   const handleLogout = () => {
-    localStorage.removeItem('adminLoggedIn')
-    localStorage.removeItem('adminUser')
+    logoutAdmin()
     router.push('/admin')
   }
 
@@ -86,15 +95,22 @@ export default function AdminDashboard() {
     localStorage.setItem('products', JSON.stringify(updatedProducts))
   }
 
-  if (loading) {
+  if (loading || authLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-violet-600 mx-auto"></div>
-          <p className="mt-4 text-slate-600">Cargando...</p>
+          <p className="mt-4 text-slate-600">
+            {authLoading ? 'Verificando sesión...' : 'Cargando...'}
+          </p>
         </div>
       </div>
     )
+  }
+
+  // Si no está autenticado, no mostrar nada (se redirigirá)
+  if (!isAuthenticated) {
+    return null
   }
 
   return (
@@ -112,12 +128,19 @@ export default function AdminDashboard() {
               <h1 className="text-2xl font-bold text-slate-800">Panel Administrativo</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-slate-600">Bienvenido, Admin</span>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-slate-600">Sesión activa</span>
+              </div>
+              <span className="text-slate-600">Bienvenido, {user || 'Admin'}</span>
               <button
                 onClick={handleLogout}
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors"
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2"
               >
-                Cerrar Sesión
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                <span>Cerrar Sesión</span>
               </button>
             </div>
           </div>

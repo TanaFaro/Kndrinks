@@ -2,18 +2,13 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { ShoppingCart, Menu, X, Search, User, Phone } from 'lucide-react'
-import { useCartStore } from '@/store/cartStore'
-import CartDrawer from './CartDrawer'
+import { Menu, X, Search, User, Phone } from 'lucide-react'
 import SearchModal from './SearchModal'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isCartOpen, setIsCartOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const cartItems = useCartStore((state) => state.items)
-  const cartTotal = useCartStore((state) => state.total)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,7 +18,6 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0)
 
   return (
     <>
@@ -76,17 +70,6 @@ const Header = () => {
                 <Phone size={20} />
               </Link>
               
-              <button
-                onClick={() => setIsCartOpen(true)}
-                className="relative p-2 text-gray-600 hover:text-primary-600 transition-colors"
-              >
-                <ShoppingCart size={20} />
-                {cartItemCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-primary-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {cartItemCount}
-                  </span>
-                )}
-              </button>
             </div>
 
             {/* Botón menú móvil */}
@@ -138,21 +121,6 @@ const Header = () => {
                   Contacto
                 </Link>
                 
-                <div className="pt-4 border-t border-gray-200">
-                  <div className="flex items-center justify-between px-3 py-2">
-                    <span className="text-sm text-gray-500">Total carrito:</span>
-                    <span className="font-semibold text-primary-600">${cartTotal.toFixed(2)}</span>
-                  </div>
-                  <button
-                    onClick={() => {
-                      setIsCartOpen(true)
-                      setIsMenuOpen(false)
-                    }}
-                    className="w-full mt-2 btn-primary"
-                  >
-                    Ver carrito ({cartItemCount})
-                  </button>
-                </div>
               </div>
             </div>
           )}
@@ -163,7 +131,6 @@ const Header = () => {
       <div className="h-16 lg:h-20"></div>
 
       {/* Modales */}
-      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
       <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </>
   )

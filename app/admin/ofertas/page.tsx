@@ -2,20 +2,26 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { isAdminLoggedIn } from '@/lib/auth'
+import { normalizeImagePath, handleImageError } from '@/lib/imageUtils'
 import Link from 'next/link'
+
+interface ComboProduct {
+  productId: number
+  productName: string
+  quantity: number
+  price: number
+}
 
 interface Oferta {
   id: number
   title: string
   description: string
-  discount: number
-  originalPrice: number
+  comboProducts: ComboProduct[]
   finalPrice: number
   image: string
   category: string
-  validUntil: string
   active: boolean
-  comboProducts?: any[]
 }
 
 export default function AdminOfertas() {
@@ -25,8 +31,7 @@ export default function AdminOfertas() {
 
   useEffect(() => {
     // Verificar si el admin está logueado
-    const isLoggedIn = localStorage.getItem('adminLoggedIn')
-    if (!isLoggedIn) {
+    if (!isAdminLoggedIn()) {
       router.push('/admin')
       return
     }
@@ -34,49 +39,17 @@ export default function AdminOfertas() {
     // Cargar ofertas desde localStorage
     const savedOfertas = localStorage.getItem('ofertas')
     if (savedOfertas) {
-      setOfertas(JSON.parse(savedOfertas))
+      try {
+        const parsedOfertas: Oferta[] = JSON.parse(savedOfertas)
+        console.log('📦 Ofertas cargadas desde localStorage:', parsedOfertas)
+        setOfertas(parsedOfertas)
+      } catch (error) {
+        console.error('❌ Error parseando ofertas:', error)
+        setOfertas([])
+      }
     } else {
-      // Ofertas iniciales de ejemplo
-      const initialOfertas: Oferta[] = [
-        {
-          id: 1,
-          title: 'Whisky Premium 20% OFF',
-          description: 'Descuento especial en whisky premium de alta calidad',
-          discount: 20,
-          originalPrice: 15000,
-          finalPrice: 12000,
-          image: '/images/whisky-offer.jpg',
-          category: 'Licores',
-          validUntil: '2024-12-31',
-          active: true
-        },
-        {
-          id: 2,
-          title: 'Pack Vinos 30% OFF',
-          description: 'Pack de 3 vinos tintos con descuento especial',
-          discount: 30,
-          originalPrice: 25000,
-          finalPrice: 17500,
-          image: '/images/wine-pack.jpg',
-          category: 'Vinos',
-          validUntil: '2024-11-30',
-          active: true
-        },
-        {
-          id: 3,
-          title: 'Cervezas Artesanales 15% OFF',
-          description: 'Descuento en cervezas artesanales premium',
-          discount: 15,
-          originalPrice: 8000,
-          finalPrice: 6800,
-          image: '/images/craft-beer.jpg',
-          category: 'Cervezas',
-          validUntil: '2024-10-31',
-          active: false
-        }
-      ]
-      setOfertas(initialOfertas)
-      localStorage.setItem('ofertas', JSON.stringify(initialOfertas))
+      console.log('⚠️ No hay ofertas guardadas')
+      setOfertas([])
     }
     setLoading(false)
   }, [router])
@@ -188,9 +161,9 @@ export default function AdminOfertas() {
                 </svg>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-slate-600">Ofertas Expiradas</p>
+                <p className="text-sm font-medium text-slate-600">Ofertas Inactivas</p>
                 <p className="text-2xl font-bold text-slate-900">
-                  {ofertas.filter(o => new Date(o.validUntil) < new Date()).length}
+                  {ofertas.filter(o => !o.active).length}
                 </p>
               </div>
             </div>
@@ -256,9 +229,12 @@ export default function AdminOfertas() {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="h-10 w-10 flex-shrink-0">
-                          <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-blue-100 to-violet-100 flex items-center justify-center">
-                            <span className="text-blue-600 font-bold">🎯</span>
-                          </div>
+                          <img
+                            src={normalizeImagePath(oferta.image)}
+                            alt={oferta.title}
+                            className="h-10 w-10 rounded-lg object-cover"
+                            onError={(e) => handleImageError(e)}
+                          />
                         </div>
                         <div className="ml-4">
                           <div className="text-sm font-medium text-slate-900">{oferta.title}</div>
@@ -271,6 +247,16 @@ export default function AdminOfertas() {
                         <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
                           {oferta.comboProducts ? oferta.comboProducts.length : 0} productos
                         </span>
+                        {oferta.comboProducts && oferta.comboProducts.length > 0 && (
+                          <div className="text-xs text-slate-500">
+                            {oferta.comboProducts.map((product, index) => (
+                              <span key={index}>
+                                {product.productName} x{product.quantity}
+                                {index < oferta.comboProducts.length - 1 ? ', ' : ''}
+                              </span>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
