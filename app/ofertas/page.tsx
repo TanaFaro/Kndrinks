@@ -42,6 +42,28 @@ export default function Ofertas() {
     loadOfertas()
   }, [])
 
+  // Función para convertir prioridad a estrellas
+  const getPriorityStars = (priority?: number): string => {
+    if (!priority) return ''
+    
+    if (priority >= 5) return '⭐⭐⭐⭐⭐'
+    if (priority >= 4) return '⭐⭐⭐⭐'
+    if (priority >= 3) return '⭐⭐⭐'
+    if (priority >= 2) return '⭐⭐'
+    return '⭐'
+  }
+
+  // Función para obtener el texto de popularidad
+  const getPopularityText = (priority?: number): string => {
+    if (!priority) return ''
+    
+    if (priority >= 5) return 'MÁS PEDIDO'
+    if (priority >= 4) return 'MUY POPULAR'
+    if (priority >= 3) return 'POPULAR'
+    if (priority >= 2) return 'RECOMENDADO'
+    return 'NUEVO'
+  }
+
   const loadOfertas = () => {
     // Verificar que estamos en el cliente
     if (typeof window === 'undefined') return
@@ -203,10 +225,13 @@ export default function Ofertas() {
                       </div>
                     )}
                     
-                    {/* Badge de prioridad */}
-                    {oferta.priority && oferta.priority >= 4 && (
-                      <div className="absolute top-4 right-4 z-10 bg-gradient-to-r from-red-500 to-pink-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg">
-                        🔥 PRIORIDAD {oferta.priority}
+                    {/* Badge de popularidad con estrellas */}
+                    {oferta.priority && oferta.priority >= 2 && (
+                      <div className="absolute top-4 right-4 z-10 bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                        <div className="flex items-center space-x-1">
+                          <span>{getPriorityStars(oferta.priority)}</span>
+                          <span>{getPopularityText(oferta.priority)}</span>
+                        </div>
                       </div>
                     )}
                     

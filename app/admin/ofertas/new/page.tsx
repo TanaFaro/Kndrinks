@@ -472,7 +472,7 @@ export default function NewOferta() {
                 
                 <div className="flex items-center gap-2">
                   <label htmlFor="priority" className="text-sm text-gray-700">
-                    Prioridad:
+                    Popularidad:
                   </label>
                   <select
                     id="priority"
@@ -480,11 +480,11 @@ export default function NewOferta() {
                     onChange={(e) => setFormData(prev => ({ ...prev, priority: parseInt(e.target.value) }))}
                     className="px-3 py-1 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
                   >
-                    <option value={1}>1 - Baja</option>
-                    <option value={2}>2 - Media</option>
-                    <option value={3}>3 - Alta</option>
-                    <option value={4}>4 - Muy Alta</option>
-                    <option value={5}>5 - Máxima</option>
+                    <option value={1}>⭐ Nuevo</option>
+                    <option value={2}>⭐⭐ Recomendado</option>
+                    <option value={3}>⭐⭐⭐ Popular</option>
+                    <option value={4}>⭐⭐⭐⭐ Muy Popular</option>
+                    <option value={5}>⭐⭐⭐⭐⭐ Más Pedido</option>
                   </select>
                 </div>
               </div>

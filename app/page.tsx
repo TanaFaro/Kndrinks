@@ -85,6 +85,28 @@ export default function Home() {
     }
   }, [])
 
+  // Función para convertir prioridad a estrellas
+  const getPriorityStars = (priority?: number): string => {
+    if (!priority) return ''
+    
+    if (priority >= 5) return '⭐⭐⭐⭐⭐'
+    if (priority >= 4) return '⭐⭐⭐⭐'
+    if (priority >= 3) return '⭐⭐⭐'
+    if (priority >= 2) return '⭐⭐'
+    return '⭐'
+  }
+
+  // Función para obtener el texto de popularidad
+  const getPopularityText = (priority?: number): string => {
+    if (!priority) return ''
+    
+    if (priority >= 5) return 'MÁS PEDIDO'
+    if (priority >= 4) return 'MUY POPULAR'
+    if (priority >= 3) return 'POPULAR'
+    if (priority >= 2) return 'RECOMENDADO'
+    return 'NUEVO'
+  }
+
   // Obtener productos con ofertas activas
   const getProductsWithOffers = () => {
     console.log('🔍 Ofertas cargadas:', ofertas)
