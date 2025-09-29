@@ -60,6 +60,33 @@ const STATIC_PRODUCTS = [
     stock: 25,
     image: "/images/skyy.png",
     description: "Vodka premium americano"
+  },
+  {
+    id: 4,
+    name: "Smirnoff Vodka 750ml",
+    price: 3500,
+    category: "Licores",
+    stock: 20,
+    image: "/images/Smirnoff solo.jpeg",
+    description: "Vodka ruso premium"
+  },
+  {
+    id: 5,
+    name: "Pritty Limón 2.25L",
+    price: 1200,
+    category: "Bebidas",
+    stock: 40,
+    image: "/images/pritty 2.250.jfif",
+    description: "Gaseosa sabor limón"
+  },
+  {
+    id: 6,
+    name: "Vino Toro Tinto 750ml",
+    price: 1800,
+    category: "Vinos",
+    stock: 35,
+    image: "/images/vino toro.jfif",
+    description: "Vino tinto clásico"
   }
 ]
 
@@ -69,7 +96,7 @@ const STATIC_OFERTAS = [
     title: "Combo Fernet + Coca",
     description: "Fernet Branca 750ml + 2 Coca Cola 2.25L",
     finalPrice: 6500,
-    image: "/images/fernet mas 2 cocas.jfif",
+    image: "/images/fernet 750.jfif",
     active: true,
     featured: true,
     priority: 5,
@@ -89,6 +116,34 @@ const STATIC_OFERTAS = [
     priority: 4,
     comboProducts: [
       { name: "Skyy Vodka 750ml", price: 3800, quantity: 1 },
+      { name: "Speed XL", price: 1000, quantity: 1 }
+    ]
+  },
+  {
+    id: 3,
+    title: "Combo Smirnoff + Speed",
+    description: "Smirnoff Vodka 750ml + 2 Speed XL",
+    finalPrice: 5500,
+    image: "/images/Smirnoff mas 2 speed.png",
+    active: true,
+    featured: false,
+    priority: 3,
+    comboProducts: [
+      { name: "Smirnoff Vodka 750ml", price: 3500, quantity: 1 },
+      { name: "Speed XL", price: 1000, quantity: 2 }
+    ]
+  },
+  {
+    id: 4,
+    title: "Combo Du + Speed",
+    description: "Du Vodka 750ml + Speed XL",
+    finalPrice: 7500,
+    image: "/images/Du con speed.jfif",
+    active: true,
+    featured: false,
+    priority: 2,
+    comboProducts: [
+      { name: "Du Vodka 750ml", price: 6500, quantity: 1 },
       { name: "Speed XL", price: 1000, quantity: 1 }
     ]
   }
