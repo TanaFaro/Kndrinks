@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { auth } from '@/lib/auth'
 
 export default function AdminLogin() {
   const [username, setUsername] = useState('')
@@ -15,15 +16,13 @@ export default function AdminLogin() {
     setLoading(true)
     setError('')
 
-    // Credenciales simples
-    if (username === 'KNDrinks' && password === 'KNDrinks2025') {
-      // Guardar sesión en localStorage
-      localStorage.setItem('kndrinks_admin_session', JSON.stringify({
-        isLoggedIn: true,
-        username: username,
-        loginTime: new Date().toISOString()
-      }))
-      router.push('/admin/dashboard')
+    const success = auth.login(username, password)
+    
+    if (success) {
+      // Pequeño delay para asegurar que se guarde la sesión
+      setTimeout(() => {
+        router.push('/admin/dashboard')
+      }, 100)
     } else {
       setError('Usuario o contraseña incorrectos')
     }

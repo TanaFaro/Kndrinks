@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { auth } from '@/lib/auth'
 
 interface Product {
   id: number
@@ -18,43 +19,47 @@ export default function AdminDashboard() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<string | null>(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
-    // Verificar autenticación
-    const session = localStorage.getItem('kndrinks_admin_session')
-    if (!session) {
-      router.push('/admin')
-      return
-    }
-
-    try {
-      const sessionData = JSON.parse(session)
-      if (!sessionData.isLoggedIn) {
+    // Verificar autenticación de forma más robusta
+    const checkAuth = () => {
+      if (typeof window === 'undefined') return
+      
+      const isAuth = auth.isLoggedIn()
+      if (!isAuth) {
         router.push('/admin')
         return
       }
-      setUser(sessionData.username)
-    } catch {
-      router.push('/admin')
-      return
+      
+      setIsAuthenticated(true)
+      setUser(auth.getCurrentUser())
+      
+      // Cargar productos
+      const savedProducts = localStorage.getItem('products')
+      if (savedProducts) {
+        try {
+          const parsedProducts = JSON.parse(savedProducts)
+          setProducts(parsedProducts)
+        } catch (error) {
+          console.error('Error parsing products:', error)
+        }
+      }
+      setLoading(false)
     }
 
-    // Cargar productos
-    const savedProducts = localStorage.getItem('products')
-    if (savedProducts) {
-      try {
-        const parsedProducts = JSON.parse(savedProducts)
-        setProducts(parsedProducts)
-      } catch (error) {
-        console.error('Error parsing products:', error)
-      }
-    }
-    setLoading(false)
+    // Verificar inmediatamente
+    checkAuth()
+    
+    // Verificar cada 5 segundos para mantener la sesión activa
+    const interval = setInterval(checkAuth, 5000)
+    
+    return () => clearInterval(interval)
   }, [router])
 
   const handleLogout = () => {
-    localStorage.removeItem('kndrinks_admin_session')
+    auth.logout()
     router.push('/admin')
   }
 
@@ -64,12 +69,12 @@ export default function AdminDashboard() {
     localStorage.setItem('products', JSON.stringify(updatedProducts))
   }
 
-  if (loading) {
+  if (loading || !isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Cargando dashboard...</p>
+          <p className="text-gray-600">Verificando autenticación...</p>
         </div>
       </div>
     )
