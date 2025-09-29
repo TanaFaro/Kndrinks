@@ -190,6 +190,12 @@ export default function Home() {
   }
 
   return (
+    <>
+      {/* Meta tags para móviles */}
+      <meta httpEquiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+      <meta httpEquiv="Pragma" content="no-cache" />
+      <meta httpEquiv="Expires" content="0" />
+      
     <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100">
       {/* Hero Section */}
       <section className="hero-section relative py-24 px-4 text-center overflow-hidden">
@@ -202,14 +208,14 @@ export default function Home() {
             Tu tienda de bebidas favorita con la mejor selección de licores, vinos y más
           </p>
           <div className="hero-buttons flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a 
-              href="/productos" 
+            <a
+              href="/productos"
               className="hero-button group bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white py-4 px-8 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
             >
               Ver Productos
             </a>
-            <a 
-              href="/ofertas" 
+            <a
+              href="/ofertas"
               className="hero-button group bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-4 px-8 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
             >
               Ver Ofertas
@@ -221,16 +227,25 @@ export default function Home() {
       {/* Productos Destacados */}
       <section className="py-24 px-4 bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-center bg-gradient-to-r from-violet-800 via-purple-800 to-indigo-800 bg-clip-text text-transparent mb-16">
-            Productos Destacados
+          <div className="flex flex-col sm:flex-row justify-between items-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-violet-800 via-purple-800 to-indigo-800 bg-clip-text text-transparent">
+              Productos Destacados
           </h2>
+            {/* Botón de actualización para móviles */}
+            <button 
+              onClick={() => window.location.reload()}
+              className="mt-4 sm:mt-0 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            >
+              🔄 Actualizar
+            </button>
+          </div>
           
           <div className="products-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {STATIC_PRODUCTS.map((product) => (
               <div key={product.id} className="product-card group bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105 border border-violet-200/30">
                 <div className="h-48 sm:h-56 bg-gradient-to-br from-violet-100 via-purple-100 to-indigo-100 flex items-center justify-center group-hover:from-violet-200 group-hover:via-purple-200 group-hover:to-indigo-200 transition-all duration-500 relative overflow-hidden">
-                  <img 
-                    src={normalizeImagePath(product.image)} 
+                  <img
+                    src={`${normalizeImagePath(product.image)}?v=${Date.now()}`}
                     alt={product.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     onError={(e) => handleImageError(e)}
@@ -245,7 +260,7 @@ export default function Home() {
                   </h3>
                   <p className="text-slate-600 mb-4 text-sm">
                     {product.description}
-                  </p>
+                    </p>
                   <div className="flex items-center justify-between mb-6">
                     <span className="product-price text-3xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
                       ${product.price.toLocaleString()}
@@ -297,13 +312,13 @@ export default function Home() {
                     <div className="priority-stars flex items-center space-x-1">
                       <span>{getPriorityStars(oferta.priority)}</span>
                       <span>{getPopularityText(oferta.priority)}</span>
-                    </div>
-                  </div>
+              </div>
+            </div>
                 )}
                 
                 <div className="h-48 bg-gradient-to-br from-violet-100 via-purple-100 to-indigo-100 flex items-center justify-center group-hover:from-violet-200 group-hover:via-purple-200 group-hover:to-indigo-200 transition-all duration-500 relative overflow-hidden">
-                  <img 
-                    src={normalizeImagePath(oferta.image)} 
+                  <img
+                    src={`${normalizeImagePath(oferta.image)}?v=${Date.now()}`}
                     alt={oferta.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     onError={(e) => handleImageError(e)}
@@ -315,7 +330,7 @@ export default function Home() {
                   </div>
                   <h3 className="oferta-title text-2xl font-bold text-slate-800 mb-4 group-hover:text-slate-900 transition-colors">
                     {oferta.title}
-                  </h3>
+            </h3>
                   <p className="text-slate-600 mb-4 text-sm">
                     {oferta.description}
                   </p>
@@ -329,8 +344,8 @@ export default function Home() {
                           • {product.name} x{product.quantity}
                         </p>
                       ))}
-                    </div>
-                  </div>
+          </div>
+        </div>
                   
                   <div className="flex items-center justify-between mb-6">
                     <div className="text-sm text-slate-500">
@@ -341,7 +356,7 @@ export default function Home() {
                         ${oferta.finalPrice.toLocaleString()}
                       </span>
                       <p className="text-xs text-slate-500">Precio combo</p>
-                    </div>
+                </div>
                   </div>
                   
                   <button 
@@ -365,6 +380,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </div>
+          </div>
+    </>
   )
 }
