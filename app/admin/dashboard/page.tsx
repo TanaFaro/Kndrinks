@@ -20,13 +20,12 @@ export default function AdminDashboard() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const router = useRouter()
-  const { isAuthenticated, user, loading: authLoading, logout } = useSimpleAuth()
+  const { user, logout } = useSimpleAuth()
 
   useEffect(() => {
-    // Solo cargar datos si estamos autenticados
-    if (!isAuthenticated || authLoading) return
-
-    console.log('✅ Admin autenticado:', user)
+    // Cargar datos independientemente del estado de autenticación
+    // El ProtectedRoute ya maneja la autenticación
+    console.log('🔄 Cargando datos del dashboard...')
 
     // Cargar productos desde localStorage
     if (typeof window !== 'undefined') {
@@ -47,7 +46,7 @@ export default function AdminDashboard() {
       }
     }
     setLoading(false)
-  }, [isAuthenticated, authLoading, user])
+  }, [])
 
   const handleLogout = () => {
     logout()
@@ -58,6 +57,17 @@ export default function AdminDashboard() {
     const updatedProducts = products.filter(product => product.id !== id)
     setProducts(updatedProducts)
     localStorage.setItem('products', JSON.stringify(updatedProducts))
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Cargando dashboard...</p>
+        </div>
+      </div>
+    )
   }
 
   return (

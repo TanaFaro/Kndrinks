@@ -68,8 +68,12 @@ export default function Ofertas() {
     // Verificar que estamos en el cliente
     if (typeof window === 'undefined') return
     
+    console.log('🔄 Cargando ofertas...')
+    
     try {
       const savedOfertas = localStorage.getItem('ofertas')
+      console.log('🎯 Ofertas guardadas:', savedOfertas)
+      
       if (savedOfertas) {
         const parsedOfertas: Oferta[] = JSON.parse(savedOfertas)
         
@@ -99,10 +103,59 @@ export default function Ofertas() {
         })
         
         setOfertas(sortedOfertas)
-        console.log('Combos cargados:', activeOfertas)
+        console.log('✅ Combos cargados:', activeOfertas)
+      } else {
+        console.log('⚠️ No hay ofertas guardadas, usando datos de ejemplo')
+        // Datos de ejemplo si no hay ofertas guardadas
+        const exampleOfertas = [
+          {
+            id: 1,
+            title: "Combo Fernet + Coca",
+            description: "Fernet Branca 750ml + 2 Coca Cola 2.25L",
+            finalPrice: 6500,
+            image: "/images/fernet mas 2 cocas.jfif",
+            active: true,
+            featured: true,
+            priority: 5,
+            comboProducts: [
+              { name: "Fernet Branca 750ml", price: 4500, quantity: 1 },
+              { name: "Coca Cola 2.25L", price: 1000, quantity: 2 }
+            ]
+          },
+          {
+            id: 2,
+            title: "Combo Skyy + Speed",
+            description: "Skyy Vodka 750ml + Speed XL",
+            finalPrice: 4800,
+            image: "/images/skyy mas speed.jfif",
+            active: true,
+            featured: true,
+            priority: 4,
+            comboProducts: [
+              { name: "Skyy Vodka 750ml", price: 3800, quantity: 1 },
+              { name: "Speed XL", price: 1000, quantity: 1 }
+            ]
+          },
+          {
+            id: 3,
+            title: "Combo Smirnoff + Speed",
+            description: "Smirnoff Vodka 750ml + 2 Speed XL",
+            finalPrice: 5500,
+            image: "/images/Smirnoff mas 2 speed.png",
+            active: true,
+            featured: false,
+            priority: 3,
+            comboProducts: [
+              { name: "Smirnoff Vodka 750ml", price: 3500, quantity: 1 },
+              { name: "Speed XL", price: 1000, quantity: 2 }
+            ]
+          }
+        ]
+        setOfertas(exampleOfertas)
       }
     } catch (error) {
-      console.error('Error cargando combos:', error)
+      console.error('❌ Error cargando combos:', error)
+      setOfertas([])
     } finally {
       setLoading(false)
     }

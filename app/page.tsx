@@ -42,24 +42,100 @@ export default function Home() {
       // Verificar que estamos en el cliente antes de acceder a localStorage
       if (typeof window === 'undefined') return
       
+      console.log('🔄 Cargando datos de la página principal...')
+      
       // Cargar productos y ofertas desde localStorage
       const savedProducts = localStorage.getItem('products')
       const savedOfertas = localStorage.getItem('ofertas')
       
+      console.log('📦 Productos guardados:', savedProducts)
+      console.log('🎯 Ofertas guardadas:', savedOfertas)
+      
       if (savedProducts) {
         try {
-          setProducts(JSON.parse(savedProducts))
+          const parsedProducts = JSON.parse(savedProducts)
+          console.log('✅ Productos parseados:', parsedProducts)
+          setProducts(parsedProducts)
         } catch (error) {
-          console.error('Error parsing products:', error)
+          console.error('❌ Error parsing products:', error)
         }
+      } else {
+        console.log('⚠️ No hay productos guardados, usando datos de ejemplo')
+        // Datos de ejemplo si no hay productos guardados
+        const exampleProducts = [
+          {
+            id: 1,
+            name: "Coca Cola 2.25L",
+            price: 2500,
+            category: "Bebidas",
+            stock: 50,
+            image: "/images/cocacola.jfif",
+            description: "Refresco clásico de Coca Cola"
+          },
+          {
+            id: 2,
+            name: "Fernet Branca 750ml",
+            price: 4500,
+            category: "Licores",
+            stock: 30,
+            image: "/images/fernet 750.jfif",
+            description: "Fernet italiano de alta calidad"
+          },
+          {
+            id: 3,
+            name: "Skyy Vodka 750ml",
+            price: 3800,
+            category: "Licores",
+            stock: 25,
+            image: "/images/skyy.png",
+            description: "Vodka premium americano"
+          }
+        ]
+        setProducts(exampleProducts)
       }
       
       if (savedOfertas) {
         try {
-          setOfertas(JSON.parse(savedOfertas))
+          const parsedOfertas = JSON.parse(savedOfertas)
+          console.log('✅ Ofertas parseadas:', parsedOfertas)
+          setOfertas(parsedOfertas)
         } catch (error) {
-          console.error('Error parsing ofertas:', error)
+          console.error('❌ Error parsing ofertas:', error)
         }
+      } else {
+        console.log('⚠️ No hay ofertas guardadas, usando datos de ejemplo')
+        // Datos de ejemplo si no hay ofertas guardadas
+        const exampleOfertas = [
+          {
+            id: 1,
+            title: "Combo Fernet + Coca",
+            description: "Fernet Branca 750ml + 2 Coca Cola 2.25L",
+            finalPrice: 6500,
+            image: "/images/fernet mas 2 cocas.jfif",
+            active: true,
+            featured: true,
+            priority: 5,
+            comboProducts: [
+              { name: "Fernet Branca 750ml", price: 4500, quantity: 1 },
+              { name: "Coca Cola 2.25L", price: 1000, quantity: 2 }
+            ]
+          },
+          {
+            id: 2,
+            title: "Combo Skyy + Speed",
+            description: "Skyy Vodka 750ml + Speed XL",
+            finalPrice: 4800,
+            image: "/images/skyy mas speed.jfif",
+            active: true,
+            featured: true,
+            priority: 4,
+            comboProducts: [
+              { name: "Skyy Vodka 750ml", price: 3800, quantity: 1 },
+              { name: "Speed XL", price: 1000, quantity: 1 }
+            ]
+          }
+        ]
+        setOfertas(exampleOfertas)
       }
       
       setLoading(false)
