@@ -44,14 +44,20 @@ export default function Home() {
     // Solo ejecutar en el cliente
     if (typeof window === 'undefined') return
     
+    console.log('🚀 Iniciando carga de datos...')
     setMounted(true)
     
     const loadData = () => {
       console.log('🔄 Cargando datos de la página principal...')
+      console.log('📱 User Agent:', navigator.userAgent)
+      console.log('📱 Ancho de pantalla:', window.innerWidth)
       
       // Cargar productos y ofertas desde localStorage
       const savedProducts = localStorage.getItem('products')
       const savedOfertas = localStorage.getItem('ofertas')
+      
+      console.log('📦 Productos en localStorage:', savedProducts ? 'SÍ' : 'NO')
+      console.log('🎯 Ofertas en localStorage:', savedOfertas ? 'SÍ' : 'NO')
       
       if (savedProducts) {
         try {
@@ -136,6 +142,34 @@ export default function Home() {
             priority: 4,
             comboProducts: [
               { name: "Skyy Vodka 750ml", price: 3800, quantity: 1 },
+              { name: "Speed XL", price: 1000, quantity: 1 }
+            ]
+          },
+          {
+            id: 3,
+            title: "Combo Smirnoff + Speed",
+            description: "Smirnoff Vodka 750ml + 2 Speed XL",
+            finalPrice: 5500,
+            image: "/images/Smirnoff mas 2 speed.png",
+            active: true,
+            featured: false,
+            priority: 3,
+            comboProducts: [
+              { name: "Smirnoff Vodka 750ml", price: 3500, quantity: 1 },
+              { name: "Speed XL", price: 1000, quantity: 2 }
+            ]
+          },
+          {
+            id: 4,
+            title: "Combo Du + Speed",
+            description: "Du Vodka 750ml + Speed XL",
+            finalPrice: 7500,
+            image: "/images/Du con speed.jfif",
+            active: true,
+            featured: false,
+            priority: 2,
+            comboProducts: [
+              { name: "Du Vodka 750ml", price: 6500, quantity: 1 },
               { name: "Speed XL", price: 1000, quantity: 1 }
             ]
           }
@@ -311,6 +345,7 @@ export default function Home() {
 
   // Mostrar loading si no está montado o está cargando
   if (!mounted || loading) {
+    console.log('⏳ Mostrando loading...', { mounted, loading })
     return (
       <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
@@ -320,6 +355,13 @@ export default function Home() {
       </div>
     )
   }
+
+  console.log('🎯 Renderizando página principal con datos:', {
+    products: products.length,
+    ofertas: ofertas.length,
+    mounted,
+    loading
+  })
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100">
