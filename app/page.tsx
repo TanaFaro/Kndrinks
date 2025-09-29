@@ -34,32 +34,24 @@ interface Oferta {
   priority?: number
 }
 
-function HomeContent() {
+export default function Home() {
   const [products, setProducts] = useState<Product[]>([])
   const [ofertas, setOfertas] = useState<Oferta[]>([])
   const [loading, setLoading] = useState(true)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    console.log('🚀 HomeContent useEffect ejecutándose...')
+    // Solo ejecutar en el cliente
+    if (typeof window === 'undefined') return
+    
     setMounted(true)
     
     const loadData = () => {
-      // Verificar que estamos en el cliente antes de acceder a localStorage
-      if (typeof window === 'undefined') {
-        console.log('❌ No estamos en el cliente, saliendo...')
-        return
-      }
-      
       console.log('🔄 Cargando datos de la página principal...')
-      console.log('📱 Ancho de pantalla:', window.innerWidth)
       
       // Cargar productos y ofertas desde localStorage
       const savedProducts = localStorage.getItem('products')
       const savedOfertas = localStorage.getItem('ofertas')
-      
-      console.log('📦 Productos guardados:', savedProducts)
-      console.log('🎯 Ofertas guardadas:', savedOfertas)
       
       if (savedProducts) {
         try {
@@ -317,9 +309,8 @@ function HomeContent() {
 
   const featuredProducts = getProductsWithOffers()
 
-  // Evitar renderizado hasta que esté montado en el cliente
-  if (!mounted) {
-    console.log('⏳ HomeContent no montado aún, mostrando loading...')
+  // Mostrar loading si no está montado o está cargando
+  if (!mounted || loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
@@ -329,13 +320,6 @@ function HomeContent() {
       </div>
     )
   }
-
-  console.log('🎯 HomeContent renderizando con datos:', {
-    products: products.length,
-    ofertas: ofertas.length,
-    loading,
-    mounted
-  })
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100">
@@ -534,19 +518,3 @@ function HomeContent() {
   )
 }
 
-// Exportar con dynamic import para evitar SSR
-export default dynamic(() => Promise.resolve(() => (
-  <ClientOnly>
-    <HomeContent />
-  </ClientOnly>
-)), {
-  ssr: false,
-  loading: () => (
-    <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 flex items-center justify-center">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-violet-600 mx-auto mb-4"></div>
-        <p className="text-slate-600">Cargando...</p>
-      </div>
-    </div>
-  )
-})
