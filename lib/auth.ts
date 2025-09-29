@@ -3,12 +3,28 @@
 export const isAdminLoggedIn = (): boolean => {
   if (typeof window === 'undefined') return false
   
-  const isLoggedIn = localStorage.getItem('adminLoggedIn')
-  const adminUser = localStorage.getItem('adminUser')
-  
-  // La sesión persiste hasta que se cierre manualmente
-  // Solo verificar que ambos valores existan
-  return isLoggedIn === 'true' && adminUser !== null
+  try {
+    const isLoggedIn = localStorage.getItem('adminLoggedIn')
+    const adminUser = localStorage.getItem('adminUser')
+    const loginTime = localStorage.getItem('adminLoginTime')
+    
+    // Verificar que todos los datos de sesión existan
+    const hasValidSession = isLoggedIn === 'true' && 
+                           adminUser !== null && 
+                           adminUser.trim() !== '' &&
+                           loginTime !== null
+    
+    if (hasValidSession) {
+      console.log('🔐 Sesión válida encontrada:', { adminUser, loginTime })
+      return true
+    } else {
+      console.log('❌ Sesión inválida o expirada')
+      return false
+    }
+  } catch (error) {
+    console.error('❌ Error verificando sesión:', error)
+    return false
+  }
 }
 
 export const getAdminUser = (): string | null => {

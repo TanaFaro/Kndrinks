@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { logoutAdmin } from '@/lib/auth'
 import { useAuth } from '@/lib/useAuth'
 import Link from 'next/link'
+import ProtectedRoute from '@/components/ProtectedRoute'
 
 interface Product {
   id: number
@@ -20,7 +20,7 @@ export default function AdminDashboard() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const router = useRouter()
-  const { isAuthenticated, user, loading: authLoading } = useAuth()
+  const { isAuthenticated, user, loading: authLoading, logout } = useAuth()
 
   useEffect(() => {
     // Verificar autenticación
@@ -85,7 +85,7 @@ export default function AdminDashboard() {
   }, [router, isAuthenticated, authLoading])
 
   const handleLogout = () => {
-    logoutAdmin()
+    logout()
     router.push('/admin')
   }
 
