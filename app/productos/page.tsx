@@ -70,7 +70,7 @@ export default function Productos() {
     setLoading(false)
   }, [])
 
-  const categories = ['Todas', ...new Set(products.map(product => product.category))]
+  const categories = ['Todas', ...Array.from(new Set(products.map(product => product.category)))]
 
   const filteredProducts = selectedCategory === 'Todas'
     ? products
