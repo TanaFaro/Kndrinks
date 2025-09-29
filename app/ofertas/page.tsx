@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { normalizeImagePath, handleImageError, handleImageLoad } from '@/lib/imageUtils'
 import dynamic from 'next/dynamic'
+import ClientOnly from '@/components/ClientOnly'
 
 interface Product {
   id: number
@@ -454,7 +455,11 @@ function OfertasContent() {
 }
 
 // Exportar con dynamic import para evitar SSR
-export default dynamic(() => Promise.resolve(OfertasContent), {
+export default dynamic(() => Promise.resolve(() => (
+  <ClientOnly>
+    <OfertasContent />
+  </ClientOnly>
+)), {
   ssr: false,
   loading: () => (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 flex items-center justify-center">
