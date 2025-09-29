@@ -20,14 +20,21 @@ export default function Productos() {
   const [productsPerPage] = useState(8) // 8 productos por página
 
   useEffect(() => {
+    // Verificar que estamos en el cliente
+    if (typeof window === 'undefined') return
+    
     // Cargar productos desde localStorage
     const savedProducts = localStorage.getItem('products')
     console.log('Productos guardados en localStorage:', savedProducts)
     
     if (savedProducts) {
-      const parsedProducts = JSON.parse(savedProducts)
-      console.log('Productos parseados:', parsedProducts)
-      setProducts(parsedProducts)
+      try {
+        const parsedProducts = JSON.parse(savedProducts)
+        console.log('Productos parseados:', parsedProducts)
+        setProducts(parsedProducts)
+      } catch (error) {
+        console.error('Error parsing products:', error)
+      }
     } else {
       console.log('No hay productos guardados, usando productos de ejemplo')
       // Productos de ejemplo si no hay ninguno guardado

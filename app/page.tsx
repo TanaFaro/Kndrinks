@@ -39,16 +39,27 @@ export default function Home() {
 
   useEffect(() => {
     const loadData = () => {
+      // Verificar que estamos en el cliente antes de acceder a localStorage
+      if (typeof window === 'undefined') return
+      
       // Cargar productos y ofertas desde localStorage
       const savedProducts = localStorage.getItem('products')
       const savedOfertas = localStorage.getItem('ofertas')
       
       if (savedProducts) {
-        setProducts(JSON.parse(savedProducts))
+        try {
+          setProducts(JSON.parse(savedProducts))
+        } catch (error) {
+          console.error('Error parsing products:', error)
+        }
       }
       
       if (savedOfertas) {
-        setOfertas(JSON.parse(savedOfertas))
+        try {
+          setOfertas(JSON.parse(savedOfertas))
+        } catch (error) {
+          console.error('Error parsing ofertas:', error)
+        }
       }
       
       setLoading(false)
@@ -56,19 +67,21 @@ export default function Home() {
 
     loadData()
 
-    // Escuchar cambios en localStorage
-    const handleStorageChange = () => {
-      loadData()
-    }
+    // Escuchar cambios en localStorage (solo en el cliente)
+    if (typeof window !== 'undefined') {
+      const handleStorageChange = () => {
+        loadData()
+      }
 
-    window.addEventListener('storage', handleStorageChange)
-    
-    // También recargar cuando se regrese a la página
-    window.addEventListener('focus', loadData)
+      window.addEventListener('storage', handleStorageChange)
+      
+      // También recargar cuando se regrese a la página
+      window.addEventListener('focus', loadData)
 
-    return () => {
-      window.removeEventListener('storage', handleStorageChange)
-      window.removeEventListener('focus', loadData)
+      return () => {
+        window.removeEventListener('storage', handleStorageChange)
+        window.removeEventListener('focus', loadData)
+      }
     }
   }, [])
 

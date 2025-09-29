@@ -43,6 +43,9 @@ export default function Ofertas() {
   }, [])
 
   const loadOfertas = () => {
+    // Verificar que estamos en el cliente
+    if (typeof window === 'undefined') return
+    
     try {
       const savedOfertas = localStorage.getItem('ofertas')
       if (savedOfertas) {
