@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { isAdminLoggedIn } from '@/lib/auth'
+import { auth } from '@/lib/auth'
 import { normalizeImagePath, handleImageError } from '@/lib/imageUtils'
 import Link from 'next/link'
 
@@ -31,7 +31,7 @@ export default function AdminOfertas() {
 
   useEffect(() => {
     // Verificar si el admin está logueado
-    if (!isAdminLoggedIn()) {
+    if (!auth.isLoggedIn()) {
       router.push('/admin')
       return
     }

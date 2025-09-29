@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
-import { isAdminLoggedIn } from '@/lib/auth'
+import { auth } from '@/lib/auth'
 
 interface ComboProduct {
   productId: number
@@ -38,7 +38,7 @@ export default function EditOferta() {
 
   useEffect(() => {
     // Verificar si el admin está logueado
-    if (!isAdminLoggedIn()) {
+    if (!auth.isLoggedIn()) {
       router.push('/admin')
       return
     }
