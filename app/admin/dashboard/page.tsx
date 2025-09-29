@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useSession } from '@/lib/useSession'
+import { useSimpleAuth } from '@/lib/useSimpleAuth'
 import Link from 'next/link'
 import ProtectedRoute from '@/components/ProtectedRoute'
 
@@ -20,7 +20,7 @@ export default function AdminDashboard() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const router = useRouter()
-  const { isAuthenticated, user, loading: authLoading, logout } = useSession()
+  const { isAuthenticated, user, loading: authLoading, logout } = useSimpleAuth()
 
   useEffect(() => {
     // Solo cargar datos si estamos autenticados

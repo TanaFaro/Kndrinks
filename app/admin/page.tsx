@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useSession } from '@/lib/useSession'
+import { useSimpleAuth } from '@/lib/useSimpleAuth'
 
 export default function AdminLogin() {
   const [username, setUsername] = useState('')
@@ -10,7 +10,7 @@ export default function AdminLogin() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
-  const { login } = useSession()
+  const { login } = useSimpleAuth()
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()

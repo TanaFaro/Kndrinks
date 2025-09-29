@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '@/lib/useAuth'
+import { isLoggedIn, getCurrentUser } from '@/lib/simpleAuth'
 
 interface ProtectedRouteProps {
   children: React.ReactNode
@@ -10,15 +10,37 @@ interface ProtectedRouteProps {
 }
 
 export default function ProtectedRoute({ children, fallback }: ProtectedRouteProps) {
-  const { isAuthenticated, loading } = useAuth()
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [loading, setLoading] = useState(true)
   const router = useRouter()
 
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      console.log('🔒 Acceso denegado, redirigiendo al login...')
-      router.push('/admin')
+    // Verificar sesión inicial
+    const checkSession = () => {
+      if (typeof window === 'undefined') {
+        setLoading(false)
+        return
+      }
+
+      const loggedIn = isLoggedIn()
+      console.log('🔒 ProtectedRoute - Verificando sesión:', loggedIn)
+      
+      setIsAuthenticated(loggedIn)
+      setLoading(false)
+
+      if (!loggedIn) {
+        console.log('🔒 Acceso denegado, redirigiendo al login...')
+        router.push('/admin')
+      }
     }
-  }, [isAuthenticated, loading, router])
+
+    checkSession()
+
+    // Verificar cada 3 segundos
+    const interval = setInterval(checkSession, 3000)
+
+    return () => clearInterval(interval)
+  }, [router])
 
   if (loading) {
     return (
