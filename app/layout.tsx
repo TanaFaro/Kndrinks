@@ -34,22 +34,150 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              // Forzar estilos móviles
+              // Forzar estilos móviles ULTRA AGRESIVO
               function forceMobileStyles() {
+                console.log('🔧 Forzando estilos móviles...');
+                console.log('📱 Ancho de pantalla:', window.innerWidth);
+                
                 if (window.innerWidth <= 768) {
+                  console.log('✅ Detectado móvil, aplicando estilos...');
+                  
+                  // Agregar clase al body
                   document.body.classList.add('mobile-forced');
-                  // Forzar recarga de estilos
+                  
+                  // Crear estilos ultra-agresivos
                   const style = document.createElement('style');
+                  style.id = 'mobile-forced-styles';
                   style.textContent = \`
-                    @media (max-width: 768px) {
-                      .hero-buttons { display: flex !important; flex-direction: row !important; }
-                      .products-grid { grid-template-columns: repeat(2, 1fr) !important; }
-                      .ofertas-grid { grid-template-columns: repeat(2, 1fr) !important; }
+                    /* Estilos ultra-agresivos para móviles */
+                    @media screen and (max-width: 768px) {
+                      /* Forzar botones horizontales */
+                      .hero-buttons,
+                      .flex.flex-col.sm\\\\:flex-row {
+                        display: flex !important;
+                        flex-direction: row !important;
+                        gap: 1rem !important;
+                        justify-content: center !important;
+                        align-items: center !important;
+                        flex-wrap: nowrap !important;
+                      }
+                      
+                      /* Forzar grid de 2 columnas */
+                      .products-grid,
+                      .ofertas-grid,
+                      .grid.grid-cols-1.sm\\\\:grid-cols-2.lg\\\\:grid-cols-3 {
+                        display: grid !important;
+                        grid-template-columns: repeat(2, 1fr) !important;
+                        gap: 0.75rem !important;
+                        padding: 0 0.5rem !important;
+                      }
+                      
+                      /* Forzar botones del mismo tamaño */
+                      .hero-button,
+                      .group.bg-gradient-to-r {
+                        padding: 0.75rem 1.5rem !important;
+                        font-size: 1rem !important;
+                        width: auto !important;
+                        min-width: 140px !important;
+                        flex: 0 0 auto !important;
+                        white-space: nowrap !important;
+                      }
+                      
+                      /* Forzar títulos más pequeños */
+                      .hero-title,
+                      h1 {
+                        font-size: 2.5rem !important;
+                        line-height: 1.1 !important;
+                        margin-bottom: 1rem !important;
+                      }
+                      
+                      .hero-subtitle,
+                      p.text-2xl.md\\\\:text-3xl {
+                        font-size: 1.25rem !important;
+                        line-height: 1.4 !important;
+                        margin-bottom: 2rem !important;
+                      }
+                      
+                      /* Forzar tarjetas más pequeñas */
+                      .product-card,
+                      .oferta-card,
+                      .group.bg-violet-50\\\\/80,
+                      .group.bg-white\\\\/90 {
+                        padding: 0.75rem !important;
+                        margin: 0 !important;
+                      }
+                      
+                      /* Forzar imágenes más pequeñas */
+                      .product-card img,
+                      .oferta-card img,
+                      .h-48.sm\\\\:h-56 {
+                        height: 120px !important;
+                        object-fit: cover !important;
+                      }
+                      
+                      /* Forzar títulos de productos */
+                      .product-title,
+                      .oferta-title,
+                      h3 {
+                        font-size: 1rem !important;
+                        line-height: 1.2 !important;
+                        margin-bottom: 0.5rem !important;
+                      }
+                      
+                      /* Forzar precios */
+                      .product-price,
+                      .oferta-price {
+                        font-size: 1.25rem !important;
+                        margin-bottom: 0.75rem !important;
+                      }
+                      
+                      /* Forzar botones de WhatsApp */
+                      .product-card button,
+                      .oferta-card button {
+                        padding: 0.5rem !important;
+                        font-size: 0.875rem !important;
+                      }
+                      
+                      /* Forzar secciones más pequeñas */
+                      section {
+                        padding: 1.5rem 0.5rem !important;
+                      }
+                      
+                      /* Forzar contenedores */
+                      .max-w-6xl {
+                        max-width: 100% !important;
+                        padding: 0 0.5rem !important;
+                      }
+                      
+                      /* Forzar espaciado */
+                      .mb-8, .mb-12, .mb-16 {
+                        margin-bottom: 1rem !important;
+                      }
+                      
+                      .py-24 {
+                        padding-top: 1.5rem !important;
+                        padding-bottom: 1.5rem !important;
+                      }
                     }
                   \`;
+                  
+                  // Remover estilos anteriores si existen
+                  const existingStyle = document.getElementById('mobile-forced-styles');
+                  if (existingStyle) {
+                    existingStyle.remove();
+                  }
+                  
+                  // Agregar nuevos estilos
                   document.head.appendChild(style);
+                  
+                  console.log('✅ Estilos móviles aplicados');
+                } else {
+                  console.log('💻 Detectado desktop, no aplicando estilos móviles');
                 }
               }
+              
+              // Ejecutar inmediatamente
+              forceMobileStyles();
               
               // Ejecutar al cargar
               if (document.readyState === 'loading') {
@@ -60,6 +188,10 @@ export default function RootLayout({
               
               // Ejecutar al redimensionar
               window.addEventListener('resize', forceMobileStyles);
+              
+              // Ejecutar después de un delay para asegurar que se aplique
+              setTimeout(forceMobileStyles, 1000);
+              setTimeout(forceMobileStyles, 3000);
             `,
           }}
         />
