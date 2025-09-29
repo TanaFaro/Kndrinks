@@ -60,7 +60,7 @@ export default function Home() {
           console.error('❌ Error parsing products:', error)
         }
       } else {
-        console.log('⚠️ No hay productos guardados, usando datos de ejemplo')
+        console.log('⚠️ No hay productos guardados, creando datos de ejemplo')
         // Datos de ejemplo si no hay productos guardados
         const exampleProducts = [
           {
@@ -92,6 +92,9 @@ export default function Home() {
           }
         ]
         setProducts(exampleProducts)
+        // Guardar los datos de ejemplo en localStorage
+        localStorage.setItem('products', JSON.stringify(exampleProducts))
+        console.log('💾 Productos de ejemplo guardados en localStorage')
       }
       
       if (savedOfertas) {
@@ -103,7 +106,7 @@ export default function Home() {
           console.error('❌ Error parsing ofertas:', error)
         }
       } else {
-        console.log('⚠️ No hay ofertas guardadas, usando datos de ejemplo')
+        console.log('⚠️ No hay ofertas guardadas, creando datos de ejemplo')
         // Datos de ejemplo si no hay ofertas guardadas
         const exampleOfertas = [
           {
@@ -136,6 +139,9 @@ export default function Home() {
           }
         ]
         setOfertas(exampleOfertas)
+        // Guardar los datos de ejemplo en localStorage
+        localStorage.setItem('ofertas', JSON.stringify(exampleOfertas))
+        console.log('💾 Ofertas de ejemplo guardadas en localStorage')
       }
       
       setLoading(false)
@@ -146,17 +152,23 @@ export default function Home() {
     // Escuchar cambios en localStorage (solo en el cliente)
     if (typeof window !== 'undefined') {
       const handleStorageChange = () => {
+        console.log('🔄 Cambio detectado en localStorage, recargando datos...')
         loadData()
       }
 
+      // Escuchar cambios en localStorage
       window.addEventListener('storage', handleStorageChange)
       
       // También recargar cuando se regrese a la página
       window.addEventListener('focus', loadData)
+      
+      // Escuchar cambios personalizados
+      window.addEventListener('dataUpdated', loadData)
 
       return () => {
         window.removeEventListener('storage', handleStorageChange)
         window.removeEventListener('focus', loadData)
+        window.removeEventListener('dataUpdated', loadData)
       }
     }
   }, [])

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { isAdminLoggedIn } from '@/lib/auth'
 import { normalizeImagePath } from '@/lib/imageUtils'
 import { useImageRefresh } from '@/lib/useImageRefresh'
+import { saveOfertas, notifyDataChange } from '@/lib/dataSync'
 
 interface ComboProduct {
   productId: number
@@ -251,7 +252,7 @@ export default function NewOferta() {
       console.log('✅ Nuevo combo creado:', newOferta)
       console.log('🖼️ Imagen guardada:', imagePath)
       ofertas.push(newOferta)
-      localStorage.setItem('ofertas', JSON.stringify(ofertas))
+      saveOfertas(ofertas)
       console.log('✅ Combo guardado exitosamente')
       console.log('📦 Total de ofertas guardadas:', ofertas.length)
       alert('¡Combo creado exitosamente!')

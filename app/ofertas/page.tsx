@@ -40,6 +40,29 @@ export default function Ofertas() {
 
   useEffect(() => {
     loadOfertas()
+    
+    // Escuchar cambios en localStorage
+    if (typeof window !== 'undefined') {
+      const handleStorageChange = () => {
+        console.log('🔄 Cambio detectado en localStorage, recargando ofertas...')
+        loadOfertas()
+      }
+
+      // Escuchar cambios en localStorage
+      window.addEventListener('storage', handleStorageChange)
+      
+      // También recargar cuando se regrese a la página
+      window.addEventListener('focus', loadOfertas)
+      
+      // Escuchar cambios personalizados
+      window.addEventListener('dataUpdated', loadOfertas)
+
+      return () => {
+        window.removeEventListener('storage', handleStorageChange)
+        window.removeEventListener('focus', loadOfertas)
+        window.removeEventListener('dataUpdated', loadOfertas)
+      }
+    }
   }, [])
 
   // Función para convertir prioridad a estrellas
@@ -105,7 +128,7 @@ export default function Ofertas() {
         setOfertas(sortedOfertas)
         console.log('✅ Combos cargados:', activeOfertas)
       } else {
-        console.log('⚠️ No hay ofertas guardadas, usando datos de ejemplo')
+        console.log('⚠️ No hay ofertas guardadas, creando datos de ejemplo')
         // Datos de ejemplo si no hay ofertas guardadas
         const exampleOfertas = [
           {
@@ -152,6 +175,9 @@ export default function Ofertas() {
           }
         ]
         setOfertas(exampleOfertas)
+        // Guardar los datos de ejemplo en localStorage
+        localStorage.setItem('ofertas', JSON.stringify(exampleOfertas))
+        console.log('💾 Ofertas de ejemplo guardadas en localStorage')
       }
     } catch (error) {
       console.error('❌ Error cargando combos:', error)

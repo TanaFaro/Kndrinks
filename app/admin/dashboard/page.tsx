@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useSimpleAuth } from '@/lib/useSimpleAuth'
 import Link from 'next/link'
 import ProtectedRoute from '@/components/ProtectedRoute'
+import { saveProducts, notifyDataChange } from '@/lib/dataSync'
 
 interface Product {
   id: number
@@ -56,7 +57,7 @@ export default function AdminDashboard() {
   const deleteProduct = (id: number) => {
     const updatedProducts = products.filter(product => product.id !== id)
     setProducts(updatedProducts)
-    localStorage.setItem('products', JSON.stringify(updatedProducts))
+    saveProducts(updatedProducts)
   }
 
   if (loading) {
