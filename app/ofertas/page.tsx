@@ -150,13 +150,6 @@ export default function Ofertas() {
                 const individualPrice = calculateIndividualPrice(oferta.comboProducts)
                 return (
                   <div key={oferta.id} className={`oferta-card group bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105 border ${oferta.featured ? 'border-yellow-400/50 shadow-yellow-200/50' : 'border-violet-200/30'}`}>
-                    {/* Badge de destacado */}
-                    {oferta.featured && (
-                      <div className="absolute top-4 left-4 z-10 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
-                        ⭐ DESTACADO
-                      </div>
-                    )}
-                    
                     {/* Badge de popularidad con estrellas */}
                     {oferta.priority && oferta.priority >= 2 && (
                       <div className="absolute top-4 right-4 z-10 bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
