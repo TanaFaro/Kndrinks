@@ -39,7 +39,7 @@ export default function Productos() {
         price: 4500,
         category: "Licores",
         stock: 30,
-        image: "/images/fernet-750.jfif",
+        image: "/images/fernet750.jfif",
         description: "Fernet italiano de alta calidad"
       },
       {
@@ -57,7 +57,7 @@ export default function Productos() {
         price: 3500,
         category: "Licores",
         stock: 20,
-        image: "/images/Smirnoff-solo.jpeg",
+        image: "/images/Smirnoffsolo.jpeg",
         description: "Vodka ruso premium"
       },
       {
@@ -66,7 +66,7 @@ export default function Productos() {
         price: 1200,
         category: "Bebidas",
         stock: 40,
-        image: "/images/pritty-2-250.jfif",
+        image: "/images/pritty2250.jfif",
         description: "Gaseosa sabor limón"
       },
       {
@@ -75,7 +75,7 @@ export default function Productos() {
         price: 1800,
         category: "Bebidas",
         stock: 30,
-        image: "/images/pritty-de-3lts.webp",
+        image: "/images/prittyde3lts.webp",
         description: "Gaseosa sabor limón 3 litros"
       },
       {
@@ -93,7 +93,7 @@ export default function Productos() {
         price: 800,
         category: "Bebidas",
         stock: 60,
-        image: "/images/coca-descartable.jpg",
+        image: "/images/cocadescartable.jpg",
         description: "Coca Cola en botella descartable"
       },
       {
@@ -102,7 +102,7 @@ export default function Productos() {
         price: 1500,
         category: "Bebidas",
         stock: 40,
-        image: "/images/Speed-XL.webp",
+        image: "/images/SpeedXL.webp",
         description: "Bebida energética XL"
       },
       {
@@ -120,7 +120,7 @@ export default function Productos() {
         price: 6500,
         category: "Licores",
         stock: 15,
-        image: "/images/DU-Renaissance.jfif",
+        image: "/images/DURenaissance.jfif",
         description: "Vodka premium francés"
       },
       {
@@ -129,7 +129,7 @@ export default function Productos() {
         price: 2200,
         category: "Vinos",
         stock: 25,
-        image: "/images/VINO-VINA-DE-BALBO-TINTO.png",
+        image: "/images/VINOVINADEBALBO.png",
         description: "Vino tinto premium"
       },
       {
@@ -138,7 +138,7 @@ export default function Productos() {
         price: 2200,
         category: "Vinos",
         stock: 30,
-        image: "/images/vino-toro.jfif",
+        image: "/images/vinotoro.jfif",
         description: "Vino tinto de calidad"
       }
     ]
