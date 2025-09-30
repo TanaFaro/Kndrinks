@@ -75,7 +75,7 @@ export default function Productos() {
         price: 1800,
         category: "Bebidas",
         stock: 30,
-        image: "/images/prittyde3lts.webp",
+        image: "/images/pritty-de-3-lts.webp",
         description: "Gaseosa sabor limón 3 litros"
       },
       {
@@ -102,7 +102,7 @@ export default function Productos() {
         price: 1500,
         category: "Bebidas",
         stock: 40,
-        image: "/images/SpeedXL.webp",
+        image: "/images/Speed-XL.webp",
         description: "Bebida energética XL"
       },
       {

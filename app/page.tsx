@@ -85,7 +85,7 @@ const STATIC_PRODUCTS: Product[] = [
     price: 1800,
     category: "Bebidas",
     stock: 30,
-    image: "/images/prittyde3lts.webp",
+    image: "/images/pritty-de-3-lts.webp",
     description: "Gaseosa sabor limón 3 litros"
   },
   {
@@ -112,7 +112,7 @@ const STATIC_PRODUCTS: Product[] = [
     price: 1500,
     category: "Bebidas",
     stock: 40,
-    image: "/images/SpeedXL.webp",
+    image: "/images/Speed-XL.webp",
     description: "Bebida energética XL"
   },
   {
@@ -243,7 +243,7 @@ export default function Home() {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     onError={(e) => {
                       console.error('Error cargando imagen:', product.image)
-                      e.currentTarget.style.display = 'none'
+                      e.currentTarget.src = '/images/Logo Bebidas.jpeg'
                     }}
                   />
                 </div>
