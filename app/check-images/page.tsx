@@ -7,7 +7,7 @@ export default function CheckImages() {
       '/images/fernet-750.jfif',
       '/images/skyy.png',
       '/images/Gancia.jfif',
-      '/images/Logo Bebidas.jpeg'
+      '/images/LogoBebidas.jpeg'
     ]
 
     console.log('🔍 Verificando acceso directo a imágenes...')
@@ -55,7 +55,7 @@ export default function CheckImages() {
             <div className="border p-4">
               <h3 className="font-semibold">Logo (debería funcionar)</h3>
               <img 
-                src="/images/Logo Bebidas.jpeg" 
+                src="/images/LogoBebidas.jpeg" 
                 alt="Logo"
                 className="w-32 h-32 object-cover border"
                 onError={(e) => {

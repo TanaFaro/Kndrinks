@@ -20,7 +20,7 @@ const IMAGE_MAPPING: Record<string, Omit<ImageInfo, 'name' | 'path'>> = {
   'pritty de 3lts.webp': { category: 'Bebidas', price: 1800, description: 'Gaseosa sabor limón 3 litros' },
   'Speed XL.webp': { category: 'Bebidas', price: 1500, description: 'Bebida energética XL' },
   'VINO-VINA-DE-BALBO-TINTO.png': { category: 'Vinos', price: 2200, description: 'Vino tinto premium' },
-  'Logo Bebidas.jpeg': { category: 'Otros', price: 0, description: 'Logo de la empresa' },
+  'LogoBebidas.jpeg': { category: 'Otros', price: 0, description: 'Logo de la empresa' },
   'skyy mas speed.jfif': { category: 'Combos', price: 4800, description: 'Combo Skyy + Speed' },
   'Smirnoff mas 2 speed.png': { category: 'Combos', price: 5500, description: 'Combo Smirnoff + 2 Speed' },
   'Du con speed.jfif': { category: 'Combos', price: 7500, description: 'Combo Du + Speed' },

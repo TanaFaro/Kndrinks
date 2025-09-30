@@ -152,7 +152,7 @@ export default function EditOferta() {
                 </svg>
               </Link>
               <img 
-                src="/images/Logo Bebidas.jpeg" 
+                src="/images/LogoBebidas.jpeg" 
                 alt="KNDrinks Logo" 
                 className="h-12 w-auto object-contain rounded-lg"
               />

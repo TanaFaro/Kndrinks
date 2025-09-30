@@ -116,7 +116,7 @@ export default function ClearAndFixOfertas() {
             { productId: 5, productName: "Pritty Limón 2.25L", quantity: 1, price: 1200 }
           ],
           finalPrice: 4000,
-          image: "/images/VINOVINADEBALBO.png",
+          image: "/images/balbomaspritty.png",
           category: "Combos",
           active: true,
           featured: false,

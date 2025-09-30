@@ -29,7 +29,7 @@ const Header = () => {
             {/* Logo */}
             <Link href="/" className="flex items-center">
               <img 
-                src="/images/Logo Bebidas.jpeg" 
+                src="/images/LogoBebidas.jpeg" 
                 alt="KNDrinks Logo" 
                 className="h-12 sm:h-16 w-auto object-contain rounded-xl"
               />

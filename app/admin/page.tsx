@@ -37,7 +37,7 @@ export default function AdminLogin() {
           <div className="text-center mb-8">
             <a href="/" className="cursor-pointer hover:opacity-80 transition-opacity inline-block">
               <img 
-                src="/images/Logo Bebidas.jpeg" 
+                src="/images/LogoBebidas.jpeg" 
                 alt="KNDrinks Logo" 
                 className="h-20 w-auto object-contain mx-auto mb-4 rounded-xl"
               />

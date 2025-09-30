@@ -6,7 +6,7 @@ export default function TestImages() {
     { name: 'Fernet', src: '/images/fernet-750.jfif' },
     { name: 'Skyy', src: '/images/skyy.png' },
     { name: 'Gancia', src: '/images/Gancia.jfif' },
-    { name: 'Logo (debería funcionar)', src: '/images/Logo Bebidas.jpeg' }
+    { name: 'Logo (debería funcionar)', src: '/images/LogoBebidas.jpeg' }
   ]
 
   return (

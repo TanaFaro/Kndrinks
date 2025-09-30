@@ -12,7 +12,7 @@ export default function DebugOfertasImages() {
     { name: "Smirnoff + 2 Speed", path: "/images/Smirnoffmas2speed.png" },
     { name: "Fernet + Coca Descartable", path: "/images/fernetmascocadescartable.jpg" },
     { name: "Vino Toro + Pritty", path: "/images/vinotoromaspritty.jpg" },
-    { name: "Viña de Balbo + Pritty", path: "/images/viñadebalbomaspritty.png" }
+    { name: "Viña de Balbo + Pritty", path: "/images/balbomaspritty.png" }
   ]
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function DebugOfertasImages() {
                   alt={image.name}
                   className="w-full h-48 object-cover rounded-lg border-2 border-gray-200"
                   onError={(e) => {
-                    e.currentTarget.src = '/images/Logo Bebidas.jpeg'
+                    e.currentTarget.src = '/images/LogoBebidas.jpeg'
                   }}
                 />
               </div>

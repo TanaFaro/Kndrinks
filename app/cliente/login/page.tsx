@@ -50,7 +50,7 @@ export default function ClienteLogin() {
         <div className="text-center">
           <Link href="/" className="inline-block mb-6">
             <img 
-              src="/images/Logo Bebidas.jpeg" 
+              src="/images/LogoBebidas.jpeg" 
               alt="KNDrinks Logo" 
               className="h-16 w-auto object-contain rounded-xl mx-auto"
             />

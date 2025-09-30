@@ -58,7 +58,7 @@ export default function ClienteDashboard() {
               </Link>
               <a href="/" className="cursor-pointer hover:opacity-80 transition-opacity">
                 <img 
-                  src="/images/Logo Bebidas.jpeg" 
+                  src="/images/LogoBebidas.jpeg" 
                   alt="KNDrinks Logo" 
                   className="h-12 w-auto object-contain rounded-lg"
                 />

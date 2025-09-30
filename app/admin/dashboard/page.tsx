@@ -89,7 +89,7 @@ export default function AdminDashboard() {
             <div className="flex items-center space-x-4">
               <a href="/" className="cursor-pointer hover:opacity-80 transition-opacity">
                 <img 
-                  src="/images/Logo Bebidas.jpeg" 
+                  src="/images/LogoBebidas.jpeg" 
                   alt="KNDrinks Logo" 
                   className="h-12 w-auto object-contain rounded-lg"
                 />

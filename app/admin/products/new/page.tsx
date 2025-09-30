@@ -66,7 +66,7 @@ export default function NewProduct() {
         price: parseFloat(formData.price),
         category: formData.category,
         stock: parseInt(formData.stock),
-        image: formData.image || '/images/Logo Bebidas.jpeg',
+        image: formData.image || '/images/LogoBebidas.jpeg',
         description: formData.description
       }
 
@@ -123,7 +123,7 @@ export default function NewProduct() {
                 </svg>
               </Link>
               <img 
-                src="/images/Logo Bebidas.jpeg" 
+                src="/images/LogoBebidas.jpeg" 
                 alt="KNDrinks Logo" 
                 className="h-12 w-auto object-contain rounded-lg"
               />

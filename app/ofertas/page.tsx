@@ -70,8 +70,8 @@ export default function Ofertas() {
               '/images/sky mas speed.jfif': '/images/skyymasspeed.jfif',
               '/images/skyy mas speed.jfif': '/images/skyymasspeed.jfif',
               '/images/Du con speed.jfif': '/images/Duconspeed.jfif',
-              '/images/viña de balbo mas pritty.png': '/images/VINOVINADEBALBO.png',
-              '/images/vi%C3%B1a%20de%20balbo%20mas%20pritty.png': '/images/VINOVINADEBALBO.png'
+              '/images/viña de balbo mas pritty.png': '/images/balbomaspritty.png',
+              '/images/vi%C3%B1a%20de%20balbo%20mas%20pritty.png': '/images/balbomaspritty.png'
             }
             
             if (correcciones[oferta.image]) {
@@ -190,7 +190,7 @@ export default function Ofertas() {
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         onError={(e) => {
                           console.error('❌ Error cargando imagen de oferta:', oferta.title, oferta.image)
-                          e.currentTarget.src = '/images/Logo Bebidas.jpeg'
+                          e.currentTarget.src = '/images/LogoBebidas.jpeg'
                         }}
                         onLoad={() => {
                           console.log('✅ Imagen de oferta cargada:', oferta.title, oferta.image)

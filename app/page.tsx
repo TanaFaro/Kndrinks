@@ -85,7 +85,7 @@ const STATIC_PRODUCTS: Product[] = [
     price: 1800,
     category: "Bebidas",
     stock: 30,
-    image: "/images/pritty-de-3-lts.webp",
+    image: "/images/prittyde3lts.webp",
     description: "Gaseosa sabor limón 3 litros"
   },
   {
@@ -112,7 +112,7 @@ const STATIC_PRODUCTS: Product[] = [
     price: 1500,
     category: "Bebidas",
     stock: 40,
-    image: "/images/Speed-XL.webp",
+    image: "/images/SpeedXL.webp",
     description: "Bebida energética XL"
   },
   {
@@ -139,7 +139,7 @@ const STATIC_PRODUCTS: Product[] = [
     price: 2200,
     category: "Vinos",
     stock: 25,
-    image: "/images/VINOVINADEBALBO.png",
+    image: "/images/balbo.png",
     description: "Vino tinto premium"
   },
   {
@@ -243,7 +243,7 @@ export default function Home() {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     onError={(e) => {
                       console.error('Error cargando imagen:', product.image)
-                      e.currentTarget.src = '/images/Logo Bebidas.jpeg'
+                      e.currentTarget.src = '/images/LogoBebidas.jpeg'
                     }}
                   />
                 </div>

@@ -75,7 +75,7 @@ export default function Productos() {
         price: 1800,
         category: "Bebidas",
         stock: 30,
-        image: "/images/pritty-de-3-lts.webp",
+        image: "/images/prittyde3lts.webp",
         description: "Gaseosa sabor limón 3 litros"
       },
       {
@@ -102,7 +102,7 @@ export default function Productos() {
         price: 1500,
         category: "Bebidas",
         stock: 40,
-        image: "/images/Speed-XL.webp",
+        image: "/images/SpeedXL.webp",
         description: "Bebida energética XL"
       },
       {
@@ -129,7 +129,7 @@ export default function Productos() {
         price: 2200,
         category: "Vinos",
         stock: 25,
-        image: "/images/VINOVINADEBALBO.png",
+        image: "/images/balbo.png",
         description: "Vino tinto premium"
       },
       {
@@ -229,7 +229,7 @@ export default function Productos() {
                       src={product.image} 
                       alt={product.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      onError={(e) => e.currentTarget.src = '/images/Logo Bebidas.jpeg'} // Fallback image
+                      onError={(e) => e.currentTarget.src = '/images/LogoBebidas.jpeg'} // Fallback image
                     />
                   </div>
                   <div className="p-8">

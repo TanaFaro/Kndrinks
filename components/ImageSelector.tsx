@@ -107,7 +107,7 @@ export default function ImageSelector({ onImageSelect, selectedImage, label = "S
               alt={`Imagen ${index + 1}`}
               className="w-full h-16 object-cover"
               onError={(e) => {
-                e.currentTarget.src = '/images/Logo Bebidas.jpeg'
+                e.currentTarget.src = '/images/LogoBebidas.jpeg'
               }}
             />
             

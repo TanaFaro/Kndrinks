@@ -24,7 +24,7 @@ export default function Contacto() {
               <div className="mb-8 flex justify-center lg:justify-start">
                 <a href="/" className="cursor-pointer hover:opacity-80 transition-opacity">
                   <img 
-                    src="/images/Logo Bebidas.jpeg" 
+                    src="/images/LogoBebidas.jpeg" 
                     alt="KNDrinks Logo" 
                     className="h-56 w-auto object-contain drop-shadow-2xl rounded-2xl"
                   />

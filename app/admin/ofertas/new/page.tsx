@@ -597,7 +597,7 @@ export default function NewOferta() {
                       <div key={comboProduct.productId} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                         <div className="flex items-center gap-3">
                           <img
-                            src={product?.image || '/images/Logo Bebidas.jpeg'}
+                            src={product?.image || '/images/LogoBebidas.jpeg'}
                             alt={product?.name}
                             className="w-10 h-10 object-cover rounded-lg"
                           />
@@ -652,7 +652,7 @@ export default function NewOferta() {
                         className="w-full h-48 object-cover rounded-xl border-2 border-violet-200"
                         onError={(e) => {
                           console.log('❌ Error cargando imagen en vista previa:', selectedImage)
-                          e.currentTarget.src = '/images/Logo Bebidas.jpeg'
+                          e.currentTarget.src = '/images/LogoBebidas.jpeg'
                         }}
                         onLoad={() => {
                           console.log('✅ Imagen de vista previa cargada:', selectedImage)
@@ -748,7 +748,7 @@ export default function NewOferta() {
                           alt={product.name}
                           className="w-12 h-12 object-cover rounded-lg"
                           onError={(e) => {
-                            e.currentTarget.src = '/images/Logo Bebidas.jpeg'
+                            e.currentTarget.src = '/images/LogoBebidas.jpeg'
                           }}
                         />
                         <div className="flex-1 min-w-0">
