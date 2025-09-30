@@ -122,8 +122,8 @@ export default function Ofertas() {
                     />
                     {oferta.featured && (
                       <div className="absolute top-4 right-4 bg-violet-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                        ⭐ DESTACADO
-                      </div>
+                      ⭐ POPULAR
+                    </div>
                     )}
                     {oferta.priority && (
                       <div className="absolute top-4 left-4 bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-bold">
