@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test de Imágenes</title>
+</head>
+<body>
+    <h1>Test de Imágenes</h1>
+    
+    <h2>Imágenes directas:</h2>
+    <img src="/images/cocacola.jfif" alt="Coca Cola" style="width: 200px; height: 200px; border: 1px solid #ccc;">
+    <br><br>
+    <img src="/images/fernet 750.jfif" alt="Fernet" style="width: 200px; height: 200px; border: 1px solid #ccc;">
+    <br><br>
+    <img src="/images/skyy.png" alt="Skyy" style="width: 200px; height: 200px; border: 1px solid #ccc;">
+    <br><br>
+    <img src="/images/Gancia.jfif" alt="Gancia" style="width: 200px; height: 200px; border: 1px solid #ccc;">
+    
+    <script>
+        // Verificar si las imágenes se cargan
+        document.querySelectorAll('img').forEach(img => {
+            img.onload = function() {
+                console.log('Imagen cargada:', this.src);
+            };
+            img.onerror = function() {
+                console.error('Error cargando imagen:', this.src);
+                this.style.border = '2px solid red';
+            };
+        });
+    </script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useCartStore } from '@/store/cartStore'
-import Image from 'next/image'
+// import Image from 'next/image'
 
 interface Product {
   id: number
@@ -397,12 +397,14 @@ export default function Home() {
             {STATIC_PRODUCTS.map((product) => (
               <div key={product.id} className="product-card group">
                 <div className="bg-gradient-to-br from-violet-100 via-purple-100 to-indigo-100 flex items-center justify-center group-hover:from-violet-200 group-hover:via-purple-200 group-hover:to-indigo-200 transition-all duration-500 relative overflow-hidden">
-                  <Image
+                  <img
                     src={product.image}
                     alt={product.name}
-                    width={300}
-                    height={300}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    onError={(e) => {
+                      console.error('Error cargando imagen:', product.image)
+                      e.currentTarget.style.display = 'none'
+                    }}
                   />
                 </div>
                 <div>
@@ -470,12 +472,14 @@ export default function Home() {
                 )}
                 
                 <div className="bg-gradient-to-br from-violet-100 via-purple-100 to-indigo-100 flex items-center justify-center group-hover:from-violet-200 group-hover:via-purple-200 group-hover:to-indigo-200 transition-all duration-500 relative overflow-hidden">
-                    <Image
+                    <img
                       src={oferta.image}
                       alt={oferta.title}
-                      width={300}
-                      height={300}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      onError={(e) => {
+                        console.error('Error cargando imagen de oferta:', oferta.image)
+                        e.currentTarget.style.display = 'none'
+                      }}
                     />
                 </div>
                 <div>
