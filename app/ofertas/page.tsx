@@ -48,7 +48,32 @@ const getPopularityText = (priority?: number): string => {
 export default function Ofertas() {
   const [ofertas, setOfertas] = useState<Oferta[]>([])
   const [loading, setLoading] = useState(true)
+  const [isAdmin, setIsAdmin] = useState(false)
   const { addItem } = useCartStore()
+
+  // Función para eliminar una oferta
+  const handleDeleteOferta = (id: number) => {
+    if (window.confirm('¿Estás seguro de que quieres eliminar esta oferta?')) {
+      const updatedOfertas = ofertas.filter(oferta => oferta.id !== id)
+      setOfertas(updatedOfertas)
+      localStorage.setItem('ofertas', JSON.stringify(updatedOfertas))
+      console.log('🗑️ Oferta eliminada:', id)
+    }
+  }
+
+  // Función para editar una oferta (redirigir a la página de edición)
+  const handleEditOferta = (id: number) => {
+    window.location.href = `/admin/ofertas/edit/${id}`
+  }
+
+  // Verificar si es administrador
+  useEffect(() => {
+    const checkAdminStatus = () => {
+      const isAdminUser = localStorage.getItem('isAdmin') === 'true'
+      setIsAdmin(isAdminUser)
+    }
+    checkAdminStatus()
+  }, [])
 
   useEffect(() => {
     // Cargar ofertas desde localStorage
@@ -141,6 +166,160 @@ export default function Ofertas() {
     )
   }
 
+  // Vista para administradores
+  if (isAdmin) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100">
+        {/* Header Admin */}
+        <div className="bg-white shadow-sm border-b border-gray-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center py-6">
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900">Ofertas</h1>
+                <p className="text-gray-600">Lista de todas las ofertas</p>
+              </div>
+              <button
+                onClick={() => window.location.href = '/admin/ofertas/new'}
+                className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300"
+              >
+                Nueva Oferta
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Lista de Ofertas Admin */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {ofertas.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {ofertas.map((oferta) => {
+                const individualPrice = calculateIndividualPrice(oferta.comboProducts)
+                return (
+                  <div key={oferta.id} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    {/* Imagen */}
+                    <div className="h-48 bg-gradient-to-br from-violet-100 via-purple-100 to-indigo-100 flex items-center justify-center relative overflow-hidden">
+                      <img 
+                        src={oferta.image} 
+                        alt={oferta.title}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          console.error('❌ Error cargando imagen de oferta:', oferta.title, oferta.image)
+                          e.currentTarget.src = '/images/LogoBebidas.jpeg'
+                        }}
+                        onLoad={() => {
+                          console.log('✅ Imagen de oferta cargada:', oferta.title, oferta.image)
+                        }}
+                      />
+                      {/* Badge de estado */}
+                      <div className="absolute top-3 right-3">
+                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                          oferta.active 
+                            ? 'bg-green-500 text-white' 
+                            : 'bg-red-500 text-white'
+                        }`}>
+                          {oferta.active ? 'Activa' : 'Inactiva'}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Contenido */}
+                    <div className="p-6">
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="text-xl font-bold text-gray-900">{oferta.title}</h3>
+                        {oferta.priority && oferta.priority >= 2 && (
+                          <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-2 py-1 rounded-full text-xs font-bold">
+                            {getPriorityStars(oferta.priority)} {getPopularityText(oferta.priority)}
+                          </div>
+                        )}
+                      </div>
+                      
+                      <p className="text-gray-600 text-sm mb-4">{oferta.description}</p>
+                      
+                      {/* Categoría */}
+                      <div className="mb-4">
+                        <span className="bg-blue-500 text-white text-sm font-bold px-3 py-1 rounded-full">
+                          {oferta.category}
+                        </span>
+                      </div>
+
+                      {/* Precios */}
+                      <div className="mb-4">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-sm text-gray-500">Precio individual:</span>
+                          <span className="text-sm text-gray-600 line-through">
+                            ${individualPrice.toLocaleString()}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-sm text-gray-500">Precio combo:</span>
+                          <span className="text-2xl font-bold text-violet-600">
+                            ${oferta.finalPrice.toLocaleString()}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-green-600 font-semibold">Ahorro:</span>
+                          <span className="text-sm text-green-600 font-semibold">
+                            ${(individualPrice - oferta.finalPrice).toLocaleString()}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Productos incluidos */}
+                      <div className="mb-6">
+                        <p className="text-sm text-gray-500 mb-2">Incluye:</p>
+                        <div className="space-y-1">
+                          {oferta.comboProducts.slice(0, 2).map((product, index) => (
+                            <div key={index} className="text-sm text-gray-600">
+                              {product.quantity}x {product.name}
+                            </div>
+                          ))}
+                          {oferta.comboProducts.length > 2 && (
+                            <div className="text-sm text-gray-500">
+                              +{oferta.comboProducts.length - 2} más...
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Botones de acción */}
+                      <div className="flex space-x-3">
+                        <button
+                          onClick={() => handleEditOferta(oferta.id)}
+                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition-colors duration-200"
+                        >
+                          Editar
+                        </button>
+                        <button
+                          onClick={() => handleDeleteOferta(oferta.id)}
+                          className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-xl transition-colors duration-200"
+                        >
+                          Eliminar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <div className="text-6xl mb-6">🍷</div>
+              <h3 className="text-2xl font-bold text-gray-600 mb-4">No hay ofertas disponibles</h3>
+              <p className="text-gray-500 mb-8">Crea tu primera oferta para comenzar</p>
+              <button
+                onClick={() => window.location.href = '/admin/ofertas/new'}
+                className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300"
+              >
+                Crear Nueva Oferta
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  // Vista para clientes (vista original)
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100">
       {/* Header Moderno */}
