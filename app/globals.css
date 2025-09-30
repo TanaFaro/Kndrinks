@@ -26,483 +26,367 @@
   .btn-outline {
     @apply border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200;
   }
-  
-  .card {
-    @apply bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300;
-  }
-  
-  .input-field {
-    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200;
-  }
-  
-  .badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
-  }
-  
-  .badge-discount {
-    @apply bg-red-100 text-red-800;
-  }
-  
-  .badge-new {
-    @apply bg-green-100 text-green-800;
-  }
-  
-  .badge-stock {
-    @apply bg-blue-100 text-blue-800;
-  }
 }
 
 @layer utilities {
   .text-gradient {
     @apply bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent;
   }
-  
-  .shadow-soft {
-    box-shadow: 0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04);
-  }
-  
-  .glass-effect {
-    @apply bg-white/80 backdrop-blur-sm border border-white/20;
-  }
 }
 
-/* Animaciones personalizadas */
-.fade-in-up {
-  animation: fadeInUp 0.6s ease-out;
+
+
+/* ===========================================
+   MOBILE FIRST APPROACH - ESTILOS BASE (MÓVILES)
+   =========================================== */
+
+/* Estilos base para móviles (sin media query) */
+.hero-section {
+  @apply py-12 px-4 text-center;
+  min-height: 60vh;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.hero-title {
+  @apply text-3xl font-bold mb-4;
+  line-height: 1.1;
 }
 
-/* Scrollbar personalizada */
-::-webkit-scrollbar {
-  width: 8px;
+.hero-subtitle {
+  @apply text-lg mb-6;
+  line-height: 1.4;
 }
 
-::-webkit-scrollbar-track {
-  @apply bg-gray-100;
+.hero-buttons {
+  @apply flex flex-col gap-3 justify-center items-center;
 }
 
-::-webkit-scrollbar-thumb {
-  @apply bg-primary-400 rounded-full;
+.hero-button {
+  @apply py-3 px-6 rounded-xl font-bold text-base shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105;
+  width: 100%;
+  max-width: 200px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-primary-600;
+/* Grid de productos - 1 columna en móviles */
+.products-grid {
+  @apply grid grid-cols-1 gap-4 px-2;
 }
 
-/* Estilos específicos para tablets */
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-  /* Forzar 3 columnas en tablets */
-  .products-grid,
-  .ofertas-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 1rem !important;
-    padding: 0 1rem !important;
-  }
-
-  .product-card,
-  .oferta-card {
-    padding: 1rem !important;
-    margin: 0 !important;
-  }
-
-  .product-title,
-  .oferta-title {
-    font-size: 1.125rem !important;
-    line-height: 1.3 !important;
-    margin-bottom: 0.75rem !important;
-  }
-
-  .product-price,
-  .oferta-price {
-    font-size: 1.5rem !important;
-    margin-bottom: 1rem !important;
-  }
-
-  .product-card img,
-  .oferta-card img {
-    height: 140px !important;
-    object-fit: cover !important;
-  }
-
-  .product-card button,
-  .oferta-card button {
-    padding: 0.75rem !important;
-    font-size: 0.875rem !important;
-  }
-
-  /* Títulos de secciones */
-  h2 {
-    font-size: 2.25rem !important;
-    margin-bottom: 1.5rem !important;
-  }
-
-  /* Padding general */
-  section {
-    padding: 2rem 1rem !important;
-  }
-
-  /* Contenedores */
-  .max-w-6xl {
-    max-width: 100% !important;
-    padding: 0 1rem !important;
-  }
+.product-card {
+  @apply bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 transform hover:scale-105 border border-violet-200/30 p-4;
 }
 
-/* Estilos agresivos para móviles - Forzar consistencia total */
-@media screen and (max-width: 768px) {
-  /* Reset completo para móviles */
-  * {
-    box-sizing: border-box !important;
-  }
-  
-  /* Hero Section - Forzar layout horizontal */
+.product-card img {
+  @apply w-full h-32 object-cover;
+}
+
+.product-title {
+  @apply text-lg font-bold text-slate-800 mb-2;
+  line-height: 1.2;
+}
+
+.product-price {
+  @apply text-xl font-bold mb-3;
+  line-height: 1.2;
+}
+
+.product-card button {
+  @apply w-full py-2 rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-sm;
+}
+
+/* Grid de ofertas - 1 columna en móviles */
+.ofertas-grid {
+  @apply grid grid-cols-1 gap-4 px-2;
+}
+
+.oferta-card {
+  @apply bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 transform hover:scale-105 border border-violet-200/30 p-4;
+}
+
+.oferta-card img {
+  @apply w-full h-32 object-cover;
+}
+
+.oferta-title {
+  @apply text-lg font-bold text-slate-800 mb-2;
+  line-height: 1.2;
+}
+
+.oferta-price {
+  @apply text-xl font-bold mb-3;
+  line-height: 1.2;
+}
+
+.oferta-card button {
+  @apply w-full py-2 rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-sm;
+}
+
+/* Header móvil */
+.header-logo {
+  @apply h-10 w-auto object-contain rounded-lg;
+}
+
+.header-nav {
+  @apply hidden;
+}
+
+/* Footer móvil - 1 columna */
+.footer-grid {
+  @apply grid grid-cols-1 gap-4 p-4;
+}
+
+/* Títulos de secciones */
+h2 {
+  @apply text-2xl font-bold mb-4;
+}
+
+/* Padding general */
+section {
+  @apply py-12 px-2;
+}
+
+/* Contenedores */
+.max-w-6xl {
+  @apply max-w-full px-2;
+}
+
+/* ===========================================
+   TABLETS (md: 768px+)
+   =========================================== */
+@media (min-width: 768px) {
   .hero-section {
-    padding: 2rem 1rem !important;
-    min-height: 60vh !important;
+    @apply py-16 px-6;
+    min-height: 70vh;
   }
   
   .hero-title {
-    font-size: 2.5rem !important;
-    line-height: 1.1 !important;
-    margin-bottom: 1rem !important;
+    @apply text-4xl mb-6;
   }
   
   .hero-subtitle {
-    font-size: 1.25rem !important;
-    line-height: 1.4 !important;
-    margin-bottom: 2rem !important;
+    @apply text-xl mb-8;
   }
   
-  /* Botones - Forzar layout horizontal */
   .hero-buttons {
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 1rem !important;
-    justify-content: center !important;
-    align-items: center !important;
-    flex-wrap: nowrap !important;
+    @apply flex-row gap-4;
   }
   
   .hero-button {
-    padding: 0.75rem 1.5rem !important;
-    font-size: 1rem !important;
-    width: auto !important;
-    min-width: 140px !important;
-    flex: 0 0 auto !important;
-    white-space: nowrap !important;
+    @apply py-4 px-8 text-lg;
+    width: auto;
+    max-width: none;
   }
   
-  /* Productos - Forzar 2 columnas */
+  /* Grid de productos - 2 columnas en tablets */
   .products-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 0.75rem !important;
-    padding: 0 0.5rem !important;
+    @apply grid-cols-2 gap-6 px-4;
   }
   
   .product-card {
-    padding: 0.75rem !important;
-    margin: 0 !important;
+    @apply p-6;
+  }
+  
+  .product-card img {
+    @apply h-40;
   }
   
   .product-title {
-    font-size: 1rem !important;
-    line-height: 1.2 !important;
-    margin-bottom: 0.5rem !important;
+    @apply text-xl mb-3;
   }
   
   .product-price {
-    font-size: 1.25rem !important;
-    margin-bottom: 0.75rem !important;
+    @apply text-2xl mb-4;
   }
   
-  /* Imágenes de productos */
-  .product-card img {
-    height: 120px !important;
-    object-fit: cover !important;
-  }
-  
-  /* Botones de WhatsApp */
   .product-card button {
-    padding: 0.5rem !important;
-    font-size: 0.875rem !important;
+    @apply py-3 text-base;
   }
   
-  /* Header - Forzar layout móvil */
-  .header-logo {
-    height: 2.5rem !important;
-    width: auto !important;
-  }
-  
-  .header-nav {
-    display: none !important;
-  }
-  
-  /* Footer - 2 columnas */
-  .footer-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 1rem !important;
-    padding: 1rem !important;
-  }
-  
-  /* Ofertas - Forzar 1 columna en móviles */
+  /* Grid de ofertas - 2 columnas en tablets */
   .ofertas-grid {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 1rem !important;
-    padding: 0 0.5rem !important;
+    @apply grid-cols-2 gap-6 px-4;
   }
   
   .oferta-card {
-    padding: 1rem !important;
-    margin: 0 !important;
-    max-width: 100% !important;
+    @apply p-6;
+  }
+  
+  .oferta-card img {
+    @apply h-40;
   }
   
   .oferta-title {
-    font-size: 1rem !important;
-    line-height: 1.2 !important;
-    margin-bottom: 0.5rem !important;
+    @apply text-xl mb-3;
   }
   
   .oferta-price {
-    font-size: 1.25rem !important;
-    margin-bottom: 0.75rem !important;
+    @apply text-2xl mb-4;
   }
   
-  /* Imágenes de ofertas */
-  .oferta-card img {
-    height: 120px !important;
-    object-fit: cover !important;
-  }
-  
-  /* Botones de ofertas */
   .oferta-card button {
-    padding: 0.5rem !important;
-    font-size: 0.875rem !important;
+    @apply py-3 text-base;
   }
   
-  /* Estrellas de popularidad */
-  .priority-stars {
-    font-size: 0.75rem !important;
+  /* Header tablet */
+  .header-logo {
+    @apply h-12;
+  }
+  
+  .header-nav {
+    @apply flex items-center space-x-6;
+  }
+  
+  /* Footer tablet - 2 columnas */
+  .footer-grid {
+    @apply grid-cols-2 gap-6 p-6;
   }
   
   /* Títulos de secciones */
   h2 {
-    font-size: 1.75rem !important;
-    margin-bottom: 1rem !important;
+    @apply text-3xl mb-6;
   }
   
   /* Padding general */
   section {
-    padding: 1.5rem 0.5rem !important;
+    @apply py-16 px-4;
   }
   
   /* Contenedores */
   .max-w-6xl {
-    max-width: 100% !important;
-    padding: 0 0.5rem !important;
-  }
-  
-  /* Espaciado */
-  .mb-8, .mb-12, .mb-16 {
-    margin-bottom: 1rem !important;
-  }
-  
-  .py-24 {
-    padding-top: 1.5rem !important;
-    padding-bottom: 1.5rem !important;
-  }
-  
-  /* Forzar visibilidad */
-  .hidden {
-    display: none !important;
-  }
-  
-  .block {
-    display: block !important;
-  }
-  
-  .flex {
-    display: flex !important;
-  }
-  
-  .grid {
-    display: grid !important;
+    @apply max-w-4xl px-4;
   }
 }
 
-/* Estilos ultra-agresivos para móviles - Máxima prioridad */
-@media screen and (max-width: 768px) {
-  /* Forzar botones horizontales */
-  .hero-buttons,
-  .flex.flex-col.sm\:flex-row {
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 1rem !important;
-    justify-content: center !important;
-    align-items: center !important;
-    flex-wrap: nowrap !important;
+/* ===========================================
+   DESKTOP (lg: 1024px+)
+   =========================================== */
+@media (min-width: 1024px) {
+  .hero-section {
+    @apply py-24 px-8;
+    min-height: 80vh;
   }
   
-  /* Forzar grid de productos 2 columnas, ofertas 1 columna */
-  .products-grid,
-  .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-3 {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 0.75rem !important;
-    padding: 0 0.5rem !important;
+  .hero-title {
+    @apply text-5xl mb-8;
   }
   
+  .hero-subtitle {
+    @apply text-2xl mb-12;
+  }
+  
+  .hero-buttons {
+    @apply gap-6;
+  }
+  
+  .hero-button {
+    @apply py-4 px-8 text-lg;
+  }
+  
+  /* Grid de productos - 3 columnas en desktop */
+  .products-grid {
+    @apply grid-cols-3 gap-8 px-6;
+  }
+  
+  .product-card {
+    @apply p-8;
+  }
+  
+  .product-card img {
+    @apply h-48;
+  }
+  
+  .product-title {
+    @apply text-2xl mb-4;
+  }
+  
+  .product-price {
+    @apply text-3xl mb-6;
+  }
+  
+  .product-card button {
+    @apply py-3 text-base;
+  }
+  
+  /* Grid de ofertas - 3 columnas en desktop */
   .ofertas-grid {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 1rem !important;
-    padding: 0 0.5rem !important;
+    @apply grid-cols-3 gap-8 px-6;
   }
   
-  /* Forzar botones del mismo tamaño */
-  .hero-button,
-  .group.bg-gradient-to-r {
-    padding: 0.75rem 1.5rem !important;
-    font-size: 1rem !important;
-    width: auto !important;
-    min-width: 140px !important;
-    flex: 0 0 auto !important;
-    white-space: nowrap !important;
+  .oferta-card {
+    @apply p-8;
   }
   
-  /* Forzar títulos más pequeños */
-  .hero-title,
-  h1 {
-    font-size: 2.5rem !important;
-    line-height: 1.1 !important;
-    margin-bottom: 1rem !important;
+  .oferta-card img {
+    @apply h-48;
   }
   
-  .hero-subtitle,
-  p.text-2xl.md\:text-3xl {
-    font-size: 1.25rem !important;
-    line-height: 1.4 !important;
-    margin-bottom: 2rem !important;
+  .oferta-title {
+    @apply text-2xl mb-4;
   }
   
-  /* Forzar tarjetas más pequeñas */
-  .product-card,
-  .oferta-card,
-  .group.bg-violet-50\/80,
-  .group.bg-white\/90 {
-    padding: 0.75rem !important;
-    margin: 0 !important;
-  }
-  
-  /* Forzar imágenes más pequeñas */
-  .product-card img,
-  .oferta-card img,
-  .h-48.sm\:h-56 {
-    height: 120px !important;
-    object-fit: cover !important;
-  }
-  
-  /* Forzar títulos de productos */
-  .product-title,
-  .oferta-title,
-  h3 {
-    font-size: 1rem !important;
-    line-height: 1.2 !important;
-    margin-bottom: 0.5rem !important;
-  }
-  
-  /* Forzar precios */
-  .product-price,
   .oferta-price {
-    font-size: 1.5rem !important;
-    margin-bottom: 0.75rem !important;
-    font-weight: 700 !important;
-    line-height: 1.2 !important;
+    @apply text-3xl mb-6;
   }
   
-  /* Contenedor de precios de ofertas */
-  .oferta-card .mb-6 {
-    margin-bottom: 1.5rem !important;
-    padding: 0.75rem !important;
-    min-height: 80px !important;
-    width: 100% !important;
+  .oferta-card button {
+    @apply py-3 text-base;
   }
   
-      /* Forzar botones de WhatsApp */
-      .product-card button,
-      .oferta-card button {
-        padding: 0.5rem !important;
-        font-size: 0.875rem !important;
-      }
-      
-      /* Estilos específicos para ofertas en móvil */
-      .oferta-card .text-center {
-        text-align: center !important;
-        padding: 0.5rem !important;
-      }
-      
-      .oferta-card .bg-gradient-to-r.from-violet-50.to-purple-50 {
-        padding: 0.75rem !important;
-        margin: 0.5rem 0 !important;
-      }
-      
-      .oferta-price {
-        font-size: 1.75rem !important;
-        line-height: 1.2 !important;
-        margin: 0.25rem 0 !important;
-        text-align: center !important;
-        display: block !important;
-        font-weight: 700 !important;
-        word-wrap: break-word !important;
-        overflow-wrap: break-word !important;
-        white-space: nowrap !important;
-      }
-      
-      .oferta-card .text-sm {
-        font-size: 0.75rem !important;
-        margin: 0.25rem 0 !important;
-      }
-      
-      .oferta-card .text-xs {
-        font-size: 0.625rem !important;
-        margin: 0.125rem 0 !important;
-      }
+  /* Header desktop */
+  .header-logo {
+    @apply h-16;
+  }
   
-  /* Forzar secciones más pequeñas */
+  .header-nav {
+    @apply space-x-8;
+  }
+  
+  /* Footer desktop - 4 columnas */
+  .footer-grid {
+    @apply grid-cols-4 gap-8 p-8;
+  }
+  
+  /* Títulos de secciones */
+  h2 {
+    @apply text-4xl mb-8;
+  }
+  
+  /* Padding general */
   section {
-    padding: 1.5rem 0.5rem !important;
+    @apply py-24 px-6;
   }
   
-  /* Forzar contenedores */
+  /* Contenedores */
   .max-w-6xl {
-    max-width: 100% !important;
-    padding: 0 0.5rem !important;
-  }
-  
-  /* Forzar espaciado */
-  .mb-8, .mb-12, .mb-16 {
-    margin-bottom: 1rem !important;
-  }
-  
-  .py-24 {
-    padding-top: 1.5rem !important;
-    padding-bottom: 1.5rem !important;
+    @apply max-w-6xl px-6;
   }
 }
 
-
-
+/* ===========================================
+   LARGE DESKTOP (xl: 1280px+)
+   =========================================== */
+@media (min-width: 1280px) {
+  /* Grid de productos - 4 columnas en pantallas grandes */
+  .products-grid {
+    @apply grid-cols-4;
+  }
+  
+  /* Grid de ofertas - 4 columnas en pantallas grandes */
+  .ofertas-grid {
+    @apply grid-cols-4;
+  }
+  
+  /* Títulos de secciones */
+  h2 {
+    @apply text-5xl mb-16;
+  }
+  
+  /* Padding general */
+  section {
+    @apply py-24 px-8;
+  }
+  
+  /* Contenedores */
+  .max-w-6xl {
+    @apply max-w-6xl px-8;
+  }
+}
