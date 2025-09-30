@@ -151,7 +151,13 @@ export default function Ofertas() {
                         src={oferta.image} 
                         alt={oferta.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        onError={(e) => e.currentTarget.src = '/images/Logo Bebidas.jpeg'}
+                        onError={(e) => {
+                          console.error('❌ Error cargando imagen de oferta:', oferta.title, oferta.image)
+                          e.currentTarget.src = '/images/Logo Bebidas.jpeg'
+                        }}
+                        onLoad={() => {
+                          console.log('✅ Imagen de oferta cargada:', oferta.title, oferta.image)
+                        }}
                       />
                     </div>
                     <div className="p-8">
