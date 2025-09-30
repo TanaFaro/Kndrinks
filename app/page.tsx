@@ -293,21 +293,11 @@ export default function Home() {
           <div className="ofertas-grid">
             {STATIC_OFERTAS.map((oferta) => (
               <div key={oferta.id} className={`oferta-card group ${oferta.featured ? 'border-yellow-400/50 shadow-yellow-200/50' : 'border-violet-200/30'}`}>
-                {/* Badge de destacado */}
-                {oferta.featured && (
+                {/* Badge unificado */}
+                {(oferta.featured || (oferta.priority && oferta.priority >= 2)) && (
                   <div className="absolute top-4 left-4 z-10 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
-                    ⭐ DESTACADO
+                    {oferta.featured ? '⭐ DESTACADO' : `${getPriorityStars(oferta.priority)} ${getPopularityText(oferta.priority)}`}
                   </div>
-                )}
-                
-                {/* Badge de popularidad con estrellas */}
-                {oferta.priority && oferta.priority >= 2 && (
-                  <div className="absolute top-4 right-4 z-10 bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
-                    <div className="priority-stars flex items-center space-x-1">
-                      <span>{getPriorityStars(oferta.priority)}</span>
-                      <span>{getPopularityText(oferta.priority)}</span>
-              </div>
-            </div>
                 )}
                 
                 <div className="bg-gradient-to-br from-violet-100 via-purple-100 to-indigo-100 flex items-center justify-center group-hover:from-violet-200 group-hover:via-purple-200 group-hover:to-indigo-200 transition-all duration-500 relative overflow-hidden">
