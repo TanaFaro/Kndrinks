@@ -27,11 +27,13 @@ const Header = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-secondary-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">KN</span>
-              </div>
-              <span className="text-xl lg:text-2xl font-bold text-gradient">KNDrinks</span>
+            <Link href="/" className="flex items-center space-x-2 sm:space-x-4">
+              <img 
+                src="/images/Logo Bebidas.jpeg" 
+                alt="KNDrinks Logo" 
+                className="h-12 sm:h-16 w-auto object-contain rounded-xl"
+              />
+              <span className="hidden sm:block text-xl font-bold text-gray-800">KNDrinks</span>
             </Link>
 
             {/* Navegación Desktop */}

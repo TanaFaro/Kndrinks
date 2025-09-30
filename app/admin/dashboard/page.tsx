@@ -87,11 +87,13 @@ export default function AdminDashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center space-x-4">
-              <img 
-                src="/images/Logo Bebidas.jpeg" 
-                alt="KNDrinks Logo" 
-                className="h-12 w-auto object-contain rounded-lg"
-              />
+              <a href="/" className="cursor-pointer hover:opacity-80 transition-opacity">
+                <img 
+                  src="/images/Logo Bebidas.jpeg" 
+                  alt="KNDrinks Logo" 
+                  className="h-12 w-auto object-contain rounded-lg"
+                />
+              </a>
               <h1 className="text-2xl font-bold text-slate-800">Panel Administrativo</h1>
             </div>
             <div className="flex items-center space-x-4">

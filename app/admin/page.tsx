@@ -35,11 +35,13 @@ export default function AdminLogin() {
         <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-violet-200/30">
           {/* Logo */}
           <div className="text-center mb-8">
-            <img 
-              src="/images/Logo Bebidas.jpeg" 
-              alt="KNDrinks Logo" 
-              className="h-20 w-auto object-contain mx-auto mb-4 rounded-xl"
-            />
+            <a href="/" className="cursor-pointer hover:opacity-80 transition-opacity inline-block">
+              <img 
+                src="/images/Logo Bebidas.jpeg" 
+                alt="KNDrinks Logo" 
+                className="h-20 w-auto object-contain mx-auto mb-4 rounded-xl"
+              />
+            </a>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-violet-800 via-purple-800 to-indigo-800 bg-clip-text text-transparent">
               Panel Administrativo
             </h1>

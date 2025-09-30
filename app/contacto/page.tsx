@@ -22,11 +22,13 @@ export default function Contacto() {
             {/* Logo y Descripción */}
             <div className="text-center lg:text-left">
               <div className="mb-8 flex justify-center lg:justify-start">
-                <img 
-                  src="/images/Logo Bebidas.jpeg" 
-                  alt="KNDrinks Logo" 
-                  className="h-56 w-auto object-contain drop-shadow-2xl rounded-2xl"
-                />
+                <a href="/" className="cursor-pointer hover:opacity-80 transition-opacity">
+                  <img 
+                    src="/images/Logo Bebidas.jpeg" 
+                    alt="KNDrinks Logo" 
+                    className="h-56 w-auto object-contain drop-shadow-2xl rounded-2xl"
+                  />
+                </a>
               </div>
               <p className="text-lg text-slate-600 leading-relaxed mb-8">
                 Tu tienda de confianza para las mejores bebidas. Ofrecemos una amplia selección de licores, vinos, cervezas y más, con la mejor calidad y precios competitivos.

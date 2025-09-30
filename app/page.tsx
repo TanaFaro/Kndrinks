@@ -274,14 +274,17 @@ export default function Home() {
                     {product.description}
                     </p>
                   <div className="flex items-center justify-between mb-6">
-                    <span className="product-price text-3xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
-                      ${product.price.toLocaleString()}
-                    </span>
+                    <div className="flex flex-col">
+                      <span className="product-price text-2xl md:text-3xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
+                        ${product.price.toLocaleString('es-AR')}
+                      </span>
+                      <span className="text-xs text-slate-500">Precio por unidad</span>
+                    </div>
                     <span className="text-sm text-slate-500">Stock: {product.stock}</span>
                   </div>
                   <button 
                     onClick={() => {
-                      const message = `Hola! Me interesa el producto: ${product.name} - $${product.price.toLocaleString()}`
+                      const message = `Hola! Me interesa el producto: ${product.name} - $${product.price.toLocaleString('es-AR')}`
                       const whatsappUrl = `https://wa.me/5491112345678?text=${encodeURIComponent(message)}`
                       window.open(whatsappUrl, '_blank')
                     }}
@@ -308,7 +311,7 @@ export default function Home() {
             Ofertas Especiales
           </h2>
           
-          <div className="ofertas-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="ofertas-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {STATIC_OFERTAS.map((oferta) => (
               <div key={oferta.id} className={`oferta-card group bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105 border ${oferta.featured ? 'border-yellow-400/50 shadow-yellow-200/50' : 'border-violet-200/30'}`}>
                 {/* Badge de destacado */}
@@ -359,21 +362,23 @@ export default function Home() {
           </div>
         </div>
                   
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="text-sm text-slate-500">
-                      <p className="line-through">Individual: ${oferta.comboProducts.reduce((total, product) => total + (product.price * product.quantity), 0).toLocaleString()}</p>
-                    </div>
-                    <div className="text-right">
-                      <span className="oferta-price text-3xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
-                        ${oferta.finalPrice.toLocaleString()}
+                  <div className="mb-6">
+                    <div className="text-center mb-3">
+                      <span className="oferta-price text-2xl md:text-3xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent block">
+                        ${oferta.finalPrice.toLocaleString('es-AR')}
                       </span>
-                      <p className="text-xs text-slate-500">Precio combo</p>
-                </div>
+                      <p className="text-xs text-slate-500 mt-1">Precio combo</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-sm text-slate-500 line-through">
+                        Individual: ${oferta.comboProducts.reduce((total, product) => total + (product.price * product.quantity), 0).toLocaleString('es-AR')}
+                      </p>
+                    </div>
                   </div>
                   
                   <button 
                     onClick={() => {
-                      const message = `Hola! Me interesa el combo: ${oferta.title} - $${oferta.finalPrice.toLocaleString()}`
+                      const message = `Hola! Me interesa el combo: ${oferta.title} - $${oferta.finalPrice.toLocaleString('es-AR')}`
                       const whatsappUrl = `https://wa.me/5491112345678?text=${encodeURIComponent(message)}`
                       window.open(whatsappUrl, '_blank')
                     }}

@@ -56,11 +56,13 @@ export default function ClienteDashboard() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
               </Link>
-              <img 
-                src="/images/Logo Bebidas.jpeg" 
-                alt="KNDrinks Logo" 
-                className="h-12 w-auto object-contain rounded-lg"
-              />
+              <a href="/" className="cursor-pointer hover:opacity-80 transition-opacity">
+                <img 
+                  src="/images/Logo Bebidas.jpeg" 
+                  alt="KNDrinks Logo" 
+                  className="h-12 w-auto object-contain rounded-lg"
+                />
+              </a>
               <h1 className="text-2xl font-bold text-slate-800">Mi Cuenta</h1>
             </div>
             <div className="flex items-center space-x-4">
