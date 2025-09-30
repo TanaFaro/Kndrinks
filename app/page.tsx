@@ -87,6 +87,51 @@ const STATIC_PRODUCTS = [
     stock: 35,
     image: "/images/vino toro.jfif",
     description: "Vino tinto clásico"
+  },
+  {
+    id: 7,
+    name: "Gancia 1L",
+    price: 3200,
+    category: "Licores",
+    stock: 25,
+    image: "/images/fernet 750.jfif",
+    description: "Aperitivo italiano clásico"
+  },
+  {
+    id: 8,
+    name: "Coca Cola Descartable 500ml",
+    price: 800,
+    category: "Bebidas",
+    stock: 60,
+    image: "/images/coca descartable.jpg",
+    description: "Coca Cola en botella descartable"
+  },
+  {
+    id: 9,
+    name: "Pritty 3L",
+    price: 1800,
+    category: "Bebidas",
+    stock: 30,
+    image: "/images/pritty de 3lts.webp",
+    description: "Gaseosa sabor limón 3 litros"
+  },
+  {
+    id: 10,
+    name: "Speed XL",
+    price: 1500,
+    category: "Bebidas",
+    stock: 40,
+    image: "/images/Speed XL.webp",
+    description: "Bebida energética XL"
+  },
+  {
+    id: 11,
+    name: "Vino Viña de Balbo Tinto",
+    price: 2200,
+    category: "Vinos",
+    stock: 25,
+    image: "/images/VINO-VINA-DE-BALBO-TINTO.png",
+    description: "Vino tinto premium"
   }
 ]
 
@@ -145,6 +190,34 @@ const STATIC_OFERTAS = [
     comboProducts: [
       { name: "Du Vodka 750ml", price: 6500, quantity: 1 },
       { name: "Speed XL", price: 1000, quantity: 1 }
+    ]
+  },
+  {
+    id: 5,
+    title: "Combo Viña + Pritty",
+    description: "Vino Viña de Balbo + Pritty 3L",
+    finalPrice: 3500,
+    image: "/images/viña de balbo mas pritty.png",
+    active: true,
+    featured: true,
+    priority: 4,
+    comboProducts: [
+      { name: "Vino Viña de Balbo Tinto", price: 2200, quantity: 1 },
+      { name: "Pritty 3L", price: 1300, quantity: 1 }
+    ]
+  },
+  {
+    id: 6,
+    title: "Combo Vino Toro + Pritty",
+    description: "Vino Toro Tinto + Pritty 2.25L",
+    finalPrice: 2500,
+    image: "/images/vino toro mas pritty.jpg",
+    active: true,
+    featured: false,
+    priority: 3,
+    comboProducts: [
+      { name: "Vino Toro Tinto 750ml", price: 1800, quantity: 1 },
+      { name: "Pritty Limón 2.25L", price: 700, quantity: 1 }
     ]
   }
 ]
