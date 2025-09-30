@@ -114,8 +114,8 @@ export default function Ofertas() {
         title: "Combo Fernet + Coca",
         description: "Fernet Branca 750ml + 2 Coca Cola 2.25L",
         comboProducts: [
-       { name: "Fernet Branca 750ml", quantity: 1, price: 4500 }, 
-       { name: "Coca Cola 2.25L", quantity: 2, price: 1000 }
+          { productId: 2, productName: "Fernet Branca 750ml", quantity: 1, price: 4500 },
+          { productId: 1, productName: "Coca Cola 2.25L", quantity: 2, price: 1000 }
         ],
         finalPrice: 6500,
         image: "/images/fernetmas2cocas.jfif",
@@ -129,8 +129,8 @@ export default function Ofertas() {
         title: "Combo Skyy + Speed",
         description: "Skyy Vodka + Speed XL",
         comboProducts: [
-          { name: "Skyy Vodka", quantity: 1, price: 9500},
-          { name: "Speed XL", quantity: 1, price: 1500 }
+          { productId: 3, productName: "Skyy Vodka", quantity: 1, price: 9500 },
+          { productId: 9, productName: "Speed XL", quantity: 1, price: 1500 }
         ],
         finalPrice: 10000,
         image: "/images/skyymasspeed.jfif",
@@ -144,10 +144,8 @@ export default function Ofertas() {
         title: "Combo DU + Speed",
         description: "DU Renaissance + Speed XL",
         comboProducts: [
-    
-
-          { name: "DU Renaissance", quantity: 1, price: 5000 }, 
-          { name: "Speed XL", quantity: 1, price: 1500 }
+          { productId: 10, productName: "DU Renaissance", quantity: 1, price: 5000 },
+          { productId: 9, productName: "Speed XL", quantity: 1, price: 1500 }
         ],
         finalPrice: 6000,
         image: "/images/Duconspeed.jfif",

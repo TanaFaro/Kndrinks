@@ -189,26 +189,6 @@ export default function Productos() {
   }, [selectedCategory])
 
   // Mostrar loading si está cargando
-  useEffect(() => {
-    const checkAdminStatus = () => {
-      const isAdminUser = localStorage.getItem('isAdmin') === 'true'
-      setIsAdmin(isAdminUser)
-    }
-    checkAdminStatus()
-  }, [])
-  useEffect(() => {
-    loadOfertas()
-  }, [])
-
-  // Combinar productos y ofertas cuando cambien
-  useEffect(() => {
-    const combinedItems = [
-      ...products.map(product => ({ ...product, type: 'product' })),
-      ...ofertas.map(oferta => ({ ...oferta, type: 'oferta' }))
-    ]
-    setAllItems(combinedItems)
-  }, [products, ofertas])
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 flex items-center justify-center">
@@ -290,10 +270,27 @@ export default function Productos() {
   }
 
   // Verificar si es administrador
- 
+  useEffect(() => {
+    const checkAdminStatus = () => {
+      const isAdminUser = localStorage.getItem('isAdmin') === 'true'
+      setIsAdmin(isAdminUser)
+    }
+    checkAdminStatus()
+  }, [])
 
   // Cargar ofertas
- 
+  useEffect(() => {
+    loadOfertas()
+  }, [])
+
+  // Combinar productos y ofertas cuando cambien
+  useEffect(() => {
+    const combinedItems = [
+      ...products.map(product => ({ ...product, type: 'product' })),
+      ...ofertas.map(oferta => ({ ...oferta, type: 'oferta' }))
+    ]
+    setAllItems(combinedItems)
+  }, [products, ofertas])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100">
