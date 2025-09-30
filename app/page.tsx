@@ -50,7 +50,7 @@ const STATIC_PRODUCTS = [
     price: 4500,
     category: "Licores",
     stock: 30,
-    image: "/images/fernet 750.jfif",
+    image: "/images/fernet-750.jfif",
     description: "Fernet italiano de alta calidad"
   },
   {
@@ -68,7 +68,7 @@ const STATIC_PRODUCTS = [
     price: 3500,
     category: "Licores",
     stock: 20,
-    image: "/images/Smirnoff solo.jpeg",
+    image: "/images/Smirnoff-solo.jpeg",
     description: "Vodka ruso premium"
   },
   {
@@ -77,7 +77,7 @@ const STATIC_PRODUCTS = [
     price: 1200,
     category: "Bebidas",
     stock: 40,
-    image: "/images/pritty 2.250.jfif",
+    image: "/images/pritty-2-250.jfif",
     description: "Gaseosa sabor limón"
   },
   {
@@ -86,7 +86,7 @@ const STATIC_PRODUCTS = [
     price: 1800,
     category: "Vinos",
     stock: 35,
-    image: "/images/vino toro.jfif",
+    image: "/images/vino-toro.jfif",
     description: "Vino tinto clásico"
   },
   {
@@ -104,7 +104,7 @@ const STATIC_PRODUCTS = [
     price: 800,
     category: "Bebidas",
     stock: 60,
-    image: "/images/coca descartable.jpg",
+    image: "/images/coca-descartable.jpg",
     description: "Coca Cola en botella descartable"
   },
   {
@@ -113,7 +113,7 @@ const STATIC_PRODUCTS = [
     price: 1800,
     category: "Bebidas",
     stock: 30,
-    image: "/images/pritty de 3lts.webp",
+    image: "/images/pritty-de-3lts.webp",
     description: "Gaseosa sabor limón 3 litros"
   },
   {
@@ -122,7 +122,7 @@ const STATIC_PRODUCTS = [
     price: 1500,
     category: "Bebidas",
     stock: 40,
-    image: "/images/Speed XL.webp",
+    image: "/images/Speed-XL.webp",
     description: "Bebida energética XL"
   },
   {
@@ -167,7 +167,7 @@ const STATIC_PRODUCTS = [
     price: 2200,
     category: "Vinos",
     stock: 30,
-    image: "/images/vino toro.jfif",
+    image: "/images/vino-toro.jfif",
     description: "Vino tinto de calidad"
   }
 ]
@@ -178,7 +178,7 @@ const STATIC_OFERTAS = [
     title: "Combo Fernet + Coca",
     description: "Fernet Branca 750ml + 2 Coca Cola 2.25L",
     finalPrice: 6500,
-    image: "/images/fernet 750.jfif",
+    image: "/images/fernet-750.jfif",
     active: true,
     featured: true,
     priority: 5,
@@ -192,7 +192,7 @@ const STATIC_OFERTAS = [
     title: "Combo Skyy + Speed",
     description: "Skyy Vodka 750ml + Speed XL",
     finalPrice: 4800,
-    image: "/images/skyy mas speed.jfif",
+    image: "/images/skyy-mas-speed.jfif",
     active: true,
     featured: true,
     priority: 4,
@@ -206,7 +206,7 @@ const STATIC_OFERTAS = [
     title: "Combo Smirnoff + Speed",
     description: "Smirnoff Vodka 750ml + 2 Speed XL",
     finalPrice: 5500,
-    image: "/images/Smirnoff mas 2 speed.png",
+    image: "/images/Smirnoff-mas-2-speed.png",
     active: true,
     featured: false,
     priority: 3,
@@ -220,7 +220,7 @@ const STATIC_OFERTAS = [
     title: "Combo Du + Speed",
     description: "Du Vodka 750ml + Speed XL",
     finalPrice: 7500,
-    image: "/images/Du con speed.jfif",
+    image: "/images/Du-con-speed.jfif",
     active: true,
     featured: false,
     priority: 2,
@@ -248,7 +248,7 @@ const STATIC_OFERTAS = [
     title: "Combo Vino Toro + Pritty",
     description: "Vino Toro Tinto + Pritty 2.25L",
     finalPrice: 2500,
-    image: "/images/vino toro mas pritty.jpg",
+    image: "/images/vino-toro-mas-pritty.jpg",
     active: true,
     featured: false,
     priority: 3,
@@ -262,7 +262,7 @@ const STATIC_OFERTAS = [
     title: "Combo Fernet + 2 Coca",
     description: "Fernet Branca 750ml + 2 Coca Cola 2.25L",
     finalPrice: 6500,
-    image: "/images/fernet mas 2 cocas.jfif",
+    image: "/images/fernet-mas-2-cocas.jfif",
     active: true,
     featured: true,
     priority: 5,
@@ -276,7 +276,7 @@ const STATIC_OFERTAS = [
     title: "Combo Fernet + Coca Descartable",
     description: "Fernet Branca 750ml + Coca Cola Descartable",
     finalPrice: 5000,
-    image: "/images/fernet mas coca descartable.jpg",
+    image: "/images/fernet-mas-coca-descartable.jpg",
     active: true,
     featured: false,
     priority: 4,
