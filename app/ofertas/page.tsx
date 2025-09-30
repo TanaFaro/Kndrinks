@@ -53,17 +53,57 @@ export default function Ofertas() {
 
   // Función para eliminar una oferta
   const handleDeleteOferta = (id: number) => {
-    if (window.confirm('¿Estás seguro de que quieres eliminar esta oferta?')) {
-      const updatedOfertas = ofertas.filter(oferta => oferta.id !== id)
-      setOfertas(updatedOfertas)
-      localStorage.setItem('ofertas', JSON.stringify(updatedOfertas))
-      console.log('🗑️ Oferta eliminada:', id)
+    const ofertaToDelete = ofertas.find(oferta => oferta.id === id)
+    if (!ofertaToDelete) {
+      console.error('❌ Oferta no encontrada:', id)
+      return
+    }
+
+    if (window.confirm(`¿Estás seguro de que quieres eliminar la oferta "${ofertaToDelete.title}"?\n\nEsta acción no se puede deshacer.`)) {
+      try {
+        const updatedOfertas = ofertas.filter(oferta => oferta.id !== id)
+        setOfertas(updatedOfertas)
+        localStorage.setItem('ofertas', JSON.stringify(updatedOfertas))
+        console.log('🗑️ Oferta eliminada:', ofertaToDelete.title, '(ID:', id, ')')
+        
+        // Mostrar mensaje de éxito
+        alert(`✅ Oferta "${ofertaToDelete.title}" eliminada correctamente.`)
+      } catch (error) {
+        console.error('❌ Error eliminando oferta:', error)
+        alert('❌ Error al eliminar la oferta. Inténtalo de nuevo.')
+      }
     }
   }
 
   // Función para editar una oferta (redirigir a la página de edición)
   const handleEditOferta = (id: number) => {
     window.location.href = `/admin/ofertas/edit/${id}`
+  }
+
+  // Función para alternar el estado activo/inactivo de una oferta
+  const handleToggleActive = (id: number) => {
+    const ofertaToToggle = ofertas.find(oferta => oferta.id === id)
+    if (!ofertaToToggle) {
+      console.error('❌ Oferta no encontrada:', id)
+      return
+    }
+
+    try {
+      const updatedOfertas = ofertas.map(oferta => 
+        oferta.id === id 
+          ? { ...oferta, active: !oferta.active }
+          : oferta
+      )
+      setOfertas(updatedOfertas)
+      localStorage.setItem('ofertas', JSON.stringify(updatedOfertas))
+      
+      const newStatus = !ofertaToToggle.active ? 'activada' : 'desactivada'
+      console.log(`🔄 Oferta ${newStatus}:`, ofertaToToggle.title, '(ID:', id, ')')
+      alert(`✅ Oferta "${ofertaToToggle.title}" ${newStatus} correctamente.`)
+    } catch (error) {
+      console.error('❌ Error cambiando estado de oferta:', error)
+      alert('❌ Error al cambiar el estado de la oferta. Inténtalo de nuevo.')
+    }
   }
 
   // Verificar si es administrador
@@ -176,7 +216,15 @@ export default function Ofertas() {
             <div className="flex justify-between items-center py-6">
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">Ofertas</h1>
-                <p className="text-gray-600">Lista de todas las ofertas</p>
+                <p className="text-gray-600">
+                  Lista de todas las ofertas 
+                  <span className="ml-2 bg-blue-100 text-blue-800 text-sm font-semibold px-2.5 py-0.5 rounded-full">
+                    {ofertas.length} total
+                  </span>
+                  <span className="ml-2 bg-green-100 text-green-800 text-sm font-semibold px-2.5 py-0.5 rounded-full">
+                    {ofertas.filter(o => o.active).length} activas
+                  </span>
+                </p>
               </div>
               <button
                 onClick={() => window.location.href = '/admin/ofertas/new'}
@@ -212,12 +260,12 @@ export default function Ofertas() {
                       />
                       {/* Badge de estado */}
                       <div className="absolute top-3 right-3">
-                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                        <span className={`px-3 py-1 rounded-full text-xs font-bold shadow-lg ${
                           oferta.active 
                             ? 'bg-green-500 text-white' 
                             : 'bg-red-500 text-white'
                         }`}>
-                          {oferta.active ? 'Activa' : 'Inactiva'}
+                          {oferta.active ? '✅ Activa' : '❌ Inactiva'}
                         </span>
                       </div>
                     </div>
@@ -282,16 +330,28 @@ export default function Ofertas() {
                       </div>
 
                       {/* Botones de acción */}
-                      <div className="flex space-x-3">
-                        <button
-                          onClick={() => handleEditOferta(oferta.id)}
-                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition-colors duration-200"
-                        >
-                          Editar
-                        </button>
+                      <div className="space-y-3">
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={() => handleEditOferta(oferta.id)}
+                            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
+                          >
+                            Editar
+                          </button>
+                          <button
+                            onClick={() => handleToggleActive(oferta.id)}
+                            className={`flex-1 font-bold py-2 px-4 rounded-lg transition-colors duration-200 ${
+                              oferta.active 
+                                ? 'bg-orange-600 hover:bg-orange-700 text-white' 
+                                : 'bg-green-600 hover:bg-green-700 text-white'
+                            }`}
+                          >
+                            {oferta.active ? 'Desactivar' : 'Activar'}
+                          </button>
+                        </div>
                         <button
                           onClick={() => handleDeleteOferta(oferta.id)}
-                          className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-xl transition-colors duration-200"
+                          className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
                         >
                           Eliminar
                         </button>
