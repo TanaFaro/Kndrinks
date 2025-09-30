@@ -58,7 +58,44 @@ export default function Ofertas() {
         if (savedOfertas) {
           const parsedOfertas: Oferta[] = JSON.parse(savedOfertas)
           console.log('📦 Ofertas cargadas desde localStorage:', parsedOfertas)
-          setOfertas(parsedOfertas)
+          
+          // Corregir rutas de imágenes automáticamente
+          const ofertasCorregidas = parsedOfertas.map(oferta => {
+            let imagenCorregida = oferta.image
+            
+            // Mapeo de rutas incorrectas a correctas
+            const correcciones: Record<string, string> = {
+              '/images/fernet 750.jfif': '/images/fernetmas2cocas.jfif',
+              '/images/vino toro mas pritty.jpg': '/images/vinotoromaspritty.jpg',
+              '/images/sky mas speed.jfif': '/images/skyymasspeed.jfif',
+              '/images/skyy mas speed.jfif': '/images/skyymasspeed.jfif',
+              '/images/Du con speed.jfif': '/images/Duconspeed.jfif',
+              '/images/viña de balbo mas pritty.png': '/images/VINOVINADEBALBO.png',
+              '/images/vi%C3%B1a%20de%20balbo%20mas%20pritty.png': '/images/VINOVINADEBALBO.png'
+            }
+            
+            if (correcciones[oferta.image]) {
+              console.log('🔧 Corrigiendo ruta:', oferta.image, '→', correcciones[oferta.image])
+              imagenCorregida = correcciones[oferta.image]
+            }
+            
+            return {
+              ...oferta,
+              image: imagenCorregida
+            }
+          })
+          
+          // Si se hicieron correcciones, guardar las ofertas corregidas
+          const hayCorrecciones = ofertasCorregidas.some((oferta, index) => 
+            oferta.image !== parsedOfertas[index].image
+          )
+          
+          if (hayCorrecciones) {
+            console.log('💾 Guardando ofertas corregidas...')
+            localStorage.setItem('ofertas', JSON.stringify(ofertasCorregidas))
+          }
+          
+          setOfertas(ofertasCorregidas)
         } else {
           console.log('⚠️ No hay ofertas guardadas')
           setOfertas([])
