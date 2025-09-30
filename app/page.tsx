@@ -246,11 +246,38 @@ const getPopularityText = (priority?: number): string => {
 
 export default function Home() {
   const [mounted, setMounted] = useState(false)
+  const [dynamicProducts, setDynamicProducts] = useState<Product[]>([])
+  const [dynamicOfertas, setDynamicOfertas] = useState<Oferta[]>([])
+  const [loading, setLoading] = useState(true)
   const { addItem } = useCartStore()
 
   useEffect(() => {
     setMounted(true)
+    loadDynamicImages()
+    
+    // Verificar nuevas imágenes cada 30 segundos
+    const interval = setInterval(loadDynamicImages, 30000)
+    
+    return () => clearInterval(interval)
   }, [])
+
+  const loadDynamicImages = async () => {
+    try {
+      const response = await fetch('/api/images')
+      const data = await response.json()
+      
+      if (data.products) {
+        setDynamicProducts(data.products)
+      }
+      if (data.combos) {
+        setDynamicOfertas(data.combos)
+      }
+      setLoading(false)
+    } catch (error) {
+      console.error('Error loading images:', error)
+      setLoading(false)
+    }
+  }
 
   if (!mounted) {
     return (
@@ -295,12 +322,21 @@ export default function Home() {
       {/* Productos Destacados */}
       <section className="bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100">
         <div className="max-w-6xl mx-auto">
-          <h2 className="font-bold bg-gradient-to-r from-violet-800 via-purple-800 to-indigo-800 bg-clip-text text-transparent mb-16">
-            Productos Destacados
-          </h2>
+          <div className="flex justify-between items-center mb-16">
+            <h2 className="font-bold bg-gradient-to-r from-violet-800 via-purple-800 to-indigo-800 bg-clip-text text-transparent">
+              Productos Destacados
+            </h2>
+            <button
+              onClick={loadDynamicImages}
+              disabled={loading}
+              className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 disabled:opacity-50"
+            >
+              {loading ? 'Cargando...' : '🔄 Actualizar'}
+            </button>
+          </div>
           
           <div className="products-grid">
-            {STATIC_PRODUCTS.map((product) => (
+            {(dynamicProducts.length > 0 ? dynamicProducts : STATIC_PRODUCTS).map((product) => (
               <div key={product.id} className="product-card group">
                 <div className="bg-gradient-to-br from-violet-100 via-purple-100 to-indigo-100 flex items-center justify-center group-hover:from-violet-200 group-hover:via-purple-200 group-hover:to-indigo-200 transition-all duration-500 relative overflow-hidden">
                   <img
@@ -364,7 +400,7 @@ export default function Home() {
           </h2>
           
           <div className="ofertas-grid">
-            {STATIC_OFERTAS.map((oferta) => (
+            {(dynamicOfertas.length > 0 ? dynamicOfertas : STATIC_OFERTAS).map((oferta) => (
               <div key={oferta.id} className={`oferta-card group ${oferta.featured ? 'border-yellow-400/50 shadow-yellow-200/50' : 'border-violet-200/30'}`}>
                 {/* Badge unificado */}
                 {(oferta.featured || (oferta.priority && oferta.priority >= 2)) && (
