@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test de Imágenes en Vercel</title>
+</head>
+<body>
+    <h1>Test de Imágenes en Vercel</h1>
+    
+    <h2>Imágenes que deberían funcionar:</h2>
+    
+    <div style="margin: 20px; padding: 10px; border: 1px solid #ccc;">
+        <h3>Coca Cola</h3>
+        <img src="/images/cocacola.jfif" alt="Coca Cola" style="width: 200px; height: 200px; border: 1px solid #000;" onerror="this.style.border='3px solid red'; this.alt='ERROR: No se pudo cargar';">
+    </div>
+    
+    <div style="margin: 20px; padding: 10px; border: 1px solid #ccc;">
+        <h3>Fernet</h3>
+        <img src="/images/fernet-750.jfif" alt="Fernet" style="width: 200px; height: 200px; border: 1px solid #000;" onerror="this.style.border='3px solid red'; this.alt='ERROR: No se pudo cargar';">
+    </div>
+    
+    <div style="margin: 20px; padding: 10px; border: 1px solid #ccc;">
+        <h3>Skyy</h3>
+        <img src="/images/skyy.png" alt="Skyy" style="width: 200px; height: 200px; border: 1px solid #000;" onerror="this.style.border='3px solid red'; this.alt='ERROR: No se pudo cargar';">
+    </div>
+    
+    <div style="margin: 20px; padding: 10px; border: 1px solid #ccc;">
+        <h3>Gancia</h3>
+        <img src="/images/Gancia.jfif" alt="Gancia" style="width: 200px; height: 200px; border: 1px solid #000;" onerror="this.style.border='3px solid red'; this.alt='ERROR: No se pudo cargar';">
+    </div>
+    
+    <div style="margin: 20px; padding: 10px; border: 1px solid #ccc;">
+        <h3>Logo (debería funcionar)</h3>
+        <img src="/images/Logo Bebidas.jpeg" alt="Logo" style="width: 200px; height: 200px; border: 1px solid #000;" onerror="this.style.border='3px solid red'; this.alt='ERROR: No se pudo cargar';">
+    </div>
+    
+    <script>
+        // Log de errores
+        document.querySelectorAll('img').forEach((img, index) => {
+            img.addEventListener('load', () => {
+                console.log(`✅ Imagen ${index + 1} cargada:`, img.src);
+            });
+            img.addEventListener('error', () => {
+                console.error(`❌ Error cargando imagen ${index + 1}:`, img.src);
+            });
+        });
+    </script>
+</body>
+</html>
