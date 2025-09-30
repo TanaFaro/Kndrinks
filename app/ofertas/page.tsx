@@ -51,46 +51,32 @@ export default function Ofertas() {
   const { addItem } = useCartStore()
 
   useEffect(() => {
-    // Datos estáticos de ofertas
-    const staticOfertas = [
-      {
-        id: 1,
-        title: "Combo Fernet + Coca",
-        description: "Fernet Branca 750ml + 2 Coca Cola 2.25L",
-        finalPrice: 6500,
-            image: "/images/fernetmas2cocas.jfif",
-        category: "Combos",
-        active: true,
-        featured: true,
-        priority: 5,
-        comboProducts: [
-          { name: "Fernet Branca 750ml", price: 4500, quantity: 1 },
-          { name: "Coca Cola 2.25L", price: 1000, quantity: 2 }
-        ]
-      },
-      {
-        id: 2,
-        title: "Combo Skyy + Speed",
-        description: "Skyy Vodka 750ml + Speed XL",
-        finalPrice: 4800,
-            image: "/images/skyymasspeed.jfif",
-        category: "Combos",
-        active: true,
-        featured: true,
-        priority: 4,
-        comboProducts: [
-          { name: "Skyy Vodka 750ml", price: 3800, quantity: 1 },
-          { name: "Speed XL", price: 1000, quantity: 1 }
-        ]
+    // Cargar ofertas desde localStorage
+    const loadOfertas = () => {
+      try {
+        const savedOfertas = localStorage.getItem('ofertas')
+        if (savedOfertas) {
+          const parsedOfertas: Oferta[] = JSON.parse(savedOfertas)
+          console.log('📦 Ofertas cargadas desde localStorage:', parsedOfertas)
+          setOfertas(parsedOfertas)
+        } else {
+          console.log('⚠️ No hay ofertas guardadas')
+          setOfertas([])
+        }
+      } catch (error) {
+        console.error('❌ Error cargando ofertas:', error)
+        setOfertas([])
+      } finally {
+        setLoading(false)
       }
-    ]
-    
-    setOfertas(staticOfertas)
-    setLoading(false)
+    }
+
+    loadOfertas()
   }, [])
 
   const getActiveOfertas = () => {
-    return ofertas.slice(0, 6) // Mostrar máximo 6 combos
+    // Filtrar solo ofertas activas y mostrar máximo 6
+    return ofertas.filter(oferta => oferta.active).slice(0, 6)
   }
 
   const calculateIndividualPrice = (comboProducts: ComboProduct[]) => {
