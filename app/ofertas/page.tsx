@@ -273,6 +273,7 @@ export default function Ofertas() {
                           })
                         }}
                         className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 rounded-2xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                        title="Agregar al carrito"
                       >
                         <span className="flex items-center justify-center space-x-2">
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
