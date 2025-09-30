@@ -308,7 +308,7 @@ export default function Home() {
             Ofertas Especiales
           </h2>
           
-          <div className="ofertas-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="ofertas-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {STATIC_OFERTAS.map((oferta) => (
               <div key={oferta.id} className={`oferta-card group bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105 border ${oferta.featured ? 'border-yellow-400/50 shadow-yellow-200/50' : 'border-violet-200/30'}`}>
                 {/* Badge de destacado */}

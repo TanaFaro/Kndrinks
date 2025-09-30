@@ -257,11 +257,11 @@
     padding: 1rem !important;
   }
   
-  /* Ofertas - Forzar 2 columnas */
+  /* Ofertas - Forzar 1 columna (más ancha) */
   .ofertas-grid {
     display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 0.75rem !important;
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
     padding: 0 0.5rem !important;
   }
   
@@ -281,9 +281,10 @@
     margin-bottom: 0.75rem !important;
   }
   
-  /* Imágenes de ofertas */
+  /* Imágenes de ofertas - más cortas y anchas */
   .oferta-card img {
-    height: 120px !important;
+    height: 100px !important;
+    width: 100% !important;
     object-fit: cover !important;
   }
   
@@ -356,13 +357,19 @@
     flex-wrap: nowrap !important;
   }
   
-  /* Forzar grid de 2 columnas */
+  /* Forzar grid - productos 2 columnas, ofertas 1 columna */
   .products-grid,
-  .ofertas-grid,
   .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-3 {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 0.75rem !important;
+    padding: 0 0.5rem !important;
+  }
+
+  .ofertas-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
     padding: 0 0.5rem !important;
   }
   
@@ -403,9 +410,15 @@
   
   /* Forzar imágenes más pequeñas */
   .product-card img,
-  .oferta-card img,
   .h-48.sm\:h-56 {
     height: 120px !important;
+    object-fit: cover !important;
+  }
+
+  /* Ofertas - imágenes horizontales y cortas */
+  .oferta-card img {
+    height: 100px !important;
+    width: 100% !important;
     object-fit: cover !important;
   }
   
