@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import ImageSelector from '@/components/ImageSelector'
 
 interface Product {
   id: number
@@ -23,9 +24,6 @@ export default function NewProduct() {
     image: '',
     description: ''
   })
-  const [selectedImage, setSelectedImage] = useState('')
-  const [showImageSelector, setShowImageSelector] = useState(false)
-  const [availableImages, setAvailableImages] = useState<{name: string, path: string}[]>([])
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
@@ -37,34 +35,7 @@ export default function NewProduct() {
       return
     }
 
-    // Cargar imágenes disponibles
-    loadAvailableImages()
   }, [router])
-
-  const loadAvailableImages = async () => {
-    try {
-      // Llamar a la API para obtener imágenes dinámicamente
-      const response = await fetch('/api/images')
-      const data = await response.json()
-      
-      if (data.images && data.images.length > 0) {
-        setAvailableImages(data.images)
-      } else {
-        // Fallback a imágenes conocidas si la API falla
-        const fallbackImages = [
-          { name: 'Logo Bebidas', path: '/images/Logo Bebidas.jpeg' }
-        ]
-        setAvailableImages(fallbackImages)
-      }
-    } catch (error) {
-      console.error('Error cargando imágenes:', error)
-      // Fallback a imágenes conocidas
-      const fallbackImages = [
-        { name: 'Logo Bebidas', path: '/images/Logo Bebidas.jpeg' }
-      ]
-      setAvailableImages(fallbackImages)
-    }
-  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -128,6 +99,16 @@ export default function NewProduct() {
       ...prev,
       [name]: value
     }))
+  }
+
+  const handleImageSelect = (imagePath: string) => {
+    console.log('🎯 Seleccionando imagen para el producto:', imagePath)
+    setFormData(prev => ({
+      ...prev,
+      image: imagePath
+    }))
+    setSelectedImage(imagePath)
+    console.log('✅ Imagen seleccionada para el producto')
   }
 
   return (
@@ -250,149 +231,12 @@ export default function NewProduct() {
                 />
               </div>
 
-              <div>
-                <label htmlFor="image" className="block text-sm font-medium text-slate-700 mb-2">
-                  Imagen del Producto
-                </label>
-                <div className="space-y-3">
-                                     {/* URL de imagen */}
-                   <div className="relative">
-                     <input
-                       type="text"
-                       id="image"
-                       name="image"
-                       value={formData.image}
-                       onChange={handleChange}
-                       className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent ${
-                         formData.image ? 'border-green-300 bg-green-50' : 'border-slate-300'
-                       }`}
-                       placeholder="URL de imagen o selecciona una imagen local"
-                     />
-                     {formData.image && (
-                       <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-2">
-                         <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                         </svg>
-                         <button
-                           type="button"
-                           onClick={() => {
-                             setFormData(prev => ({ ...prev, image: '' }))
-                             setSelectedImage('')
-                           }}
-                           className="text-red-500 hover:text-red-700"
-                           title="Limpiar imagen"
-                         >
-                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                           </svg>
-                         </button>
-                       </div>
-                     )}
-                   </div>
-                  
-                  {/* O usar imagen local */}
-                  <div className="text-center">
-                    <span className="text-sm text-slate-500">O</span>
-                  </div>
-                  
-                  <button
-                    type="button"
-                    onClick={() => setShowImageSelector(!showImageSelector)}
-                    className="w-full px-4 py-3 border-2 border-dashed border-slate-300 rounded-xl hover:border-violet-400 hover:bg-violet-50 transition-colors text-slate-600"
-                  >
-                    <div className="flex items-center justify-center space-x-2">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      <span>Seleccionar imagen local</span>
-                    </div>
-                  </button>
-                  
-                                     {/* Selector de imágenes locales */}
-                   {showImageSelector && (
-                     <div className="bg-white border border-slate-200 rounded-xl p-4 max-h-60 overflow-y-auto">
-                       <div className="flex justify-between items-center mb-3">
-                         <h4 className="text-sm font-medium text-slate-700">Imágenes disponibles:</h4>
-                         <button
-                           type="button"
-                           onClick={loadAvailableImages}
-                           className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded hover:bg-blue-200 transition-colors"
-                         >
-                           🔄 Actualizar
-                         </button>
-                       </div>
-                                              <div className="grid grid-cols-2 gap-3">
-                         {availableImages.length > 0 ? (
-                           availableImages.map((img) => (
-                             <button
-                               key={img.path}
-                               type="button"
-                               onClick={() => {
-                                 console.log('Imagen seleccionada:', img.path)
-                                 setFormData(prev => {
-                                   const newData = { ...prev, image: img.path }
-                                   console.log('Nuevo formData:', newData)
-                                   return newData
-                                 })
-                                 setSelectedImage(img.path)
-                                 setShowImageSelector(false)
-                               }}
-                               className={`p-2 border rounded-lg hover:bg-violet-50 transition-colors ${
-                                 selectedImage === img.path ? 'border-violet-500 bg-violet-50' : 'border-slate-200'
-                               }`}
-                             >
-                               <img 
-                                 src={img.path} 
-                                 alt={img.name}
-                                 className="w-full h-20 object-cover rounded"
-                                 onError={(e) => {
-                                   e.currentTarget.src = '/images/Logo Bebidas.jpeg'
-                                 }}
-                               />
-                               <p className="text-xs text-slate-600 mt-1 truncate">{img.name}</p>
-                             </button>
-                           ))
-                         ) : (
-                           <div className="col-span-2 text-center py-8 text-slate-500">
-                             <svg className="w-12 h-12 mx-auto mb-2 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                             </svg>
-                             <p className="text-sm">No se encontraron imágenes</p>
-                             <p className="text-xs mt-1">Ejecuta update-images.bat para copiar imágenes</p>
-                           </div>
-                         )}
-                       </div>
-                                             <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                         <p className="text-xs text-blue-700">
-                           💡 <strong>Consejo:</strong> Para agregar más imágenes:
-                         </p>
-                         <ul className="text-xs text-blue-700 mt-1 space-y-1">
-                           <li>• Colócalas en la carpeta <code className="bg-blue-100 px-1 rounded">public/images/</code></li>
-                           <li>• O ejecuta <code className="bg-blue-100 px-1 rounded">update-images.bat</code> para copiar desde &quot;Fotos Bebidas&quot;</li>
-                                                        <li>• Haz clic en &quot;🔄 Actualizar&quot; para recargar la lista</li>
-                         </ul>
-                       </div>
-                    </div>
-                  )}
-                  
-                  {/* Vista previa */}
-                  {formData.image && (
-                    <div className="mt-3">
-                      <p className="text-sm font-medium text-slate-700 mb-2">Vista previa:</p>
-                      <div className="relative w-32 h-32 border border-slate-200 rounded-lg overflow-hidden">
-                        <img 
-                          src={formData.image} 
-                          alt="Vista previa"
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            e.currentTarget.src = '/images/product-default.jpg'
-                          }}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
+              {/* Imagen del Producto */}
+              <ImageSelector
+                onImageSelect={handleImageSelect}
+                selectedImage={formData.image}
+                label="Imagen del Producto"
+              />
             </div>
 
             {/* Botones */}
