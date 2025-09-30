@@ -176,6 +176,18 @@ export default function Home() {
 
   useEffect(() => {
     setMounted(true)
+    
+    // Detectar tipo de dispositivo
+    if (typeof window !== 'undefined') {
+      const width = window.innerWidth
+      if (width <= 768) {
+        console.log('📱 Móvil detectado')
+      } else if (width <= 1024) {
+        console.log('📱 Tablet detectada')
+      } else {
+        console.log('💻 Desktop detectado')
+      }
+    }
   }, [])
 
   if (!mounted) {
@@ -231,7 +243,7 @@ export default function Home() {
             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-violet-800 via-purple-800 to-indigo-800 bg-clip-text text-transparent">
               Productos Destacados
           </h2>
-            {/* Botón de actualización para móviles */}
+            {/* Botón de actualización para móviles y tablets */}
             <button 
               onClick={() => window.location.reload()}
               className="mt-4 sm:mt-0 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
@@ -240,7 +252,7 @@ export default function Home() {
             </button>
           </div>
           
-          <div className="products-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="products-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {STATIC_PRODUCTS.map((product) => (
               <div key={product.id} className="product-card group bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105 border border-violet-200/30">
                 <div className="h-48 sm:h-56 bg-gradient-to-br from-violet-100 via-purple-100 to-indigo-100 flex items-center justify-center group-hover:from-violet-200 group-hover:via-purple-200 group-hover:to-indigo-200 transition-all duration-500 relative overflow-hidden">
@@ -383,4 +395,4 @@ export default function Home() {
           </div>
     </>
   )
-}
+} 

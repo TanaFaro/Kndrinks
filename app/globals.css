@@ -99,6 +99,66 @@
   @apply bg-primary-600;
 }
 
+/* Estilos específicos para tablets */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  /* Forzar 3 columnas en tablets */
+  .products-grid,
+  .ofertas-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1rem !important;
+    padding: 0 1rem !important;
+  }
+
+  .product-card,
+  .oferta-card {
+    padding: 1rem !important;
+    margin: 0 !important;
+  }
+
+  .product-title,
+  .oferta-title {
+    font-size: 1.125rem !important;
+    line-height: 1.3 !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .product-price,
+  .oferta-price {
+    font-size: 1.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .product-card img,
+  .oferta-card img {
+    height: 140px !important;
+    object-fit: cover !important;
+  }
+
+  .product-card button,
+  .oferta-card button {
+    padding: 0.75rem !important;
+    font-size: 0.875rem !important;
+  }
+
+  /* Títulos de secciones */
+  h2 {
+    font-size: 2.25rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* Padding general */
+  section {
+    padding: 2rem 1rem !important;
+  }
+
+  /* Contenedores */
+  .max-w-6xl {
+    max-width: 100% !important;
+    padding: 0 1rem !important;
+  }
+}
+
 /* Estilos agresivos para móviles - Forzar consistencia total */
 @media screen and (max-width: 768px) {
   /* Reset completo para móviles */
