@@ -105,7 +105,8 @@ export default function Contacto() {
                 contact: '+54 9 351 773-8174',
                 icon: '💬',
                 action: 'Chatear',
-                link: 'https://wa.me/5493517738174?text=¡Hola! Me gustaría obtener más información sobre sus productos.'
+                link: 'https://wa.me/5493517738174?text=¡Hola! Me gustaría obtener más información sobre sus productos.',
+                isExternal: true
               },
               {
                 title: 'Dirección',
@@ -113,7 +114,8 @@ export default function Contacto() {
                 contact: 'Rimini 343 - Barrio Ampliación Kennedy',
                 icon: '📍',
                 action: 'Ver Mapa',
-                link: 'https://www.google.com/maps/search/Rimini+343+Barrio+Ampliación+Kennedy+Córdoba+Argentina'
+                link: 'https://www.google.com/maps/search/Rimini+343+Barrio+Ampliación+Kennedy+Córdoba+Argentina',
+                isExternal: true
               },
               {
                 title: 'Horarios',
@@ -139,8 +141,8 @@ export default function Contacto() {
                 </div>
                 <a
                   href={item.link}
-                  target={item.title === 'WhatsApp' || item.title === 'Dirección' ? '_blank' : undefined}
-                  rel={item.title === 'WhatsApp' || item.title === 'Dirección' ? 'noopener noreferrer' : undefined}
+                  target={item.isExternal ? '_blank' : undefined}
+                  rel={item.isExternal ? 'noopener noreferrer' : undefined}
                   className="inline-flex items-center space-x-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white px-6 py-3 rounded-2xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                 >
                   <span>{item.action}</span>
