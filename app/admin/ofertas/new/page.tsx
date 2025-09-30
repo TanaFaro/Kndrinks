@@ -6,6 +6,7 @@ import { auth } from '@/lib/auth'
 import { normalizeImagePath } from '@/lib/imageUtils'
 import { useImageRefresh } from '@/lib/useImageRefresh'
 import { saveOfertas, notifyDataChange } from '@/lib/dataSync'
+import ImageSelector from '@/components/ImageSelector'
 
 interface ComboProduct {
   productId: number
@@ -365,83 +366,11 @@ export default function NewOferta() {
 
 
               {/* Imagen del Combo */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Imagen del Combo
-                </label>
-                <div className="space-y-3">
-                  <select
-                    value={selectedImage}
-                    onChange={(e) => setSelectedImage(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all"
-                  >
-                    <option value="">Seleccionar imagen...</option>
-                    {availableImages.map((image, index) => (
-                      <option key={index} value={image}>
-                        {image.split('/').pop()}
-                      </option>
-                    ))}
-                  </select>
-                  
-                  {selectedImage && (
-                    <div className="relative">
-                      <img
-                        src={selectedImage}
-                        alt="Preview del combo"
-                        className="w-full h-32 object-cover rounded-xl border-2 border-green-500"
-                        onError={(e) => {
-                          console.log('❌ Error cargando imagen de preview:', selectedImage)
-                          e.currentTarget.src = '/images/Logo Bebidas.jpeg'
-                        }}
-                        onLoad={() => {
-                          console.log('✅ Imagen de preview cargada:', selectedImage)
-                        }}
-                      />
-                      <div className="absolute top-2 left-2 bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">
-                        Vista Previa
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => setSelectedImage('')}
-                        className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transition-colors"
-                      >
-                        ×
-                      </button>
-                    </div>
-                  )}
-                  
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={refreshImages}
-                      disabled={imagesLoading}
-                      className="flex-1 px-4 py-2 bg-violet-100 text-violet-700 rounded-xl hover:bg-violet-200 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {imagesLoading ? (
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-violet-600"></div>
-                      ) : (
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                        </svg>
-                      )}
-                      {imagesLoading ? 'Actualizando...' : 'Actualizar Imágenes'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        refreshImages()
-                        alert('✅ Lista de imágenes actualizada!')
-                      }}
-                      className="px-4 py-2 bg-green-100 text-green-700 rounded-xl hover:bg-green-200 transition-colors flex items-center justify-center gap-2"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      Recargar
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <ImageSelector
+                onImageSelect={handleImageSelect}
+                selectedImage={selectedImage}
+                label="Imagen del Combo"
+              />
 
               {/* Estado Activo */}
               <div className="space-y-4">
