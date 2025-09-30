@@ -106,10 +106,66 @@ export default function Ofertas() {
     }
   }
 
+  // Función para cargar ofertas de ejemplo
+  const loadExampleOfertas = () => {
+    const exampleOfertas = [
+      {
+        id: 1,
+        title: "Combo Fernet + Coca",
+        description: "Fernet Branca 750ml + 2 Coca Cola 2.25L",
+        comboProducts: [
+          { productId: 2, productName: "Fernet Branca 750ml", quantity: 1, price: 4500 },
+          { productId: 1, productName: "Coca Cola 2.25L", quantity: 2, price: 1000 }
+        ],
+        finalPrice: 6500,
+        image: "/images/fernetmas2cocas.jfif",
+        category: "Combos",
+        active: true,
+        featured: true,
+        priority: 5
+      },
+      {
+        id: 2,
+        title: "Combo Skyy + Speed",
+        description: "Skyy Vodka + Speed XL",
+        comboProducts: [
+          { productId: 3, productName: "Skyy Vodka", quantity: 1, price: 9500 },
+          { productId: 9, productName: "Speed XL", quantity: 1, price: 1500 }
+        ],
+        finalPrice: 10000,
+        image: "/images/skyymasspeed.jfif",
+        category: "Combos",
+        active: true,
+        featured: false,
+        priority: 3
+      },
+      {
+        id: 3,
+        title: "Combo DU + Speed",
+        description: "DU Renaissance + Speed XL",
+        comboProducts: [
+          { productId: 10, productName: "DU Renaissance", quantity: 1, price: 5000 },
+          { productId: 9, productName: "Speed XL", quantity: 1, price: 1500 }
+        ],
+        finalPrice: 6000,
+        image: "/images/Duconspeed.jfif",
+        category: "Combos",
+        active: true,
+        featured: false,
+        priority: 2
+      }
+    ]
+    
+    setOfertas(exampleOfertas)
+    localStorage.setItem('ofertas', JSON.stringify(exampleOfertas))
+    console.log('✅ Ofertas de ejemplo cargadas:', exampleOfertas.length)
+  }
+
   // Verificar si es administrador
   useEffect(() => {
     const checkAdminStatus = () => {
       const isAdminUser = localStorage.getItem('isAdmin') === 'true'
+      console.log('🔍 Verificando estado de administrador:', isAdminUser)
       setIsAdmin(isAdminUser)
     }
     checkAdminStatus()
@@ -163,7 +219,13 @@ export default function Ofertas() {
           setOfertas(ofertasCorregidas)
         } else {
           console.log('⚠️ No hay ofertas guardadas')
-          setOfertas([])
+          // Si es administrador, cargar ofertas de ejemplo
+          if (isAdmin) {
+            console.log('🔄 Cargando ofertas de ejemplo para administrador...')
+            loadExampleOfertas()
+          } else {
+            setOfertas([])
+          }
         }
       } catch (error) {
         console.error('❌ Error cargando ofertas:', error)
