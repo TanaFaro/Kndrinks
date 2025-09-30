@@ -120,11 +120,6 @@ export default function Ofertas() {
                         console.log('✅ Imagen de oferta cargada:', oferta.title, oferta.image)
                       }}
                     />
-                    {oferta.featured && (
-                      <div className="absolute top-4 right-4 bg-violet-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                      ⭐ POPULAR
-                    </div>
-                    )}
                     {oferta.priority && (
                       <div className="absolute top-4 left-4 bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-bold">
                         {getPriorityStars(oferta.priority)}
