@@ -53,7 +53,7 @@ export default function Carrito() {
     message += `*Total: $${getTotalPrice().toLocaleString('es-AR')}*\n\n`
     message += '¿Confirmas este pedido?'
     
-    const whatsappUrl = `https://wa.me/5491112345678?text=${encodeURIComponent(message)}`
+    const whatsappUrl = `https://wa.me/5493517738174?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, '_blank')
   }
 

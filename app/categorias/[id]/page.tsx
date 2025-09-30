@@ -79,7 +79,7 @@ export default function CategoriaPage() {
 
   const handleWhatsApp = (product: any) => {
     const message = `Hola! Me interesa el producto: ${product.name} - $${product.price.toLocaleString()}`
-    const whatsappUrl = `https://wa.me/5491112345678?text=${encodeURIComponent(message)}`
+    const whatsappUrl = `https://wa.me/5493517738174?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, '_blank')
   }
 
