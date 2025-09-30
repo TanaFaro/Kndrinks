@@ -529,7 +529,7 @@ export default function Productos() {
                 
                 return null
               })}
-              ))}
+              
             </div>
           ) : (
             <p className="text-center text-slate-600 text-lg">No hay productos disponibles en esta categoría.</p>
