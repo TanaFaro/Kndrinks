@@ -43,9 +43,6 @@ const Header = () => {
               <Link href="/productos" className="text-gray-700 hover:text-primary-600 font-medium transition-colors">
                 Productos
               </Link>
-              <Link href="/categorias" className="text-gray-700 hover:text-primary-600 font-medium transition-colors">
-                Categorías
-              </Link>
               <Link href="/ofertas" className="text-gray-700 hover:text-primary-600 font-medium transition-colors">
                 Ofertas
               </Link>
@@ -93,13 +90,6 @@ const Header = () => {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Productos
-                </Link>
-                <Link
-                  href="/categorias"
-                  className="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Categorías
                 </Link>
                 <Link
                   href="/ofertas"
