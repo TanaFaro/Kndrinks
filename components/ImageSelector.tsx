@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import { useImageRefresh } from '@/lib/useImageRefresh'
 
 interface ImageSelectorProps {
   onImageSelect: (imagePath: string) => void
@@ -9,32 +10,16 @@ interface ImageSelectorProps {
 }
 
 export default function ImageSelector({ onImageSelect, selectedImage, label = "Seleccionar Imagen" }: ImageSelectorProps) {
-  const [images, setImages] = useState<string[]>([])
-  const [loading, setLoading] = useState(true)
+  const { images, loading, lastUpdate, refreshImages, imageCount } = useImageRefresh()
   const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    loadImages()
-  }, [])
 
   const loadImages = async () => {
     try {
-      setLoading(true)
-      const response = await fetch('/api/images')
-      if (!response.ok) {
-        throw new Error('Error al cargar imágenes')
-      }
-      const data = await response.json()
-      
-      // Extraer solo las rutas de las imágenes
-      const imagePaths = [...data.products, ...data.combos].map((item: any) => item.image)
-      setImages(imagePaths)
       setError(null)
+      await refreshImages()
     } catch (err) {
       setError('Error al cargar las imágenes')
       console.error('Error:', err)
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -73,6 +58,20 @@ export default function ImageSelector({ onImageSelect, selectedImage, label = "S
   return (
     <div className="space-y-2">
       <label className="block text-sm font-medium text-gray-700">{label}</label>
+      
+      {/* Información de imágenes cargadas */}
+      {!loading && images.length > 0 && (
+        <div className="mb-4 p-3 bg-blue-50 rounded-lg">
+          <p className="text-sm text-blue-800">
+            📸 {imageCount} imágenes disponibles
+            {lastUpdate && (
+              <span className="text-xs text-blue-600 ml-2">
+                (Actualizado: {new Date(lastUpdate).toLocaleTimeString()})
+              </span>
+            )}
+          </p>
+        </div>
+      )}
       
       {/* Imagen seleccionada actualmente */}
       {selectedImage && (

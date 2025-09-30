@@ -107,7 +107,6 @@ export default function NewProduct() {
       ...prev,
       image: imagePath
     }))
-    setSelectedImage(imagePath)
     console.log('✅ Imagen seleccionada para el producto')
   }
 

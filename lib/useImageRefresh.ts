@@ -30,14 +30,16 @@ export function useImageRefresh(): UseImageRefreshReturn {
       
       if (response.ok) {
         const data = await response.json()
-        const imagePaths = data.images.map((img: ImageInfo) => img.path)
+        // Extraer rutas de imágenes de productos y combos
+        const imagePaths = [...data.products, ...data.combos].map((item: any) => item.image)
         
         setImages(imagePaths)
-        setLastUpdate(data.timestamp)
-        setImageCount(data.count || imagePaths.length)
+        setLastUpdate(new Date().toISOString())
+        setImageCount(imagePaths.length)
         
         console.log('✅ Imágenes actualizadas:', imagePaths.length)
-        console.log('📸 Última actualización:', data.timestamp)
+        console.log('📸 Última actualización:', new Date().toISOString())
+        console.log('🖼️ Imágenes cargadas:', imagePaths)
       } else {
         console.error('❌ Error cargando imágenes:', response.status)
       }
