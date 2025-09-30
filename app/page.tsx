@@ -94,7 +94,7 @@ const STATIC_PRODUCTS = [
     price: 3200,
     category: "Licores",
     stock: 25,
-    image: "/images/fernet 750.jfif",
+    image: "/images/Gancia.jfif",
     description: "Aperitivo italiano clásico"
   },
   {
@@ -132,6 +132,24 @@ const STATIC_PRODUCTS = [
     stock: 25,
     image: "/images/VINO-VINA-DE-BALBO-TINTO.png",
     description: "Vino tinto premium"
+  },
+  {
+    id: 12,
+    name: "Sprite 500ml",
+    price: 1000,
+    category: "Bebidas",
+    stock: 40,
+    image: "/images/Sprite.webp",
+    description: "Refresco sabor lima-limón"
+  },
+  {
+    id: 13,
+    name: "DU Renaissance 750ml",
+    price: 6500,
+    category: "Licores",
+    stock: 15,
+    image: "/images/DU Renaissance.jfif",
+    description: "Vodka premium francés"
   }
 ]
 
@@ -219,6 +237,34 @@ const STATIC_OFERTAS = [
       { name: "Vino Toro Tinto 750ml", price: 1800, quantity: 1 },
       { name: "Pritty Limón 2.25L", price: 700, quantity: 1 }
     ]
+  },
+  {
+    id: 7,
+    title: "Combo Fernet + 2 Coca",
+    description: "Fernet Branca 750ml + 2 Coca Cola 2.25L",
+    finalPrice: 6500,
+    image: "/images/fernet mas 2 cocas.jfif",
+    active: true,
+    featured: true,
+    priority: 5,
+    comboProducts: [
+      { name: "Fernet Branca 750ml", price: 4500, quantity: 1 },
+      { name: "Coca Cola 2.25L", price: 1000, quantity: 2 }
+    ]
+  },
+  {
+    id: 8,
+    title: "Combo Fernet + Coca Descartable",
+    description: "Fernet Branca 750ml + Coca Cola Descartable",
+    finalPrice: 5000,
+    image: "/images/fernet mas coca descartable.jpg",
+    active: true,
+    featured: false,
+    priority: 4,
+    comboProducts: [
+      { name: "Fernet Branca 750ml", price: 4500, quantity: 1 },
+      { name: "Coca Cola Descartable 500ml", price: 500, quantity: 1 }
+    ]
   }
 ]
 
@@ -266,15 +312,20 @@ export default function Home() {
       const response = await fetch('/api/images')
       const data = await response.json()
       
-      if (data.products) {
+      console.log('API Response:', data) // Debug
+      
+      if (data.products && data.products.length > 0) {
         setDynamicProducts(data.products)
       }
-      if (data.combos) {
+      if (data.combos && data.combos.length > 0) {
         setDynamicOfertas(data.combos)
       }
       setLoading(false)
     } catch (error) {
       console.error('Error loading images:', error)
+      // Usar productos estáticos como fallback
+      setDynamicProducts([])
+      setDynamicOfertas([])
       setLoading(false)
     }
   }
