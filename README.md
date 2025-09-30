@@ -279,3 +279,5 @@ Las contribuciones son bienvenidas. Por favor:
 **KNDrinks** - Tu tienda de bebidas premium en la web 🍷✨
 
 *Desarrollado con ❤️ para el mercado argentino*
+#   D e p l o y   f i x   0 9 / 3 0 / 2 0 2 5   1 2 : 5 5 : 4 7  
+ 
