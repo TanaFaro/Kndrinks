@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    unoptimized: true,
-  },
+  // Configuración mínima para evitar problemas
 }
 
 module.exports = nextConfig

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Directo de Imágenes</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .image-test { margin: 20px 0; padding: 10px; border: 1px solid #ccc; }
+        .error { border-color: red !important; background-color: #ffe6e6; }
+        .success { border-color: green !important; background-color: #e6ffe6; }
+        img { max-width: 200px; max-height: 200px; margin: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Test Directo de Imágenes</h1>
+    <p>Esta página prueba si las imágenes se pueden cargar directamente desde la carpeta public/images</p>
+    
+    <div class="image-test" id="test1">
+        <h3>Test 1: Coca Cola</h3>
+        <p>Ruta: /images/cocacola.jfif</p>
+        <img src="/images/cocacola.jfif" alt="Coca Cola" onload="this.parentElement.classList.add('success')" onerror="this.parentElement.classList.add('error')">
+    </div>
+    
+    <div class="image-test" id="test2">
+        <h3>Test 2: Fernet</h3>
+        <p>Ruta: /images/fernet-750.jfif</p>
+        <img src="/images/fernet-750.jfif" alt="Fernet" onload="this.parentElement.classList.add('success')" onerror="this.parentElement.classList.add('error')">
+    </div>
+    
+    <div class="image-test" id="test3">
+        <h3>Test 3: Skyy</h3>
+        <p>Ruta: /images/skyy.png</p>
+        <img src="/images/skyy.png" alt="Skyy" onload="this.parentElement.classList.add('success')" onerror="this.parentElement.classList.add('error')">
+    </div>
+    
+    <div class="image-test" id="test4">
+        <h3>Test 4: Gancia</h3>
+        <p>Ruta: /images/Gancia.jfif</p>
+        <img src="/images/Gancia.jfif" alt="Gancia" onload="this.parentElement.classList.add('success')" onerror="this.parentElement.classList.add('error')">
+    </div>
+    
+    <div class="image-test" id="test5">
+        <h3>Test 5: Sprite</h3>
+        <p>Ruta: /images/Sprite.webp</p>
+        <img src="/images/Sprite.webp" alt="Sprite" onload="this.parentElement.classList.add('success')" onerror="this.parentElement.classList.add('error')">
+    </div>
+    
+    <div class="image-test" id="test6">
+        <h3>Test 6: DU Renaissance</h3>
+        <p>Ruta: /images/DU-Renaissance.jfif</p>
+        <img src="/images/DU-Renaissance.jfif" alt="DU Renaissance" onload="this.parentElement.classList.add('success')" onerror="this.parentElement.classList.add('error')">
+    </div>
+    
+    <script>
+        // Log de errores en consola
+        document.querySelectorAll('img').forEach((img, index) => {
+            img.addEventListener('load', () => {
+                console.log(`✅ Imagen ${index + 1} cargada:`, img.src);
+            });
+            img.addEventListener('error', () => {
+                console.error(`❌ Error cargando imagen ${index + 1}:`, img.src);
+            });
+        });
+    </script>
+</body>
+</html>

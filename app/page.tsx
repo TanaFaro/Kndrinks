@@ -45,6 +45,15 @@ const STATIC_PRODUCTS = [
     description: "Refresco clásico de Coca Cola"
   },
   {
+    id: 999,
+    name: "TEST IMAGEN",
+    price: 1000,
+    category: "Test",
+    stock: 1,
+    image: "/images/Logo Bebidas.jpeg",
+    description: "Imagen de prueba con logo"
+  },
+  {
     id: 2,
     name: "Fernet Branca 750ml",
     price: 4500,
