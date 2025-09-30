@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { login } from '@/lib/simpleAuth'
 
 export default function ClienteLogin() {
   const [formData, setFormData] = useState({
@@ -22,9 +23,10 @@ export default function ClienteLogin() {
       // Aquí iría la lógica de autenticación real
       // Por ahora, simulamos un login exitoso
       if (formData.email && formData.password) {
-        // Guardar sesión del cliente
-        localStorage.setItem('clienteLoggedIn', 'true')
-        localStorage.setItem('clienteEmail', formData.email)
+        // Usar el sistema unificado de autenticación
+        login(formData.email)
+        
+        // Redirigir al dashboard
         router.push('/cliente/dashboard')
       } else {
         setError('Por favor completa todos los campos')
