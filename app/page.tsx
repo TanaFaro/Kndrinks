@@ -149,7 +149,7 @@ const STATIC_PRODUCTS = [
     price: 6500,
     category: "Licores",
     stock: 15,
-    image: "/images/DU Renaissance.jfif",
+    image: "/images/DU-Renaissance.jfif",
     description: "Vodka premium francés"
   },
   {

@@ -7,7 +7,7 @@ export async function GET() {
     const imagesDir = path.join(process.cwd(), 'public', 'images')
     
     // Leer el directorio de imágenes
-    const files = fs.readdirSync(imagesDir)
+        const files = fs.readdirSync(imagesDir)
     
     // Filtrar solo archivos de imagen (todos los formatos soportados)
     const imageFiles = files.filter(file => {
@@ -27,7 +27,7 @@ export async function GET() {
       'Sprite.webp': { category: 'Bebidas', price: 1000, description: 'Refresco sabor lima-limón', type: 'product' },
       'pritty-de-3-lts.webp': { category: 'Bebidas', price: 1800, description: 'Gaseosa sabor limón 3 litros', type: 'product' },
       'Speed-XL.webp': { category: 'Bebidas', price: 1500, description: 'Bebida energética XL', type: 'product' },
-      'DU Renaissance.jfif': { category: 'Licores', price: 6500, description: 'Vodka premium francés', type: 'product' },
+      'DU-Renaissance.jfif': { category: 'Licores', price: 6500, description: 'Vodka premium francés', type: 'product' },
       'skyy-mas-speed.jfif': { category: 'Combos', price: 4800, description: 'Combo Skyy + Speed', type: 'combo' },
       'Smirnoff-mas-2-speed.png': { category: 'Combos', price: 5500, description: 'Combo Smirnoff + 2 Speed', type: 'combo' },
       'Du-con-speed.jfif': { category: 'Combos', price: 7500, description: 'Combo Du + Speed', type: 'combo' },
@@ -62,7 +62,7 @@ export async function GET() {
         }
       } else {
         // Imagen nueva sin mapeo - crear producto automáticamente
-        const ext = path.extname(file).toLowerCase()
+          const ext = path.extname(file).toLowerCase()
         const name = file.replace(ext, '').replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
         
         // Detectar categoría basándose en el nombre del archivo
@@ -117,7 +117,7 @@ export async function GET() {
       }
     }
     
-    return NextResponse.json({
+    return NextResponse.json({ 
       products,
       combos,
       totalImages: imageFiles.length,
