@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useCartStore } from '@/store/cartStore'
+import Image from 'next/image'
 
 interface Product {
   id: number
@@ -150,6 +151,24 @@ const STATIC_PRODUCTS = [
     stock: 15,
     image: "/images/DU Renaissance.jfif",
     description: "Vodka premium francés"
+  },
+  {
+    id: 14,
+    name: "Gancia 1L",
+    price: 3200,
+    category: "Licores",
+    stock: 25,
+    image: "/images/Gancia.jfif",
+    description: "Aperitivo italiano clásico"
+  },
+  {
+    id: 15,
+    name: "Vino Toro 750ml",
+    price: 2200,
+    category: "Vinos",
+    stock: 30,
+    image: "/images/vino toro.jfif",
+    description: "Vino tinto de calidad"
   }
 ]
 
@@ -299,12 +318,9 @@ export default function Home() {
 
   useEffect(() => {
     setMounted(true)
-    loadDynamicImages()
-    
-    // Verificar nuevas imágenes cada 30 segundos
-    const interval = setInterval(loadDynamicImages, 30000)
-    
-    return () => clearInterval(interval)
+    // Deshabilitar carga dinámica temporalmente
+    // loadDynamicImages()
+    setLoading(false)
   }, [])
 
   const loadDynamicImages = async () => {
@@ -373,26 +389,19 @@ export default function Home() {
       {/* Productos Destacados */}
       <section className="bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100">
         <div className="max-w-6xl mx-auto">
-          <div className="flex justify-between items-center mb-16">
-            <h2 className="font-bold bg-gradient-to-r from-violet-800 via-purple-800 to-indigo-800 bg-clip-text text-transparent">
-              Productos Destacados
-            </h2>
-            <button
-              onClick={loadDynamicImages}
-              disabled={loading}
-              className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 disabled:opacity-50"
-            >
-              {loading ? 'Cargando...' : '🔄 Actualizar'}
-            </button>
-          </div>
+          <h2 className="font-bold bg-gradient-to-r from-violet-800 via-purple-800 to-indigo-800 bg-clip-text text-transparent mb-16">
+            Productos Destacados
+          </h2>
           
           <div className="products-grid">
-            {(dynamicProducts.length > 0 ? dynamicProducts : STATIC_PRODUCTS).map((product) => (
+            {STATIC_PRODUCTS.map((product) => (
               <div key={product.id} className="product-card group">
                 <div className="bg-gradient-to-br from-violet-100 via-purple-100 to-indigo-100 flex items-center justify-center group-hover:from-violet-200 group-hover:via-purple-200 group-hover:to-indigo-200 transition-all duration-500 relative overflow-hidden">
-                  <img
+                  <Image
                     src={product.image}
                     alt={product.name}
+                    width={300}
+                    height={300}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
@@ -451,7 +460,7 @@ export default function Home() {
           </h2>
           
           <div className="ofertas-grid">
-            {(dynamicOfertas.length > 0 ? dynamicOfertas : STATIC_OFERTAS).map((oferta) => (
+            {STATIC_OFERTAS.map((oferta) => (
               <div key={oferta.id} className={`oferta-card group ${oferta.featured ? 'border-yellow-400/50 shadow-yellow-200/50' : 'border-violet-200/30'}`}>
                 {/* Badge unificado */}
                 {(oferta.featured || (oferta.priority && oferta.priority >= 2)) && (
@@ -461,11 +470,13 @@ export default function Home() {
                 )}
                 
                 <div className="bg-gradient-to-br from-violet-100 via-purple-100 to-indigo-100 flex items-center justify-center group-hover:from-violet-200 group-hover:via-purple-200 group-hover:to-indigo-200 transition-all duration-500 relative overflow-hidden">
-                  <img
-                    src={oferta.image}
-                    alt={oferta.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
+                    <Image
+                      src={oferta.image}
+                      alt={oferta.title}
+                      width={300}
+                      height={300}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
                 </div>
                 <div>
                   <div className="bg-green-500 text-white text-sm font-bold px-3 py-1 rounded-full inline-block mb-4">
