@@ -40,7 +40,7 @@ const STATIC_PRODUCTS: Product[] = [
     price: 2500,
     category: "Bebidas",
     stock: 50,
-    image: "/images/Logo Bebidas.jpeg",
+    image: "/images/cocacola.jfif",
     description: "Refresco clásico de Coca Cola"
   },
   {
@@ -49,7 +49,7 @@ const STATIC_PRODUCTS: Product[] = [
     price: 4500,
     category: "Licores",
     stock: 30,
-    image: "/images/Logo Bebidas.jpeg",
+    image: "/images/fernet-750.jfif",
     description: "Fernet italiano de alta calidad"
   },
   {
@@ -58,7 +58,7 @@ const STATIC_PRODUCTS: Product[] = [
     price: 3800,
     category: "Licores",
     stock: 25,
-    image: "/images/Logo Bebidas.jpeg",
+    image: "/images/skyy.png",
     description: "Vodka premium americano"
   },
   {
@@ -67,7 +67,7 @@ const STATIC_PRODUCTS: Product[] = [
     price: 3500,
     category: "Licores",
     stock: 20,
-    image: "/images/Logo Bebidas.jpeg",
+    image: "/images/Smirnoff-solo.jpeg",
     description: "Vodka ruso premium"
   },
   {
@@ -76,7 +76,7 @@ const STATIC_PRODUCTS: Product[] = [
     price: 1200,
     category: "Bebidas",
     stock: 40,
-    image: "/images/Logo Bebidas.jpeg",
+    image: "/images/pritty-2-250.jfif",
     description: "Gaseosa sabor limón"
   },
   {
@@ -85,7 +85,7 @@ const STATIC_PRODUCTS: Product[] = [
     price: 1800,
     category: "Bebidas",
     stock: 30,
-    image: "/images/Logo Bebidas.jpeg",
+    image: "/images/pritty-de-3lts.webp",
     description: "Gaseosa sabor limón 3 litros"
   },
   {
@@ -94,7 +94,7 @@ const STATIC_PRODUCTS: Product[] = [
     price: 3200,
     category: "Licores",
     stock: 25,
-    image: "/images/Logo Bebidas.jpeg",
+    image: "/images/Gancia.jfif",
     description: "Aperitivo italiano clásico"
   },
   {
@@ -103,7 +103,7 @@ const STATIC_PRODUCTS: Product[] = [
     price: 800,
     category: "Bebidas",
     stock: 60,
-    image: "/images/Logo Bebidas.jpeg",
+    image: "/images/coca-descartable.jpg",
     description: "Coca Cola en botella descartable"
   },
   {
@@ -112,7 +112,7 @@ const STATIC_PRODUCTS: Product[] = [
     price: 1500,
     category: "Bebidas",
     stock: 40,
-    image: "/images/Logo Bebidas.jpeg",
+    image: "/images/Speed-XL.webp",
     description: "Bebida energética XL"
   },
   {
@@ -121,7 +121,7 @@ const STATIC_PRODUCTS: Product[] = [
     price: 1000,
     category: "Bebidas",
     stock: 40,
-    image: "/images/Logo Bebidas.jpeg",
+    image: "/images/Sprite.webp",
     description: "Refresco sabor lima-limón"
   },
   {
@@ -130,7 +130,7 @@ const STATIC_PRODUCTS: Product[] = [
     price: 6500,
     category: "Licores",
     stock: 15,
-    image: "/images/Logo Bebidas.jpeg",
+    image: "/images/DU-Renaissance.jfif",
     description: "Vodka premium francés"
   },
   {
@@ -139,7 +139,7 @@ const STATIC_PRODUCTS: Product[] = [
     price: 2200,
     category: "Vinos",
     stock: 25,
-    image: "/images/Logo Bebidas.jpeg",
+    image: "/images/VINO-VINA-DE-BALBO-TINTO.png",
     description: "Vino tinto premium"
   },
   {
@@ -148,7 +148,7 @@ const STATIC_PRODUCTS: Product[] = [
     price: 2200,
     category: "Vinos",
     stock: 30,
-    image: "/images/Logo Bebidas.jpeg",
+    image: "/images/vino-toro.jfif",
     description: "Vino tinto de calidad"
   }
 ]
@@ -159,7 +159,7 @@ const STATIC_OFERTAS: Oferta[] = [
     title: "Combo Fernet + Coca",
     description: "Fernet Branca 750ml + 2 Coca Cola 2.25L",
     finalPrice: 6500,
-    image: "/images/Logo Bebidas.jpeg",
+    image: "/images/fernet-mas-2-cocas.jfif",
     active: true,
     featured: true,
     priority: 5,
@@ -173,7 +173,7 @@ const STATIC_OFERTAS: Oferta[] = [
     title: "Combo Skyy + Speed",
     description: "Skyy Vodka 750ml + Speed XL",
     finalPrice: 4800,
-    image: "/images/Logo Bebidas.jpeg",
+    image: "/images/skyy-mas-speed.jfif",
     active: true,
     featured: true,
     priority: 4,
