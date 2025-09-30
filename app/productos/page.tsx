@@ -22,53 +22,128 @@ export default function Productos() {
   const { addItem } = useCartStore()
 
   useEffect(() => {
-    // Verificar que estamos en el cliente
-    if (typeof window === 'undefined') return
-    
-    // Cargar productos desde localStorage
-    const savedProducts = localStorage.getItem('products')
-    
-    if (savedProducts) {
-      try {
-        const parsedProducts = JSON.parse(savedProducts)
-        setProducts(parsedProducts)
-      } catch (error) {
-        console.error('Error parsing products:', error)
+    // Datos estáticos de productos
+    const staticProducts = [
+      {
+        id: 1,
+        name: "Coca Cola 2.25L",
+        price: 2500,
+        category: "Bebidas",
+        stock: 50,
+        image: "/images/cocacola.jfif",
+        description: "Refresco clásico de Coca Cola"
+      },
+      {
+        id: 2,
+        name: "Fernet Branca 750ml",
+        price: 4500,
+        category: "Licores",
+        stock: 30,
+        image: "/images/fernet-750.jfif",
+        description: "Fernet italiano de alta calidad"
+      },
+      {
+        id: 3,
+        name: "Skyy Vodka 750ml",
+        price: 3800,
+        category: "Licores",
+        stock: 25,
+        image: "/images/skyy.png",
+        description: "Vodka premium americano"
+      },
+      {
+        id: 4,
+        name: "Smirnoff Vodka 750ml",
+        price: 3500,
+        category: "Licores",
+        stock: 20,
+        image: "/images/Smirnoff-solo.jpeg",
+        description: "Vodka ruso premium"
+      },
+      {
+        id: 5,
+        name: "Pritty Limón 2.25L",
+        price: 1200,
+        category: "Bebidas",
+        stock: 40,
+        image: "/images/pritty-2-250.jfif",
+        description: "Gaseosa sabor limón"
+      },
+      {
+        id: 6,
+        name: "Pritty Limón 3L",
+        price: 1800,
+        category: "Bebidas",
+        stock: 30,
+        image: "/images/pritty-de-3lts.webp",
+        description: "Gaseosa sabor limón 3 litros"
+      },
+      {
+        id: 7,
+        name: "Gancia 1L",
+        price: 3200,
+        category: "Licores",
+        stock: 25,
+        image: "/images/Gancia.jfif",
+        description: "Aperitivo italiano clásico"
+      },
+      {
+        id: 8,
+        name: "Coca Cola Descartable 500ml",
+        price: 800,
+        category: "Bebidas",
+        stock: 60,
+        image: "/images/coca-descartable.jpg",
+        description: "Coca Cola en botella descartable"
+      },
+      {
+        id: 9,
+        name: "Speed XL",
+        price: 1500,
+        category: "Bebidas",
+        stock: 40,
+        image: "/images/Speed-XL.webp",
+        description: "Bebida energética XL"
+      },
+      {
+        id: 10,
+        name: "Sprite 500ml",
+        price: 1000,
+        category: "Bebidas",
+        stock: 40,
+        image: "/images/Sprite.webp",
+        description: "Refresco sabor lima-limón"
+      },
+      {
+        id: 11,
+        name: "DU Renaissance 750ml",
+        price: 6500,
+        category: "Licores",
+        stock: 15,
+        image: "/images/DU-Renaissance.jfif",
+        description: "Vodka premium francés"
+      },
+      {
+        id: 12,
+        name: "Vino Viña de Balbo Tinto",
+        price: 2200,
+        category: "Vinos",
+        stock: 25,
+        image: "/images/VINO-VINA-DE-BALBO-TINTO.png",
+        description: "Vino tinto premium"
+      },
+      {
+        id: 13,
+        name: "Vino Toro 750ml",
+        price: 2200,
+        category: "Vinos",
+        stock: 30,
+        image: "/images/vino-toro.jfif",
+        description: "Vino tinto de calidad"
       }
-    } else {
-      // Datos de ejemplo si no hay productos guardados
-      const exampleProducts = [
-        {
-          id: 1,
-          name: "Coca Cola 2.25L",
-          price: 2500,
-          category: "Bebidas",
-          stock: 50,
-          image: "/images/cocacola.jfif",
-          description: "Refresco clásico de Coca Cola"
-        },
-        {
-          id: 2,
-          name: "Fernet Branca 750ml",
-          price: 4500,
-          category: "Licores",
-          stock: 30,
-          image: "/images/fernet 750.jfif",
-          description: "Fernet italiano de alta calidad"
-        },
-        {
-          id: 3,
-          name: "Skyy Vodka 750ml",
-          price: 3800,
-          category: "Licores",
-          stock: 25,
-          image: "/images/skyy.png",
-          description: "Vodka premium americano"
-        }
-      ]
-      setProducts(exampleProducts)
-      localStorage.setItem('products', JSON.stringify(exampleProducts))
-    }
+    ]
+    
+    setProducts(staticProducts)
     setLoading(false)
   }, [])
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { normalizeImagePath, handleImageError } from '@/lib/imageUtils'
+// import { normalizeImagePath, handleImageError } from '@/lib/imageUtils'
 import { useCartStore } from '@/store/cartStore'
 
 interface ComboProduct {
@@ -51,92 +51,43 @@ export default function Ofertas() {
   const { addItem } = useCartStore()
 
   useEffect(() => {
-    // Solo ejecutar en el cliente
-    if (typeof window === 'undefined') return
-    
-    loadOfertas()
-  }, [])
-
-  const loadOfertas = () => {
-    // Verificar que estamos en el cliente
-    if (typeof window === 'undefined') return
-    
-    try {
-      const savedOfertas = localStorage.getItem('ofertas')
-      
-      if (savedOfertas) {
-        const parsedOfertas: Oferta[] = JSON.parse(savedOfertas)
-        
-        // Filtrar solo ofertas activas que tengan la estructura correcta
-        const activeOfertas = parsedOfertas.filter(oferta => 
-          oferta.active && 
-          oferta.finalPrice > 0 &&
-          oferta.image && 
-          oferta.image.trim() !== ''
-        )
-        
-        // Ordenar por destacados y prioridad
-        const sortedOfertas = activeOfertas.sort((a, b) => {
-          // Primero los destacados
-          if (a.featured && !b.featured) return -1
-          if (!a.featured && b.featured) return 1
-          
-          // Luego por prioridad (mayor prioridad primero)
-          if (a.priority && b.priority) {
-            return b.priority - a.priority
-          }
-          if (a.priority && !b.priority) return -1
-          if (!a.priority && b.priority) return 1
-          
-          // Finalmente por precio (menor precio primero para ofertas)
-          return a.finalPrice - b.finalPrice
-        })
-        
-        setOfertas(sortedOfertas)
-      } else {
-        // Datos de ejemplo si no hay ofertas guardadas
-        const exampleOfertas = [
-          {
-            id: 1,
-            title: "Combo Fernet + Coca",
-            description: "Fernet Branca 750ml + 2 Coca Cola 2.25L",
-            finalPrice: 6500,
-            image: "/images/fernet mas 2 cocas.jfif",
-            category: "Combos",
-            active: true,
-            featured: true,
-            priority: 5,
-            comboProducts: [
-              { name: "Fernet Branca 750ml", price: 4500, quantity: 1 },
-              { name: "Coca Cola 2.25L", price: 1000, quantity: 2 }
-            ]
-          },
-          {
-            id: 2,
-            title: "Combo Skyy + Speed",
-            description: "Skyy Vodka 750ml + Speed XL",
-            finalPrice: 4800,
-            image: "/images/skyy mas speed.jfif",
-            category: "Combos",
-            active: true,
-            featured: true,
-            priority: 4,
-            comboProducts: [
-              { name: "Skyy Vodka 750ml", price: 3800, quantity: 1 },
-              { name: "Speed XL", price: 1000, quantity: 1 }
-            ]
-          }
+    // Datos estáticos de ofertas
+    const staticOfertas = [
+      {
+        id: 1,
+        title: "Combo Fernet + Coca",
+        description: "Fernet Branca 750ml + 2 Coca Cola 2.25L",
+        finalPrice: 6500,
+        image: "/images/fernet-mas-2-cocas.jfif",
+        category: "Combos",
+        active: true,
+        featured: true,
+        priority: 5,
+        comboProducts: [
+          { name: "Fernet Branca 750ml", price: 4500, quantity: 1 },
+          { name: "Coca Cola 2.25L", price: 1000, quantity: 2 }
         ]
-        setOfertas(exampleOfertas)
-        localStorage.setItem('ofertas', JSON.stringify(exampleOfertas))
+      },
+      {
+        id: 2,
+        title: "Combo Skyy + Speed",
+        description: "Skyy Vodka 750ml + Speed XL",
+        finalPrice: 4800,
+        image: "/images/skyy-mas-speed.jfif",
+        category: "Combos",
+        active: true,
+        featured: true,
+        priority: 4,
+        comboProducts: [
+          { name: "Skyy Vodka 750ml", price: 3800, quantity: 1 },
+          { name: "Speed XL", price: 1000, quantity: 1 }
+        ]
       }
-    } catch (error) {
-      console.error('Error cargando combos:', error)
-      setOfertas([])
-    } finally {
-      setLoading(false)
-    }
-  }
+    ]
+    
+    setOfertas(staticOfertas)
+    setLoading(false)
+  }, [])
 
   const getActiveOfertas = () => {
     return ofertas.slice(0, 6) // Mostrar máximo 6 combos
@@ -218,10 +169,10 @@ export default function Ofertas() {
                     
                     <div className="h-48 bg-gradient-to-br from-violet-100 via-purple-100 to-indigo-100 flex items-center justify-center group-hover:from-violet-200 group-hover:via-purple-200 group-hover:to-indigo-200 transition-all duration-500 relative overflow-hidden">
                       <img 
-                        src={normalizeImagePath(oferta.image)} 
+                        src={oferta.image} 
                         alt={oferta.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        onError={(e) => handleImageError(e)}
+                        onError={(e) => e.currentTarget.src = '/images/Logo Bebidas.jpeg'}
                       />
                     </div>
                     <div className="p-8">
