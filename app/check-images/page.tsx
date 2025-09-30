@@ -48,7 +48,7 @@ export default function CheckImages() {
                   console.error('❌ Error:', e.currentTarget.src)
                   e.currentTarget.style.border = '3px solid red'
                 }}
-                onLoad={() => console.log('✅ Cargada:', e.currentTarget.src)}
+                onLoad={(e) => console.log('✅ Cargada:', e.currentTarget.src)}
               />
             </div>
             
@@ -62,7 +62,7 @@ export default function CheckImages() {
                   console.error('❌ Error:', e.currentTarget.src)
                   e.currentTarget.style.border = '3px solid red'
                 }}
-                onLoad={() => console.log('✅ Cargada:', e.currentTarget.src)}
+                onLoad={(e) => console.log('✅ Cargada:', e.currentTarget.src)}
               />
             </div>
           </div>
@@ -72,7 +72,7 @@ export default function CheckImages() {
           <h3 className="font-semibold">Instrucciones:</h3>
           <ol className="list-decimal list-inside space-y-1 text-sm mt-2">
             <li>Abre la consola del navegador (F12)</li>
-            <li>Haz clic en "Verificar Acceso Directo a Imágenes"</li>
+            <li>Haz clic en &quot;Verificar Acceso Directo a Imágenes&quot;</li>
             <li>Revisa los códigos de estado (200 = OK, 404 = No encontrado)</li>
             <li>Verifica qué imágenes aparecen con borde rojo</li>
           </ol>
