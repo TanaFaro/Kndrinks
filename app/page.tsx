@@ -47,7 +47,6 @@ export default function Home() {
       price: product.price,
       category: product.category,
       image: product.image,
-      quantity: 1,
       type: 'product'
     })
     console.log('✅ Producto agregado al carrito:', product.name)
