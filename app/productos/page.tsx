@@ -538,7 +538,7 @@ export default function Productos() {
           {/* Paginación */}
           {products.length > productsPerPage && (
             <div className="flex justify-center mt-12">
-              {Array.from({ length: Math.ceil(filteredProducts.length / productsPerPage) }, (_, i) => (
+              {Array.from({ length: Math.ceil(filteredItems.length / productsPerPage) }, (_, i) => (
                 <button
                   key={i + 1}
                   onClick={() => paginate(i + 1)}
