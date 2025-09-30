@@ -4,7 +4,7 @@ import path from 'path'
 
 export async function GET() {
   try {
-    const imagesDir = path.join(process.cwd(), 'Fotos Bebidas')
+    const imagesDir = path.join(process.cwd(), 'public', 'images')
     
     // Leer el directorio de imágenes
     const files = fs.readdirSync(imagesDir)
@@ -22,6 +22,7 @@ export async function GET() {
       'skyy.png': { category: 'Licores', price: 3800, description: 'Vodka premium americano', type: 'product' },
       'Smirnoff solo.jpeg': { category: 'Licores', price: 3500, description: 'Vodka ruso premium', type: 'product' },
       'pritty de 2.250 lt.jpg': { category: 'Bebidas', price: 1200, description: 'Gaseosa sabor limón 2.25L', type: 'product' },
+      'pritty 2.250.jfif': { category: 'Bebidas', price: 1200, description: 'Gaseosa sabor limón 2.25L', type: 'product' },
       'Gancia.jfif': { category: 'Licores', price: 3200, description: 'Aperitivo italiano clásico', type: 'product' },
       'Sprite.webp': { category: 'Bebidas', price: 1000, description: 'Refresco sabor lima-limón', type: 'product' },
       'pritty de 3 lts.webp': { category: 'Bebidas', price: 1800, description: 'Gaseosa sabor limón 3 litros', type: 'product' },
@@ -49,7 +50,7 @@ export async function GET() {
           price: mapping.price,
           category: mapping.category,
           stock: Math.floor(Math.random() * 50) + 10, // Stock aleatorio
-          image: `/Fotos Bebidas/${file}`,
+          image: `/images/${file}`,
           description: mapping.description,
           type: mapping.type
         }
@@ -103,7 +104,7 @@ export async function GET() {
           price: price,
           category: category,
           stock: Math.floor(Math.random() * 50) + 10,
-          image: `/Fotos Bebidas/${file}`,
+          image: `/images/${file}`,
           description: description,
           type: isCombo ? 'combo' : 'product'
         }
