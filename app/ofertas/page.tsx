@@ -1,5 +1,6 @@
 'use client'
 
+// Versión actualizada con precios corregidos - v2.2
 import { useState, useEffect } from 'react'
 import { useCartStore } from '@/store/cartStore'
 import { ComboProduct, Oferta } from '@/lib/types'
