@@ -116,17 +116,13 @@ export default function Ofertas() {
                 <div key={oferta.id} className="bg-gradient-to-br from-violet-50 to-purple-50 rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105 border border-violet-200">
                   <div className="relative h-48 sm:h-64 overflow-hidden bg-gradient-to-br from-violet-50 to-purple-50">
                     <img
-                      src={`${oferta.image}?v=${Date.now()}`}
+                      src={oferta.image}
                       alt={oferta.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-all duration-300"
                       onError={(e) => {
                         console.error('❌ Error cargando imagen de oferta:', oferta.title, oferta.image)
-                        // Intentar cargar sin cache primero
-                        if (!e.currentTarget.src.includes('?nocache')) {
-                          e.currentTarget.src = `${oferta.image}?nocache=${Date.now()}`
-                          return
-                        }
-                        // Si sigue fallando, mostrar placeholder
+                        console.error('❌ URL completa:', e.currentTarget.src)
+                        // Mostrar placeholder inmediatamente
                         e.currentTarget.style.display = 'none'
                         const container = e.currentTarget.parentElement
                         if (container) {
@@ -135,12 +131,13 @@ export default function Ofertas() {
                               <div class="text-4xl mb-2">🎁</div>
                               <div class="text-sm font-semibold text-center px-2">${oferta.title}</div>
                               <div class="text-xs text-violet-500 mt-1">Combo especial</div>
+                              <div class="text-xs text-red-500 mt-1">Error: ${oferta.image}</div>
                             </div>
                           `
                         }
                       }}
                       onLoad={(e) => {
-                        console.log('✅ Imagen de oferta cargada exitosamente:', oferta.title)
+                        console.log('✅ Imagen de oferta cargada exitosamente:', oferta.title, oferta.image)
                         e.currentTarget.style.opacity = '1'
                         // Ocultar spinner inmediatamente
                         const spinner = e.currentTarget.nextElementSibling as HTMLElement
