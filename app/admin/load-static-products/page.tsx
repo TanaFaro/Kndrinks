@@ -14,7 +14,7 @@ export default function LoadStaticProducts() {
     {
       id: 1,
       name: "Coca Cola 2.25L",
-      price: 2500,
+      price: 4200,
       category: "Bebidas",
       stock: 50,
       image: "/images/cocacola.jfif",
@@ -23,7 +23,7 @@ export default function LoadStaticProducts() {
     {
       id: 2,
       name: "Fernet Branca 750ml",
-      price: 4500,
+      price: 13500,
       category: "Licores",
       stock: 30,
       image: "/images/fernet750.jfif",
@@ -32,7 +32,7 @@ export default function LoadStaticProducts() {
     {
       id: 3,
       name: "Skyy Vodka 750ml",
-      price: 3800,
+      price: 9500,
       category: "Licores",
       stock: 25,
       image: "/images/skyy.png",
@@ -41,7 +41,7 @@ export default function LoadStaticProducts() {
     {
       id: 4,
       name: "Smirnoff Vodka 750ml",
-      price: 3500,
+      price: 8000,
       category: "Licores",
       stock: 20,
       image: "/images/Smirnoffsolo.jpeg",
@@ -50,7 +50,7 @@ export default function LoadStaticProducts() {
     {
       id: 5,
       name: "Pritty Limón 2.25L",
-      price: 1200,
+      price: 2600,
       category: "Bebidas",
       stock: 40,
       image: "/images/pritty2250.jfif",
@@ -59,7 +59,7 @@ export default function LoadStaticProducts() {
     {
       id: 6,
       name: "Pritty Limón 3L",
-      price: 1800,
+      price: 3000,
       category: "Bebidas",
       stock: 30,
       image: "/images/prittyde3lts.webp",
@@ -68,7 +68,7 @@ export default function LoadStaticProducts() {
     {
       id: 7,
       name: "Coca Cola Descartable 500ml",
-      price: 800,
+      price: 4200,
       category: "Bebidas",
       stock: 60,
       image: "/images/cocadescartable.jpg",
@@ -77,7 +77,7 @@ export default function LoadStaticProducts() {
     {
       id: 8,
       name: "Speed XL",
-      price: 1500,
+      price: 2800,
       category: "Bebidas",
       stock: 40,
       image: "/images/SpeedXL.webp",
@@ -104,7 +104,7 @@ export default function LoadStaticProducts() {
     {
       id: 11,
       name: "Vino Viña de Balbo Tinto",
-      price: 2200,
+      price: 2800,
       category: "Vinos",
       stock: 25,
       image: "/images/balbomaspritty.png",
