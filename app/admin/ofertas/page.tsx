@@ -178,6 +178,7 @@ export default function AdminOfertas() {
     setOfertas(initialOffers)
     localStorage.setItem('ofertas', JSON.stringify(initialOffers))
     console.log('✅ Ofertas iniciales cargadas:', initialOffers.length)
+    console.log('🚀 Sistema de ofertas actualizado -', new Date().toISOString())
   }
 
   const deleteOferta = (id: number) => {
