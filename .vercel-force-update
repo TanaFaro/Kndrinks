@@ -1,0 +1,10 @@
+# Archivo para forzar actualización de Vercel
+# Timestamp: 2025-01-10 14:30:00
+# Commit: f8e6141 - FORZAR VERCEL: Agregar timestamp al título para forzar actualización v3.21
+
+# Este archivo se crea para forzar que Vercel detecte cambios
+# Si Vercel no actualiza después de esto, hay un problema serio con la configuración
+
+FORCE_UPDATE=true
+TIMESTAMP=2025-01-10T14:30:00Z
+COMMIT_HASH=f8e6141
