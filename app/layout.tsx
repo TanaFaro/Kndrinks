@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'KNDrinks - Tu tienda de bebidas favorita',
-  description: 'Descubre la mejor selección de bebidas, licores, vinos y más. Envío rápido y precios increíbles. v2.3 - Precios corregidos',
+  description: 'Descubre la mejor selección de bebidas, licores, vinos y más. Envío rápido y precios increíbles.',
   keywords: 'bebidas, licores, vinos, cervezas, whisky, vodka, ron, tequila',
   authors: [{ name: 'KNDrinks' }],
   viewport: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no',
@@ -28,13 +28,8 @@ export default function RootLayout({
     <html lang="es">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        {/* Preload de imágenes críticas para mejor rendimiento en móviles */}
+        {/* Preload de imagen crítica */}
         <link rel="preload" as="image" href="/images/LogoBebidas.jpeg" />
-        <link rel="preload" as="image" href="/images/cocacola.jfif" />
-        <link rel="preload" as="image" href="/images/fernet750.jfif" />
-        <link rel="preload" as="image" href="/images/skyy.png" />
-        <link rel="preload" as="image" href="/images/Duconspeed.jfif" />
-        <link rel="preload" as="image" href="/images/fernetmas2cocas.jfif" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />

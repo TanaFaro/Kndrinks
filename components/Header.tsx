@@ -37,16 +37,16 @@ const Header = () => {
 
             {/* Navegación Desktop */}
             <nav className="hidden lg:flex items-center space-x-8">
-              <Link href="/" className="text-gray-700 hover:text-primary-600 font-medium transition-colors">
+              <Link href="/" className="text-gray-700 hover:text-violet-600 font-medium transition-colors">
                 Inicio
               </Link>
-              <Link href="/productos" className="text-gray-700 hover:text-primary-600 font-medium transition-colors">
+              <Link href="/productos" className="text-gray-700 hover:text-violet-600 font-medium transition-colors">
                 Productos
               </Link>
-              <Link href="/ofertas" className="text-gray-700 hover:text-primary-600 font-medium transition-colors">
+              <Link href="/ofertas" className="text-gray-700 hover:text-violet-600 font-medium transition-colors">
                 Ofertas
               </Link>
-              <Link href="/contacto" className="text-gray-700 hover:text-primary-600 font-medium transition-colors">
+              <Link href="/contacto" className="text-gray-700 hover:text-violet-600 font-medium transition-colors">
                 Contacto
               </Link>
             </nav>
@@ -80,7 +80,7 @@ const Header = () => {
             {/* Botón menú móvil */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden p-2 text-gray-600 hover:text-primary-600 transition-colors"
+              className="lg:hidden p-2 text-gray-600 hover:text-violet-600 transition-colors"
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -92,28 +92,28 @@ const Header = () => {
               <div className="px-2 pt-2 pb-3 space-y-1">
                 <Link
                   href="/"
-                  className="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors"
+                  className="block px-3 py-2 text-gray-700 hover:text-violet-600 hover:bg-gray-50 rounded-md transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Inicio
                 </Link>
                 <Link
                   href="/productos"
-                  className="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors"
+                  className="block px-3 py-2 text-gray-700 hover:text-violet-600 hover:bg-gray-50 rounded-md transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Productos
                 </Link>
                 <Link
                   href="/ofertas"
-                  className="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors"
+                  className="block px-3 py-2 text-gray-700 hover:text-violet-600 hover:bg-gray-50 rounded-md transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Ofertas
                 </Link>
                 <Link
                   href="/contacto"
-                  className="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors"
+                  className="block px-3 py-2 text-gray-700 hover:text-violet-600 hover:bg-gray-50 rounded-md transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Contacto
