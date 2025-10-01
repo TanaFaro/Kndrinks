@@ -18,10 +18,10 @@ export async function GET() {
     // Mapeo de nombres de archivos a información del producto
         // Mapeo de nombres de archivos a información del producto
         const imageMapping: Record<string, any> = {
-          'cocacola.jfif': { category: 'Bebidas', price: 2500, description: 'Refresco clásico de Coca Cola', type: 'product' },
-          'fernet750.jfif': { category: 'Licores', price: 4500, description: 'Fernet italiano de alta calidad', type: 'product' },
-          'skyy.png': { category: 'Licores', price: 3800, description: 'Vodka premium americano', type: 'product' },
-          'Smirnoffsolo.jpeg': { category: 'Licores', price: 3500, description: 'Vodka ruso premium', type: 'product' },
+          'cocacola.jfif': { category: 'Sin Alcohol', price: 4200, description: 'Refresco clásico de Coca Cola', type: 'product' },
+          'fernet750.jfif': { category: 'Aperitivos', price: 13500, description: 'Fernet italiano de alta calidad', type: 'product' },
+          'skyy.png': { category: 'Licores', price: 9500, description: 'Vodka premium americano', type: 'product' },
+          'Smirnoffsolo.jpeg': { category: 'Licores', price: 8000, description: 'Vodka ruso premium', type: 'product' },
           'prittyde2250-lt.jpg': { category: 'Bebidas', price: 1200, description: 'Gaseosa sabor limón 2.25L', type: 'product' },
           'pritty2250.jfif': { category: 'Bebidas', price: 1200, description: 'Gaseosa sabor limón 2.25L', type: 'product' },
           'Gancia.jfif': { category: 'Licores', price: 3200, description: 'Aperitivo italiano clásico', type: 'product' },

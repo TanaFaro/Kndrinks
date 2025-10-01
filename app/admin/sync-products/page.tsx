@@ -8,10 +8,10 @@ export default function SyncProducts() {
   const syncProducts = () => {
     try {
       const staticProducts = [
-        { id: 1, name: "Coca Cola 2.25L", price: 2500, category: "Bebidas", stock: 50, image: "/images/cocacola.jfif", description: "Refresco clásico de Coca Cola" },
-        { id: 2, name: "Fernet Branca 750ml", price: 4500, category: "Licores", stock: 30, image: "/images/fernet750.jfif", description: "Fernet italiano de alta calidad" },
-        { id: 3, name: "Skyy Vodka 750ml", price: 3800, category: "Licores", stock: 25, image: "/images/skyy.png", description: "Vodka premium americano" },
-        { id: 4, name: "Smirnoff Vodka 750ml", price: 3500, category: "Licores", stock: 20, image: "/images/Smirnoffsolo.jpeg", description: "Vodka ruso premium" },
+        { id: 1, name: "Coca Cola 2.25L", price: 4200, category: "Sin Alcohol", stock: 50, image: "/images/cocacola.jfif", description: "Refresco clásico de Coca Cola" },
+        { id: 2, name: "Fernet Branca 750ml", price: 13500, category: "Aperitivos", stock: 30, image: "/images/fernet750.jfif", description: "Fernet italiano de alta calidad" },
+        { id: 3, name: "Skyy Vodka 750ml", price: 9500, category: "Licores", stock: 25, image: "/images/skyy.png", description: "Vodka premium americano" },
+        { id: 4, name: "Smirnoff Vodka 750ml", price: 8000, category: "Licores", stock: 20, image: "/images/Smirnoffsolo.jpeg", description: "Vodka ruso premium" },
         { id: 5, name: "Pritty Limón 2.25L", price: 1200, category: "Bebidas", stock: 40, image: "/images/pritty2250.jfif", description: "Gaseosa sabor limón" },
         { id: 6, name: "Pritty Limón 3L", price: 1800, category: "Bebidas", stock: 30, image: "/images/prittyde3lts.webp", description: "Gaseosa sabor limón 3 litros" },
         { id: 7, name: "Coca Cola Descartable 500ml", price: 800, category: "Bebidas", stock: 60, image: "/images/cocadescartable.jpg", description: "Coca Cola en botella descartable" },
