@@ -144,16 +144,6 @@ export default function Productos() {
     setLoading(false)
   }, [])
 
-  setProducts(staticProducts)
-  setAllItems(staticProducts)
-  setLoading(false)
-  
-  // Debug logs
-  console.log('🔍 Productos cargados:', staticProducts.length)
-  console.log('🔍 AllItems:', allItems.length)
-  console.log('🔍 CurrentItems:', currentItems.length)
-  console.log('🔍 FilteredItems:', filteredItems.length)
-}, [])
 
   const categories = ['Todas', 'Bebidas', 'Licores', 'Vinos', 'Aperitivos', 'Sin Alcohol', 'Combos']
   
