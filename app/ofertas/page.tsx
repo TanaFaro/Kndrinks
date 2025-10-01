@@ -34,30 +34,30 @@ export default function Ofertas() {
   const { addItem } = useCartStore()
 
   useEffect(() => {
-    const loadOfertas = () => {
+    const loadOfertas = async () => {
       try {
-        console.log('🔄 Cargando ofertas...')
+        console.log('🔄 Cargando ofertas desde API unificada...')
         
-        // Cargar ofertas desde localStorage
-        const savedOfertas = localStorage.getItem('ofertas')
-        const ofertasToShow = savedOfertas ? JSON.parse(savedOfertas) : []
+        // Cargar ofertas desde API (misma fuente para todos los dispositivos)
+        const response = await fetch('/api/offers')
+        const ofertasToShow = await response.json()
         
         setOfertas(ofertasToShow)
         
-        console.log('🎁 Ofertas cargadas:', ofertasToShow.length)
+        console.log('🎁 Ofertas cargadas desde API:', ofertasToShow.length)
         
         // Debug para móviles
         if (ofertasToShow.length === 0) {
-          console.warn('⚠️ No hay ofertas disponibles')
+          console.warn('⚠️ No hay ofertas disponibles en API')
           console.log('🔍 Debug info:', {
             userAgent: navigator.userAgent,
             platform: navigator.platform,
-            localStorageAvailable: typeof window !== 'undefined' && !!window.localStorage
+            apiAvailable: typeof window !== 'undefined' && !!window.fetch
           })
         }
         
       } catch (error) {
-        console.error('❌ Error cargando ofertas:', error)
+        console.error('❌ Error cargando ofertas desde API:', error)
         setOfertas([])
       } finally {
         setLoading(false)

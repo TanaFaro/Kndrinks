@@ -16,17 +16,17 @@ export default function Productos() {
   const { addItem } = useCartStore()
 
   useEffect(() => {
-    const loadData = () => {
+    const loadData = async () => {
       try {
-        console.log('🔄 Cargando productos y ofertas...')
+        console.log('🔄 Cargando productos y ofertas desde API unificada...')
         
-        // Cargar productos desde localStorage
-        const savedProducts = localStorage.getItem('products')
-        const productsToShow = savedProducts ? JSON.parse(savedProducts) : []
+        // Cargar productos desde API (misma fuente para todos los dispositivos)
+        const productsResponse = await fetch('/api/products')
+        const productsToShow = await productsResponse.json()
         
-        // Cargar ofertas desde localStorage
-        const savedOfertas = localStorage.getItem('ofertas')
-        const ofertasToShow = savedOfertas ? JSON.parse(savedOfertas) : []
+        // Cargar ofertas desde API (misma fuente para todos los dispositivos)
+        const offersResponse = await fetch('/api/offers')
+        const ofertasToShow = await offersResponse.json()
         
         setProducts(productsToShow)
         setOfertas(ofertasToShow)
@@ -35,22 +35,22 @@ export default function Productos() {
         const combinedItems = [...productsToShow, ...ofertasToShow]
         setAllItems(combinedItems)
         
-        console.log('📦 Productos cargados:', productsToShow.length)
-        console.log('🎁 Ofertas cargadas:', ofertasToShow.length)
+        console.log('📦 Productos cargados desde API:', productsToShow.length)
+        console.log('🎁 Ofertas cargadas desde API:', ofertasToShow.length)
         console.log('📋 Total items:', combinedItems.length)
         
         // Debug para móviles
         if (combinedItems.length === 0) {
-          console.warn('⚠️ No hay productos disponibles')
+          console.warn('⚠️ No hay productos disponibles en API')
           console.log('🔍 Debug info:', {
             userAgent: navigator.userAgent,
             platform: navigator.platform,
-            localStorageAvailable: typeof window !== 'undefined' && !!window.localStorage
+            apiAvailable: typeof window !== 'undefined' && !!window.fetch
           })
         }
         
       } catch (error) {
-        console.error('❌ Error cargando datos:', error)
+        console.error('❌ Error cargando datos desde API:', error)
         setProducts([])
         setOfertas([])
         setAllItems([])

@@ -20,49 +20,29 @@ export default function Home() {
   const { addItem } = useCartStore()
 
   useEffect(() => {
-    // Productos fijos para la página de inicio (no dependen de localStorage)
-    const featuredProducts: Product[] = [
-      {
-        id: 1,
-        name: "Fernet BRANCA",
-        price: 13500,
-        category: "Aperitivos",
-        stock: 6,
-        image: "/images/fernet750.jfif",
-        description: "Fernet italiano de alta calidad"
-      },
-      {
-        id: 2,
-        name: "Skyy saborizado",
-        price: 9500,
-        category: "Licores",
-        stock: 12,
-        image: "/images/skyy.png",
-        description: "Vodka premium americano"
-      },
-      {
-        id: 3,
-        name: "Smirnoff Saborizado",
-        price: 8000,
-        category: "Licores",
-        stock: 12,
-        image: "/images/Smirnoffsolo.jpeg",
-        description: "Vodka ruso premium"
-      },
-      {
-        id: 4,
-        name: "Gancia",
-        price: 8000,
-        category: "Aperitivos",
-        stock: 6,
-        image: "/images/Gancia.jfif",
-        description: "Aperitivo italiano clásico"
+    const loadProducts = async () => {
+      try {
+        console.log('🔄 Cargando productos desde API unificada...')
+        
+        // Cargar productos desde API (misma fuente para todos los dispositivos)
+        const response = await fetch('/api/products')
+        const allProducts = await response.json()
+        
+        // Mostrar solo los primeros 4 productos como destacados
+        const featuredProducts = allProducts.slice(0, 4)
+        
+        setProducts(featuredProducts)
+        console.log('🏠 Productos destacados cargados desde API:', featuredProducts.length)
+        
+      } catch (error) {
+        console.error('❌ Error cargando productos desde API:', error)
+        setProducts([])
+      } finally {
+        setLoading(false)
       }
-    ]
-    
-    setProducts(featuredProducts)
-    setLoading(false)
-    console.log('🏠 Productos fijos cargados para página de inicio:', featuredProducts.length)
+    }
+
+    loadProducts()
   }, [])
 
   const handleAddToCart = (product: Product) => {
