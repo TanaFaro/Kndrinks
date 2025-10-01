@@ -79,22 +79,12 @@ export default function Productos() {
       },
       {
         id: 7,
-        name: "Coca Cola Descartable 500ml",
+        name: "Coca Cola 2,25L Descartable ",
         price: 4200,
         category: "Bebidas",
         stock: 60,
         image: "/images/cocadescartable.jpg",
         description: "Coca Cola en botella descartable",
-        type: 'product'
-      },
-      {
-        id: 8,
-        name: "Speed XL",
-        price: 2800,
-        category: "Bebidas",
-        stock: 40,
-        image: "/images/SpeedXL.webp",
-        description: "Bebida energética XL",
         type: 'product'
       },
       {

@@ -75,15 +75,6 @@ export default function LoadStaticProducts() {
       description: "Coca Cola en botella descartable"
     },
     {
-      id: 8,
-      name: "Speed XL",
-      price: 2800,
-      category: "Bebidas",
-      stock: 40,
-      image: "/images/SpeedXL.webp",
-      description: "Bebida energética XL"
-    },
-    {
       id: 9,
       name: "DU Renaissance",
       price: 5000,
