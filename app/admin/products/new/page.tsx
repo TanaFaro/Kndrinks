@@ -53,16 +53,8 @@ export default function NewProduct() {
         return
       }
 
-      // Obtener productos existentes
-      const savedProducts = localStorage.getItem('products')
-      console.log('Productos existentes:', savedProducts)
-      
-      const products: Product[] = savedProducts ? JSON.parse(savedProducts) : []
-      console.log('Lista de productos parseada:', products)
-
-      // Crear nuevo producto
-      const newProduct: Product = {
-        id: Date.now(), // ID único basado en timestamp
+      // Crear nuevo producto para enviar a la API
+      const newProduct = {
         name: formData.name,
         price: parseFloat(formData.price),
         category: formData.category,
@@ -71,21 +63,29 @@ export default function NewProduct() {
         description: formData.description
       }
 
-      console.log('Nuevo producto creado:', newProduct)
+      console.log('Enviando producto a API unificada:', newProduct)
 
-      // Agregar a la lista
-      products.push(newProduct)
-      console.log('Producto agregado a la lista. Total:', products.length)
+      // Enviar a la API unificada (se actualizará en todos los dispositivos)
+      const response = await fetch('/api/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newProduct)
+      })
 
-      // Guardar en localStorage
-      localStorage.setItem('products', JSON.stringify(products))
-      console.log('Productos guardados en localStorage')
+      if (!response.ok) {
+        throw new Error('Error al crear producto en la API')
+      }
+
+      const createdProduct = await response.json()
+      console.log('Producto creado en API:', createdProduct)
 
       // Mostrar mensaje de éxito
-      alert('¡Producto creado exitosamente!')
+      alert('✅ ¡Producto creado exitosamente! Se actualizará automáticamente en todos los dispositivos.')
 
-      // Redirigir al dashboard
-      router.push('/admin/dashboard')
+      // Redirigir a la gestión de productos
+      router.push('/admin/products')
     } catch (error) {
       console.error('Error al crear producto:', error)
       alert('Error al crear el producto: ' + (error instanceof Error ? error.message : 'Error desconocido'))

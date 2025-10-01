@@ -38,10 +38,16 @@ export default function EditProduct() {
       return
     }
   
-    // Cargar datos del producto
-    const savedProducts = localStorage.getItem('products')
-    if (savedProducts) {
-      const products: Product[] = JSON.parse(savedProducts)
+    // Cargar datos del producto desde la API
+    loadProduct()
+  }, [productId, router])
+
+  const loadProduct = async () => {
+    try {
+      const response = await fetch('/api/products')
+      if (!response.ok) throw new Error('Error cargando productos')
+      
+      const products: Product[] = await response.json()
       const product = products.find(p => p.id === productId)
       
       if (product) {
@@ -54,47 +60,55 @@ export default function EditProduct() {
           description: product.description
         })
       } else {
-        // Producto no encontrado
-        router.push('/admin/dashboard')
-        return
+        alert('Producto no encontrado')
+        router.push('/admin/products')
       }
-    } else {
-      router.push('/admin/dashboard')
-      return
+    } catch (error) {
+      console.error('Error cargando producto:', error)
+      alert('Error cargando producto: ' + (error as Error).message)
+      router.push('/admin/products')
+    } finally {
+      setLoading(false)
     }
-  
-    setLoading(false)
-  }, [productId, router])
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSaving(true)
 
     try {
-      // Obtener productos existentes
-      const savedProducts = localStorage.getItem('products')
-      const products: Product[] = savedProducts ? JSON.parse(savedProducts) : []
+      // Actualizar producto en la API unificada
+      const updatedProduct = {
+        id: productId,
+        name: formData.name,
+        price: parseFloat(formData.price),
+        category: formData.category,
+        stock: parseInt(formData.stock),
+        image: formData.image || '/images/LogoBebidas.jpeg',
+        description: formData.description
+      }
 
-      // Actualizar el producto
-      const updatedProducts = products.map(product => 
-        product.id === productId 
-          ? {
-              ...product,
-              name: formData.name,
-              price: parseFloat(formData.price),
-              category: formData.category,
-              stock: parseInt(formData.stock),
-              image: formData.image || '/images/product-default.jpg',
-              description: formData.description
-            }
-          : product
-      )
+      console.log('Actualizando producto en API:', updatedProduct)
 
-      // Guardar en localStorage
-      localStorage.setItem('products', JSON.stringify(updatedProducts))
+      const response = await fetch('/api/products', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedProduct)
+      })
 
-      // Redirigir al dashboard
-      router.push('/admin/dashboard')
+      if (!response.ok) {
+        throw new Error('Error al actualizar producto en la API')
+      }
+
+      const result = await response.json()
+      console.log('Producto actualizado en API:', result)
+
+      alert('✅ ¡Producto actualizado exitosamente! Se actualizará automáticamente en todos los dispositivos.')
+
+      // Redirigir a la gestión de productos
+      router.push('/admin/products')
     } catch (error) {
       console.error('Error al actualizar producto:', error)
     } finally {
