@@ -12,6 +12,7 @@ export interface ComboProduct {
     stock: number
     image: string
     description: string
+    type: 'product'
   }
   
   export interface Oferta {
