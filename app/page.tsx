@@ -29,8 +29,7 @@ export default function Home() {
         category: "Aperitivos",
         stock: 6,
         image: "/images/fernet750.jfif",
-        description: "Fernet italiano de alta calidad",
-        type: 'product'
+        description: "Fernet italiano de alta calidad"
       },
       {
         id: 2,
@@ -39,8 +38,7 @@ export default function Home() {
         category: "Licores",
         stock: 12,
         image: "/images/skyy.png",
-        description: "Vodka premium americano",
-        type: 'product'
+        description: "Vodka premium americano"
       },
       {
         id: 3,
@@ -49,8 +47,7 @@ export default function Home() {
         category: "Licores",
         stock: 12,
         image: "/images/Smirnoffsolo.jpeg",
-        description: "Vodka ruso premium",
-        type: 'product'
+        description: "Vodka ruso premium"
       },
       {
         id: 4,
@@ -59,8 +56,7 @@ export default function Home() {
         category: "Aperitivos",
         stock: 6,
         image: "/images/Gancia.jfif",
-        description: "Aperitivo italiano clásico",
-        type: 'product'
+        description: "Aperitivo italiano clásico"
       }
     ]
     
