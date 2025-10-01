@@ -248,4 +248,5 @@ export default function Home() {
     </div>
   )
 } 
-// Force Vercel update - Version 3 - Major C
+// Force Vercel update - Version 3 - Major C/ /   F o r c e   V e r c e l   u p d a t e   -   P r e c i o s   c o r r e g i d o s   0 9 / 3 0 / 2 0 2 5   2 2 : 3 5 : 1 6  
+ 
