@@ -125,7 +125,7 @@ export default function Home() {
               price: 2800,
               category: "Vinos",
               stock: 25,
-              image: "/images/balbomaspritty.png",
+              image: "/images/balbomaspritty.jpg",
               description: "Vino tinto premium"
             },
             {
@@ -208,16 +208,29 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {products.map((product) => (
                 <div key={product.id} className="bg-gradient-to-br from-violet-50 to-purple-50 rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105 border border-violet-200">
-                  <div className="relative h-64 overflow-hidden">
+                  <div className="relative h-64 overflow-hidden bg-gray-100">
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
                       onError={(e) => {
                         console.error('Error cargando imagen:', product.image)
                         e.currentTarget.src = '/images/LogoBebidas.jpeg'
+                        // Ocultar spinner cuando hay error
+                        const spinner = e.currentTarget.nextElementSibling as HTMLElement
+                        if (spinner) spinner.style.display = 'none'
                       }}
+                      onLoad={(e) => {
+                        e.currentTarget.style.opacity = '1'
+                        // Ocultar spinner cuando la imagen se carga
+                        const spinner = e.currentTarget.nextElementSibling as HTMLElement
+                        if (spinner) spinner.style.display = 'none'
+                      }}
+                      style={{ opacity: 0 }}
                     />
+                    <div className="absolute inset-0 flex items-center justify-center bg-gray-100" id={`spinner-main-${product.id}`}>
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-violet-600"></div>
+                    </div>
                   </div>
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-gray-800 mb-2">{product.name}</h3>
