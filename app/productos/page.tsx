@@ -261,5 +261,3 @@ export default function Productos() {
       </section>
     </div>
   )
-}/ /   F o r c e   u p d a t e   -   L o a d i n g   f i x   a p p l i e d  
- 
