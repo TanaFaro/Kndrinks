@@ -128,7 +128,7 @@ export default function Productos() {
     ]
 
     setProducts(staticProducts)
-    setLoading(false)
+    setAllItems(staticProducts)
   }, [])
 
   const categories = ['Todas', 'Bebidas', 'Licores', 'Vinos', 'Aperitivos', 'Sin Alcohol', 'Combos']
