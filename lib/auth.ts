@@ -57,15 +57,15 @@ export const auth = {
         return false
       }
       
-      // Verificar que no haya expirado (24 horas)
-      const loginTime = new Date(session.loginTime)
-      const now = new Date()
-      const hoursDiff = (now.getTime() - loginTime.getTime()) / (1000 * 60 * 60)
-      
-      if (hoursDiff > 24) {
-        localStorage.removeItem(SESSION_KEY)
-        return false
-      }
+     // Verificar que no haya expirado (24 horas) - TEMPORALMENTE DESHABILITADO
+// const loginTime = new Date(session.loginTime)
+// const now = new Date()
+// const hoursDiff = (now.getTime() - loginTime.getTime()) / (1000 * 60 * 60)
+
+// if (hoursDiff > 24) {
+//   localStorage.removeItem(SESSION_KEY)
+//   return false
+// }
       
       return true
     } catch (error) {
