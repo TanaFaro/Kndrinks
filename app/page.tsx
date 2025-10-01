@@ -94,7 +94,7 @@ export default function Home() {
       <section className="py-24 px-4 text-center bg-gradient-to-br from-violet-100 via-purple-100 to-indigo-100">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-violet-800 via-purple-800 to-indigo-800 bg-clip-text text-transparent mb-8">
-            KNDrinks - ACTUALIZADO {new Date().toLocaleString()}
+            KNDrinks
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
             Tu tienda de bebidas premium. Descubre nuestra selección cuidadosamente curada.

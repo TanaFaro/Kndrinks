@@ -1,27 +1,9 @@
 {
   "version": 2,
-  "name": "kndrinks",
   "builds": [
     {
       "src": "package.json",
       "use": "@vercel/next"
     }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
-  "functions": {
-    "app/api/**/*.ts": {
-      "runtime": "nodejs18.x"
-    }
-  },
-  "env": {
-    "NEXT_PUBLIC_APP_VERSION": "3.21",
-    "FORCE_UPDATE": "true"
-  },
-  "buildCommand": "npm run build",
-  "outputDirectory": ".next"
+  ]
 }
