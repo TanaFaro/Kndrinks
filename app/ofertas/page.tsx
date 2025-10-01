@@ -120,18 +120,18 @@ export default function Ofertas() {
                       alt={oferta.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-all duration-300"
                       onError={(e) => {
-                        console.error('❌ Error cargando imagen de oferta:', oferta.title, oferta.image)
-                        console.error('❌ URL completa:', e.currentTarget.src)
-                        // Mostrar placeholder inmediatamente
+                        console.error('❌ Error cargando imagen de oferta en móvil:', oferta.title, oferta.image)
+                        // En móviles, mostrar la información del combo sin imagen
                         e.currentTarget.style.display = 'none'
                         const container = e.currentTarget.parentElement
                         if (container) {
                           container.innerHTML = `
-                            <div class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-violet-100 to-purple-100 text-violet-600">
-                              <div class="text-4xl mb-2">🎁</div>
-                              <div class="text-sm font-semibold text-center px-2">${oferta.title}</div>
-                              <div class="text-xs text-violet-500 mt-1">Combo especial</div>
-                              <div class="text-xs text-red-500 mt-1">Error: ${oferta.image}</div>
+                            <div class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-violet-100 to-purple-100 text-violet-600 p-4">
+                              <div class="text-3xl mb-3">🍷</div>
+                              <div class="text-lg font-bold text-center mb-2">${oferta.title}</div>
+                              <div class="text-sm text-violet-700 text-center mb-2">${oferta.description}</div>
+                              <div class="text-2xl font-bold text-violet-800">$${oferta.finalPrice.toLocaleString()}</div>
+                              <div class="text-xs text-violet-500 mt-2">Combo especial</div>
                             </div>
                           `
                         }
