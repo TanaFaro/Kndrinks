@@ -20,49 +20,39 @@ export default function Home() {
   const { addItem } = useCartStore()
 
   useEffect(() => {
-    // Productos fijos para la página de inicio (no interfieren con productos/admin)
-    const featuredProducts: Product[] = [
-      {
-        id: 1,
-        name: "Fernet BRANCA",
-        price: 13500,
-        category: "Aperitivos",
-        stock: 6,
-        image: "/images/fernet750.jfif",
-        description: "Fernet italiano de alta calidad"
-      },
-      {
-        id: 2,
-        name: "Skyy saborizado",
-        price: 9500,
-        category: "Licores",
-        stock: 12,
-        image: "/images/skyy.png",
-        description: "Vodka premium americano"
-      },
-      {
-        id: 3,
-        name: "Smirnoff Saborizado",
-        price: 8000,
-        category: "Licores",
-        stock: 12,
-        image: "/images/Smirnoffsolo.jpeg",
-        description: "Vodka ruso premium"
-      },
-      {
-        id: 4,
-        name: "Gancia",
-        price: 8000,
-        category: "Aperitivos",
-        stock: 6,
-        image: "/images/Gancia.jfif",
-        description: "Aperitivo italiano clásico"
+    const loadProducts = () => {
+      try {
+        console.log('🔄 Cargando productos desde localStorage...')
+        
+        // Cargar productos desde localStorage (misma fuente que /productos)
+        const savedProducts = localStorage.getItem('products')
+        const productsToShow = savedProducts ? JSON.parse(savedProducts) : []
+        
+        // Mostrar solo los primeros 4 productos como destacados
+        const featuredProducts = productsToShow.slice(0, 4)
+        
+        setProducts(featuredProducts)
+        console.log('🏠 Productos destacados cargados:', featuredProducts.length)
+        
+        // Debug para móviles
+        if (featuredProducts.length === 0) {
+          console.warn('⚠️ No hay productos disponibles en localStorage')
+          console.log('🔍 Debug info:', {
+            userAgent: navigator.userAgent,
+            platform: navigator.platform,
+            localStorageAvailable: typeof window !== 'undefined' && !!window.localStorage
+          })
+        }
+        
+      } catch (error) {
+        console.error('❌ Error cargando productos:', error)
+        setProducts([])
+      } finally {
+        setLoading(false)
       }
-    ]
-    
-    setProducts(featuredProducts)
-    setLoading(false)
-    console.log('🏠 Productos destacados cargados para página de inicio - v3.13')
+    }
+
+    loadProducts()
   }, [])
 
   const handleAddToCart = (product: Product) => {
@@ -157,6 +147,14 @@ export default function Home() {
               <div className="text-6xl mb-4">🍷</div>
               <h3 className="text-2xl font-bold text-gray-700 mb-2">No hay productos disponibles</h3>
               <p className="text-gray-600">Los productos se cargarán desde la administración.</p>
+              <div className="mt-4">
+                <a 
+                  href="/admin" 
+                  className="inline-block bg-violet-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-violet-700 transition-colors"
+                >
+                  Ir a Administración
+                </a>
+              </div>
             </div>
           )}
         </div>
