@@ -38,6 +38,36 @@ export default function Check() {
     }
   }
 
+  const fixPrices = () => {
+    try {
+      const products = localStorage.getItem('products')
+      if (products) {
+        const parsed = JSON.parse(products)
+        const fixed = parsed.map((p: any) => {
+          // Corregir precios específicos
+          if (p.name?.includes('Coca-cola x 2.25') && p.price === 2500) {
+            return { ...p, price: 4200 }
+          }
+          if (p.name?.includes('Fernet') && p.price === 4500) {
+            return { ...p, price: 13500 }
+          }
+          if (p.name?.includes('Smirnoff') && p.price === 3800) {
+            return { ...p, price: 8000 }
+          }
+          if (p.name?.includes('Skyy') && p.price === 3800) {
+            return { ...p, price: 9500 }
+          }
+          return p
+        })
+        localStorage.setItem('products', JSON.stringify(fixed))
+        setData((prev: any) => ({ ...prev, products: fixed }))
+        alert('✅ Precios corregidos: Coca Cola $4,200, Fernet $13,500, Smirnoff $8,000, Skyy $9,500')
+      }
+    } catch (error) {
+      alert('❌ Error: ' + error)
+    }
+  }
+
   return (
     <div className="p-8 max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">🔍 Verificar Datos</h1>
@@ -48,6 +78,12 @@ export default function Check() {
           className="bg-blue-600 text-white px-4 py-2 rounded mr-4"
         >
           🍾 Corregir Coca Cola
+        </button>
+        <button 
+          onClick={fixPrices}
+          className="bg-red-600 text-white px-4 py-2 rounded mr-4"
+        >
+          💰 Corregir Precios
         </button>
         <button 
           onClick={() => window.location.reload()}
