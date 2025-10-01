@@ -28,9 +28,52 @@ export default function Home() {
           const parsedProducts: Product[] = JSON.parse(savedProducts)
           setProducts(parsedProducts)
         } else {
-          // Sin productos hardcodeados - el administrador debe cargarlos
-          setProducts([])
-          console.log('⚠️ No hay productos cargados. Usa el panel de administración para agregar productos.')
+          // Cargar productos de ejemplo si no hay productos en localStorage
+          const exampleProducts: Product[] = [
+            {
+              id: 1,
+              name: "Coca Cola 2.25L",
+              price: 4200,
+              category: "Bebidas",
+              stock: 50,
+              image: "/images/cocacola.jfif",
+              description: "Refresco clásico de Coca Cola",
+              type: 'product'
+            },
+            {
+              id: 2,
+              name: "Fernet Branca 750ml",
+              price: 13500,
+              category: "Licores",
+              stock: 30,
+              image: "/images/fernet750.jfif",
+              description: "Fernet italiano de alta calidad",
+              type: 'product'
+            },
+            {
+              id: 3,
+              name: "Skyy Vodka 750ml",
+              price: 9500,
+              category: "Licores",
+              stock: 25,
+              image: "/images/skyy.png",
+              description: "Vodka premium americano",
+              type: 'product'
+            },
+            {
+              id: 4,
+              name: "Speed XL",
+              price: 2800,
+              category: "Bebidas",
+              stock: 35,
+              image: "/images/speedxl1.jfif",
+              description: "Bebida energética de gran tamaño",
+              type: 'product'
+            }
+          ]
+          setProducts(exampleProducts)
+          localStorage.setItem('products', JSON.stringify(exampleProducts))
+          console.log('📦 Productos de ejemplo cargados')
         }
       } catch (error) {
         console.error('Error cargando productos:', error)
