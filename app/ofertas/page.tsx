@@ -36,139 +36,17 @@ export default function Ofertas() {
   useEffect(() => {
     const loadOfertas = () => {
       try {
-        // Limpiar localStorage de ofertas para forzar recarga
-        localStorage.removeItem('ofertas')
-        console.log('🧹 Limpiando localStorage de ofertas')
-        
-        // Cargar ofertas correctas desde el sistema de administración
-        const correctOffers: Oferta[] = [
-          {
-            id: 1,
-            title: "Du + Speed",
-            description: "Combo DU Renaissance + Speed XL",
-            comboProducts: [
-              { name: "DU Renaissance 750ml", quantity: 1, price: 5000 },
-              { name: "Speed XL", quantity: 1, price: 2800 }
-            ],
-            finalPrice: 7500,
-            image: "/images/Duconspeed.jfif",
-            category: "Combos",
-            active: true
-          },
-          {
-            id: 2,
-            title: "Branca 750ml + 1 Coca 2.25L",
-            description: "Fernet Branca + Coca Cola descartable",
-            comboProducts: [
-              { name: "Fernet Branca 750ml", quantity: 1, price: 13500 },
-              { name: "Coca Cola Descartable 2.25L", quantity: 1, price: 4200 }
-            ],
-            finalPrice: 17000,
-            image: "/images/fernetmascocadescartable.jpg",
-            category: "Combos",
-            active: true
-          },
-          {
-            id: 3,
-            title: "Branca 750ml + 2 Coca 2.25L",
-            description: "Fernet Branca + 2 Coca Cola descartable",
-            comboProducts: [
-              { name: "Fernet Branca 750ml", quantity: 1, price: 13500 },
-              { name: "Coca Cola Descartable 2.25L", quantity: 2, price: 4200 }
-            ],
-            finalPrice: 21200,
-            image: "/images/fernetmas2cocas.jfif",
-            category: "Combos",
-            active: true
-          },
-          {
-            id: 4,
-            title: "Skyy 750ml + 2 Speed XL",
-            description: "Skyy Vodka + 2 Speed XL",
-            comboProducts: [
-              { name: "Skyy Vodka 750ml", quantity: 1, price: 9500 },
-              { name: "Speed XL", quantity: 2, price: 2800 }
-            ],
-            finalPrice: 15500,
-            image: "/images/skyymasspeed.jfif",
-            category: "Combos",
-            active: true
-          },
-          {
-            id: 5,
-            title: "Smirnoff 750ml + 2 Speed XL",
-            description: "Smirnoff Vodka + 2 Speed XL",
-            comboProducts: [
-              { name: "Smirnoff Vodka 750ml", quantity: 1, price: 8000 },
-              { name: "Speed XL", quantity: 2, price: 2800 }
-            ],
-            finalPrice: 14500,
-            image: "/images/Smirnoffmas2speed.png",
-            category: "Combos",
-            active: true
-          },
-          {
-            id: 6,
-            title: "Toro Tinto 1L + 1 Pritty 2.25L",
-            description: "Vino Toro + Pritty Limón",
-            comboProducts: [
-              { name: "Vino Toro 1L", quantity: 1, price: 2200 },
-              { name: "Pritty Limón 2.25L", quantity: 1, price: 2600 }
-            ],
-            finalPrice: 4500,
-            image: "/images/vinotoromaspritty.jpg",
-            category: "Combos",
-            active: true
-          },
-          {
-            id: 7,
-            title: "Gancia + Sprite 2.25L",
-            description: "Gancia + Sprite descartable",
-            comboProducts: [
-              { name: "Gancia", quantity: 1, price: 8000 },
-              { name: "Sprite 2.25L", quantity: 1, price: 3400 }
-            ],
-            finalPrice: 12000,
-            image: "/images/ganciamassprite.jpeg",
-            category: "Combos",
-            active: true
-          },
-          {
-            id: 8,
-            title: "Du + Speed XL",
-            description: "DU Renaissance + Speed XL",
-            comboProducts: [
-              { name: "DU Renaissance 750ml", quantity: 1, price: 5000 },
-              { name: "Speed XL", quantity: 1, price: 2800 }
-            ],
-            finalPrice: 7500,
-            image: "/images/Duconspeed.jfif",
-            category: "Combos",
-            active: true
-          },
-          {
-            id: 9,
-            title: "Viñas de Balbo + Pritty",
-            description: "Vino Viña de Balbo + Pritty de 2.25L",
-            comboProducts: [
-              { name: "Vino Viña de Balbo Tinto", quantity: 1, price: 2800 },
-              { name: "Pritty Limón 2.25L", quantity: 1, price: 2600 }
-            ],
-            finalPrice: 5500,
-            image: "/images/balbomaspritty.jpg",
-            category: "Combos",
-            active: true
-          }
-        ]
-        
-        console.log('📦 Cargando ofertas correctas:', correctOffers)
-        setOfertas(correctOffers)
-        localStorage.setItem('ofertas', JSON.stringify(correctOffers))
-        
-        // Debug de precios
-        correctOffers.forEach(oferta => {
-          console.log('💰 Precio correcto:', oferta.title, oferta.finalPrice)
-        })
+        // Cargar ofertas solo desde localStorage (administrador debe cargarlas)
+        const savedOfertas = localStorage.getItem('ofertas')
+        if (savedOfertas) {
+          const parsedOfertas: Oferta[] = JSON.parse(savedOfertas)
+          setOfertas(parsedOfertas)
+          console.log('📦 Ofertas cargadas desde localStorage:', parsedOfertas.length)
+        } else {
+          // Sin ofertas hardcodeadas - el administrador debe cargarlas
+          setOfertas([])
+          console.log('⚠️ No hay ofertas cargadas. Usa el panel de administración para agregar ofertas.')
+        }
         
       } catch (error) {
         console.error('❌ Error cargando ofertas:', error)
@@ -233,20 +111,19 @@ export default function Ofertas() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {ofertas.map((oferta) => (
                 <div key={oferta.id} className="bg-gradient-to-br from-violet-50 to-purple-50 rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105 border border-violet-200">
-                  <div className="relative h-48 sm:h-64 overflow-hidden bg-gradient-to-br from-violet-50 to-purple-50">
+                  <div className="relative h-48 sm:h-64 overflow-hidden bg-gradient-to-br from-violet-100 to-purple-100">
                     <img
                       src={oferta.image}
                       alt={oferta.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-all duration-300"
+                      className="w-full h-full object-cover"
                       onError={(e) => {
-                        console.error('❌ Error cargando imagen de oferta en móvil:', oferta.title, oferta.image)
-                        // En móviles, mostrar la información del combo sin imagen
+                        console.error('❌ Error cargando imagen de oferta:', oferta.title, oferta.image)
                         e.currentTarget.style.display = 'none'
                         const container = e.currentTarget.parentElement
                         if (container) {
                           container.innerHTML = `
-                            <div class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-violet-100 to-purple-100 text-violet-600 p-4">
-                              <div class="text-3xl mb-3">🍷</div>
+                            <div class="w-full h-full flex flex-col items-center justify-center text-violet-600 p-4">
+                              <div class="text-3xl mb-3">🎁</div>
                               <div class="text-lg font-bold text-center mb-2">${oferta.title}</div>
                               <div class="text-sm text-violet-700 text-center mb-2">${oferta.description}</div>
                               <div class="text-2xl font-bold text-violet-800">$${oferta.finalPrice.toLocaleString()}</div>
@@ -255,23 +132,8 @@ export default function Ofertas() {
                           `
                         }
                       }}
-                      onLoad={(e) => {
-                        console.log('✅ Imagen de oferta cargada exitosamente:', oferta.title, oferta.image)
-                        e.currentTarget.style.opacity = '1'
-                        // Ocultar spinner inmediatamente
-                        const spinner = e.currentTarget.nextElementSibling as HTMLElement
-                        if (spinner) spinner.style.display = 'none'
-                      }}
-                      loading="eager"
-                      decoding="async"
-                      style={{ opacity: 0 }}
+                      loading="lazy"
                     />
-                    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-violet-50 to-purple-50" id={`spinner-oferta-${oferta.id}`}>
-                      <div className="text-center">
-                        <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-violet-600 mx-auto mb-2"></div>
-                        <div className="text-xs text-violet-600">Cargando...</div>
-                      </div>
-                    </div>
                     {oferta.priority && (
                       <div className="absolute top-4 left-4 bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-bold">
                         {getPriorityStars(oferta.priority)}
