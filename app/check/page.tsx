@@ -15,7 +15,7 @@ export default function Check() {
         ofertas: ofertas ? JSON.parse(ofertas) : []
       })
     } catch (error) {
-      setData({ error: error.toString() })
+      setData({ error: error instanceof Error ? error.message : String(error) })
     }
   }, [])
 
