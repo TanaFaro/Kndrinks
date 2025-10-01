@@ -113,25 +113,43 @@ export default function Ofertas() {
                       alt={oferta.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
                       onError={(e) => {
-                        console.error('❌ Error cargando imagen de oferta en móvil:', oferta.title, oferta.image)
-                        // En móviles, mostrar un placeholder más atractivo
-                        e.currentTarget.style.display = 'none'
-                        const container = e.currentTarget.parentElement
-                        if (container) {
-                          container.innerHTML = `
-                            <div class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-violet-100 to-purple-100 text-violet-600">
-                              <div class="text-4xl mb-2">🎁</div>
-                              <div class="text-sm font-semibold text-center px-2">${oferta.title}</div>
-                              <div class="text-xs text-violet-500 mt-1">Combo especial</div>
-                            </div>
-                          `
-                        }
+                        console.error('❌ Error cargando imagen de oferta:', oferta.title, oferta.image)
+                        // Intentar cargar la imagen de nuevo con un pequeño delay
+                        setTimeout(() => {
+                          if (e.currentTarget.src !== oferta.image) {
+                            e.currentTarget.src = oferta.image
+                          } else {
+                            // Si sigue fallando, mostrar placeholder
+                            e.currentTarget.style.display = 'none'
+                            const container = e.currentTarget.parentElement
+                            if (container) {
+                              container.innerHTML = `
+                                <div class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-violet-100 to-purple-100 text-violet-600">
+                                  <div class="text-4xl mb-2">🎁</div>
+                                  <div class="text-sm font-semibold text-center px-2">${oferta.title}</div>
+                                  <div class="text-xs text-violet-500 mt-1">Combo especial</div>
+                                </div>
+                              `
+                            }
+                          }
+                        }, 1000)
                       }}
-                      onLoad={() => {
+                      onLoad={(e) => {
                         console.log('✅ Imagen de oferta cargada:', oferta.title, oferta.image)
+                        e.currentTarget.style.opacity = '1'
+                        // Ocultar spinner si existe
+                        const spinner = e.currentTarget.nextElementSibling as HTMLElement
+                        if (spinner) spinner.style.display = 'none'
                       }}
                       loading="lazy"
+                      style={{ opacity: 0 }}
                     />
+                    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-violet-50 to-purple-50" id={`spinner-oferta-${oferta.id}`}>
+                      <div className="text-center">
+                        <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-violet-600 mx-auto mb-2"></div>
+                        <div className="text-xs text-violet-600">Cargando...</div>
+                      </div>
+                    </div>
                     {oferta.priority && (
                       <div className="absolute top-4 left-4 bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-bold">
                         {getPriorityStars(oferta.priority)}
