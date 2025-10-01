@@ -96,10 +96,15 @@ export default function Home() {
           <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-violet-800 via-purple-800 to-indigo-800 bg-clip-text text-transparent mb-8">
             KNDrinks
           </h1>
-          <div className="text-xs text-violet-500 mb-4">v3.14 - Precios Corregidos</div>
+          <div className="text-xs text-violet-500 mb-4">v3.15 - FORZAR DEPLOY URGENTE</div>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
             Tu tienda de bebidas premium. Descubre nuestra selección cuidadosamente curada.
           </p>
+          <div className="mt-4 p-4 bg-yellow-100 border border-yellow-400 rounded-lg">
+            <p className="text-sm text-yellow-800">
+              🔄 DEPLOY EN PROGRESO - {new Date().toLocaleString()}
+            </p>
+          </div>
         </div>
       </section>
 
