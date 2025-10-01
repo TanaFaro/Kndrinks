@@ -107,18 +107,30 @@ export default function Ofertas() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {ofertas.map((oferta) => (
                 <div key={oferta.id} className="bg-gradient-to-br from-violet-50 to-purple-50 rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105 border border-violet-200">
-                  <div className="relative h-64 overflow-hidden">
+                  <div className="relative h-48 sm:h-64 overflow-hidden bg-gradient-to-br from-violet-50 to-purple-50">
                     <img
                       src={oferta.image}
                       alt={oferta.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
                       onError={(e) => {
-                        console.error('❌ Error cargando imagen de oferta:', oferta.title, oferta.image)
-                        e.currentTarget.src = '/images/LogoBebidas.jpeg'
+                        console.error('❌ Error cargando imagen de oferta en móvil:', oferta.title, oferta.image)
+                        // En móviles, mostrar un placeholder más atractivo
+                        e.currentTarget.style.display = 'none'
+                        const container = e.currentTarget.parentElement
+                        if (container) {
+                          container.innerHTML = `
+                            <div class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-violet-100 to-purple-100 text-violet-600">
+                              <div class="text-4xl mb-2">🎁</div>
+                              <div class="text-sm font-semibold text-center px-2">${oferta.title}</div>
+                              <div class="text-xs text-violet-500 mt-1">Combo especial</div>
+                            </div>
+                          `
+                        }
                       }}
                       onLoad={() => {
                         console.log('✅ Imagen de oferta cargada:', oferta.title, oferta.image)
                       }}
+                      loading="lazy"
                     />
                     {oferta.priority && (
                       <div className="absolute top-4 left-4 bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-bold">
