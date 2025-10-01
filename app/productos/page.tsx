@@ -155,20 +155,6 @@ export default function Productos() {
                     <h3 className="text-xl font-bold text-gray-800 mb-2">{item.name || item.title}</h3>
                     <p className="text-gray-600 mb-4">{item.description}</p>
                     
-                    {/* Mostrar productos del combo si es una oferta */}
-                    {item.comboProducts && (
-                      <div className="mb-4">
-                        <h4 className="text-sm font-semibold text-gray-700 mb-2">Incluye:</h4>
-                        <ul className="text-sm text-gray-600 space-y-1">
-                          {item.comboProducts.map((product: any, index: number) => (
-                            <li key={index} className="flex justify-between">
-                              <span>{product.quantity}x {product.name}</span>
-                              <span>${product.price.toLocaleString()}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
                     
                     <div className="flex justify-between items-center mb-4">
                       <span className="text-2xl font-bold text-violet-600">
