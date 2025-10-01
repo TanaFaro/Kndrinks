@@ -213,10 +213,10 @@ export default function Home() {
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-all duration-300"
                       onError={(e) => {
                         console.error('Error cargando imagen en móvil:', product.image)
-                        // En móviles, mostrar un placeholder más atractivo
+                        // Mostrar placeholder inmediatamente
                         e.currentTarget.style.display = 'none'
                         const container = e.currentTarget.parentElement
                         if (container) {
@@ -231,12 +231,13 @@ export default function Home() {
                       }}
                       onLoad={(e) => {
                         e.currentTarget.style.opacity = '1'
-                        // Ocultar spinner cuando la imagen se carga
+                        // Ocultar spinner inmediatamente
                         const spinner = e.currentTarget.nextElementSibling as HTMLElement
                         if (spinner) spinner.style.display = 'none'
                       }}
                       style={{ opacity: 0 }}
-                      loading="lazy"
+                      loading="eager"
+                      decoding="async"
                     />
                     <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-violet-50 to-purple-50" id={`spinner-main-${product.id}`}>
                       <div className="text-center">

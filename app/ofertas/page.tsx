@@ -111,37 +111,30 @@ export default function Ofertas() {
                     <img
                       src={oferta.image}
                       alt={oferta.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-all duration-300"
                       onError={(e) => {
                         console.error('❌ Error cargando imagen de oferta:', oferta.title, oferta.image)
-                        // Intentar cargar la imagen de nuevo con un pequeño delay
-                        setTimeout(() => {
-                          if (e.currentTarget.src !== oferta.image) {
-                            e.currentTarget.src = oferta.image
-                          } else {
-                            // Si sigue fallando, mostrar placeholder
-                            e.currentTarget.style.display = 'none'
-                            const container = e.currentTarget.parentElement
-                            if (container) {
-                              container.innerHTML = `
-                                <div class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-violet-100 to-purple-100 text-violet-600">
-                                  <div class="text-4xl mb-2">🎁</div>
-                                  <div class="text-sm font-semibold text-center px-2">${oferta.title}</div>
-                                  <div class="text-xs text-violet-500 mt-1">Combo especial</div>
-                                </div>
-                              `
-                            }
-                          }
-                        }, 1000)
+                        // Mostrar placeholder inmediatamente en móviles
+                        e.currentTarget.style.display = 'none'
+                        const container = e.currentTarget.parentElement
+                        if (container) {
+                          container.innerHTML = `
+                            <div class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-violet-100 to-purple-100 text-violet-600">
+                              <div class="text-4xl mb-2">🎁</div>
+                              <div class="text-sm font-semibold text-center px-2">${oferta.title}</div>
+                              <div class="text-xs text-violet-500 mt-1">Combo especial</div>
+                            </div>
+                          `
+                        }
                       }}
                       onLoad={(e) => {
-                        console.log('✅ Imagen de oferta cargada:', oferta.title, oferta.image)
                         e.currentTarget.style.opacity = '1'
-                        // Ocultar spinner si existe
+                        // Ocultar spinner inmediatamente
                         const spinner = e.currentTarget.nextElementSibling as HTMLElement
                         if (spinner) spinner.style.display = 'none'
                       }}
-                      loading="lazy"
+                      loading="eager"
+                      decoding="async"
                       style={{ opacity: 0 }}
                     />
                     <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-violet-50 to-purple-50" id={`spinner-oferta-${oferta.id}`}>
