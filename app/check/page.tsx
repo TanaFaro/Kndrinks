@@ -68,6 +68,53 @@ export default function Check() {
     }
   }
 
+  const fixAllData = () => {
+    try {
+      const products = localStorage.getItem('products')
+      if (products) {
+        const parsed = JSON.parse(products)
+        const fixed = parsed.map((p: any) => {
+          // Corregir precios específicos
+          if (p.name?.includes('Coca-cola x 2.25')) {
+            return { 
+              ...p, 
+              price: 4200, 
+              category: 'Sin Alcohol',
+              image: '/images/cocacola.jfif'
+            }
+          }
+          if (p.name?.includes('Fernet')) {
+            return { 
+              ...p, 
+              price: 13500,
+              image: '/images/fernet750.jfif'
+            }
+          }
+          if (p.name?.includes('Smirnoff')) {
+            return { 
+              ...p, 
+              price: 8000,
+              image: '/images/Smirnoffsolo.jpeg'
+            }
+          }
+          if (p.name?.includes('Skyy')) {
+            return { 
+              ...p, 
+              price: 9500,
+              image: '/images/skyy.png'
+            }
+          }
+          return p
+        })
+        localStorage.setItem('products', JSON.stringify(fixed))
+        setData((prev: any) => ({ ...prev, products: fixed }))
+        alert('✅ Datos corregidos: Precios, categorías e imágenes actualizadas')
+      }
+    } catch (error) {
+      alert('❌ Error: ' + error)
+    }
+  }
+
   return (
     <div className="p-8 max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">🔍 Verificar Datos</h1>
@@ -84,6 +131,12 @@ export default function Check() {
           className="bg-red-600 text-white px-4 py-2 rounded mr-4"
         >
           💰 Corregir Precios
+        </button>
+        <button 
+          onClick={fixAllData}
+          className="bg-purple-600 text-white px-4 py-2 rounded mr-4"
+        >
+          🔧 Corregir Todo
         </button>
         <button 
           onClick={() => window.location.reload()}
