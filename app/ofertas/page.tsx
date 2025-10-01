@@ -47,8 +47,8 @@ export default function Ofertas() {
             title: "Du + Speed",
             description: "Combo DU Renaissance + Speed XL",
             comboProducts: [
-              { productId: 11, productName: "DU Renaissance 750ml", quantity: 1, price: 5000 },
-              { productId: 13, productName: "Speed XL", quantity: 1, price: 2800 }
+              { name: "DU Renaissance 750ml", quantity: 1, price: 5000 },
+              { name: "Speed XL", quantity: 1, price: 2800 }
             ],
             finalPrice: 7500,
             image: "/images/Duconspeed.jfif",
@@ -60,8 +60,8 @@ export default function Ofertas() {
             title: "Branca 750ml + 1 Coca 2.25L",
             description: "Fernet Branca + Coca Cola descartable",
             comboProducts: [
-              { productId: 2, productName: "Fernet Branca 750ml", quantity: 1, price: 13500 },
-              { productId: 8, productName: "Coca Cola Descartable 2.25L", quantity: 1, price: 4200 }
+              { name: "Fernet Branca 750ml", quantity: 1, price: 13500 },
+              { name: "Coca Cola Descartable 2.25L", quantity: 1, price: 4200 }
             ],
             finalPrice: 17000,
             image: "/images/fernetmascocadescartable.jpg",
@@ -73,8 +73,8 @@ export default function Ofertas() {
             title: "Branca 750ml + 2 Coca 2.25L",
             description: "Fernet Branca + 2 Coca Cola descartable",
             comboProducts: [
-              { productId: 2, productName: "Fernet Branca 750ml", quantity: 1, price: 13500 },
-              { productId: 8, productName: "Coca Cola Descartable 2.25L", quantity: 2, price: 4200 }
+              { name: "Fernet Branca 750ml", quantity: 1, price: 13500 },
+              { name: "Coca Cola Descartable 2.25L", quantity: 2, price: 4200 }
             ],
             finalPrice: 21200,
             image: "/images/fernetmas2cocas.jfif",
@@ -86,8 +86,8 @@ export default function Ofertas() {
             title: "Skyy 750ml + 2 Speed XL",
             description: "Skyy Vodka + 2 Speed XL",
             comboProducts: [
-              { productId: 3, productName: "Skyy Vodka 750ml", quantity: 1, price: 9500 },
-              { productId: 13, productName: "Speed XL", quantity: 2, price: 2800 }
+              { name: "Skyy Vodka 750ml", quantity: 1, price: 9500 },
+              { name: "Speed XL", quantity: 2, price: 2800 }
             ],
             finalPrice: 15500,
             image: "/images/skyymasspeed.jfif",
@@ -99,8 +99,8 @@ export default function Ofertas() {
             title: "Smirnoff 750ml + 2 Speed XL",
             description: "Smirnoff Vodka + 2 Speed XL",
             comboProducts: [
-              { productId: 4, productName: "Smirnoff Vodka 750ml", quantity: 1, price: 8000 },
-              { productId: 13, productName: "Speed XL", quantity: 2, price: 2800 }
+              { name: "Smirnoff Vodka 750ml", quantity: 1, price: 8000 },
+              { name: "Speed XL", quantity: 2, price: 2800 }
             ],
             finalPrice: 14500,
             image: "/images/Smirnoffmas2speed.png",
@@ -112,8 +112,8 @@ export default function Ofertas() {
             title: "Toro Tinto 1L + 1 Pritty 2.25L",
             description: "Vino Toro + Pritty Limón",
             comboProducts: [
-              { productId: 13, productName: "Vino Toro 1L", quantity: 1, price: 2200 },
-              { productId: 5, productName: "Pritty Limón 2.25L", quantity: 1, price: 2600 }
+              { name: "Vino Toro 1L", quantity: 1, price: 2200 },
+              { name: "Pritty Limón 2.25L", quantity: 1, price: 2600 }
             ],
             finalPrice: 4500,
             image: "/images/vinotoromaspritty.jpg",
@@ -125,8 +125,8 @@ export default function Ofertas() {
             title: "Gancia + Sprite 2.25L",
             description: "Gancia + Sprite descartable",
             comboProducts: [
-              { productId: 12, productName: "Gancia", quantity: 1, price: 8000 },
-              { productId: 10, productName: "Sprite 2.25L", quantity: 1, price: 3400 }
+              { name: "Gancia", quantity: 1, price: 8000 },
+              { name: "Sprite 2.25L", quantity: 1, price: 3400 }
             ],
             finalPrice: 12000,
             image: "/images/ganciamassprite.jpeg",
@@ -138,8 +138,8 @@ export default function Ofertas() {
             title: "Du + Speed XL",
             description: "DU Renaissance + Speed XL",
             comboProducts: [
-              { productId: 11, productName: "DU Renaissance 750ml", quantity: 1, price: 5000 },
-              { productId: 13, productName: "Speed XL", quantity: 1, price: 2800 }
+              { name: "DU Renaissance 750ml", quantity: 1, price: 5000 },
+              { name: "Speed XL", quantity: 1, price: 2800 }
             ],
             finalPrice: 7500,
             image: "/images/Duconspeed.jfif",
@@ -151,8 +151,8 @@ export default function Ofertas() {
             title: "Viñas de Balbo + Pritty",
             description: "Vino Viña de Balbo + Pritty de 2.25L",
             comboProducts: [
-              { productId: 11, productName: "Vino Viña de Balbo Tinto", quantity: 1, price: 2800 },
-              { productId: 5, productName: "Pritty Limón 2.25L", quantity: 1, price: 2600 }
+              { name: "Vino Viña de Balbo Tinto", quantity: 1, price: 2800 },
+              { name: "Pritty Limón 2.25L", quantity: 1, price: 2600 }
             ],
             finalPrice: 5500,
             image: "/images/balbomaspritty.jpg",
