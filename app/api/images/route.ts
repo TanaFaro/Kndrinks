@@ -38,7 +38,8 @@ export async function GET() {
           'fernetmas2cocas.jfif': { category: 'Combos', price: 6500, description: 'Combo Fernet + 2 Coca Cola', type: 'combo' },
           'fernetmascocadescartable.jpg': { category: 'Combos', price: 5000, description: 'Combo Fernet + Coca Descartable', type: 'combo' },
           'vinotoromaspritty.jpg': { category: 'Combos', price: 4000, description: 'Combo Vino Toro + Pritty', type: 'combo' },
-          'viñadebalbomaspritty.png': { category: 'Combos', price: 4000, description: 'Combo Viña de Balbo + Pritty', type: 'combo' }
+          'viñadebalbomaspritty.png': { category: 'Combos', price: 4000, description: 'Combo Viña de Balbo + Pritty', type: 'combo' },
+          'dosbrancamasdoscocas.webp': { category: 'Combos', price: 0, description: 'Imagen disponible para crear oferta', type: 'combo' }
         }
     
     // Procesar las imágenes
