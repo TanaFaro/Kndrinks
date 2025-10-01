@@ -144,6 +144,17 @@ export default function Productos() {
     setLoading(false)
   }, [])
 
+  setProducts(staticProducts)
+  setAllItems(staticProducts)
+  setLoading(false)
+  
+  // Debug logs
+  console.log('🔍 Productos cargados:', staticProducts.length)
+  console.log('🔍 AllItems:', allItems.length)
+  console.log('🔍 CurrentItems:', currentItems.length)
+  console.log('🔍 FilteredItems:', filteredItems.length)
+}, [])
+
   const categories = ['Todas', 'Bebidas', 'Licores', 'Vinos', 'Aperitivos', 'Sin Alcohol', 'Combos']
   
   const filteredItems = selectedCategory === 'Todas'
@@ -273,6 +284,8 @@ export default function Productos() {
       </section>
     </div>
   )}
-/ /   F o r c e   V e r c e l   u p d a t e   -   P r o d u c t o s   c o n   t y p e   c o r r e g i d o  
- / /   F o r c e   V e r c e l   u p d a t e   -   P r o d u c t o s   c o n   t y p e   c o r r e g i d o  
+/ /   F o r c e   V e r c e l   u p d a t e   -   P r o d u c t o s   c o n   t y p e   c o r r e g i d o 
+ 
+ / /   F o r c e   V e r c e l   u p d a t e   -   P r o d u c t o s   c o n   t y p e   c o r r e g i d o 
+ 
  
