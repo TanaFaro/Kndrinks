@@ -136,6 +136,15 @@ export default function Home() {
               stock: 30,
               image: "/images/vinotoro.jfif",
               description: "Vino tinto de calidad"
+            },
+            {
+              id: 14,
+              name: "Speed XL",
+              price: 2800,
+              category: "Bebidas",
+              stock: 35,
+              image: "/images/speedxl1.jfif",
+              description: "Bebida energética de gran tamaño"
             }
           ]
           setProducts(exampleProducts)

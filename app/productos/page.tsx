@@ -126,6 +126,16 @@ export default function Productos() {
         image: "/images/Gancia.jfif",
         description: "Gancia aperitivo",
         type: 'product'
+      },
+      {
+        id: 13,
+        name: "Speed XL",
+        price: 2800,
+        category: "Bebidas",
+        stock: 35,
+        image: "/images/speedxl1.jfif",
+        description: "Bebida energética de gran tamaño",
+        type: 'product'
       }
     ]
 
