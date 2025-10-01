@@ -115,6 +115,78 @@ export default function Check() {
     }
   }
 
+  const clearAndResetProducts = () => {
+    try {
+      // Limpiar localStorage de productos
+      localStorage.removeItem('products')
+      
+      // Crear productos correctos desde cero
+      const correctProducts = [
+        {
+          id: 1,
+          name: "Fernet BRANCA",
+          price: 13500,
+          category: "Aperitivos",
+          stock: 6,
+          image: "/images/fernet750.jfif",
+          description: "Fernet italiano de alta calidad"
+        },
+        {
+          id: 2,
+          name: "Skyy saborizado",
+          price: 9500,
+          category: "Licores",
+          stock: 12,
+          image: "/images/skyy.png",
+          description: "Vodka premium americano"
+        },
+        {
+          id: 3,
+          name: "Smirnoff Saborizado",
+          price: 8000,
+          category: "Licores",
+          stock: 12,
+          image: "/images/Smirnoffsolo.jpeg",
+          description: "Vodka ruso premium"
+        },
+        {
+          id: 4,
+          name: "Gancia",
+          price: 8000,
+          category: "Aperitivos",
+          stock: 6,
+          image: "/images/Gancia.jfif",
+          description: "Aperitivo italiano clásico"
+        },
+        {
+          id: 5,
+          name: "Coca-cola x 2.25 lt",
+          price: 4200,
+          category: "Sin Alcohol",
+          stock: 12,
+          image: "/images/cocacola.jfif",
+          description: "Refresco clásico de Coca Cola"
+        },
+        {
+          id: 6,
+          name: "Speed XL",
+          price: 2800,
+          category: "Sin Alcohol",
+          stock: 12,
+          image: "/images/SpeedXL.webp",
+          description: "Bebida energética"
+        }
+      ]
+      
+      // Guardar productos correctos
+      localStorage.setItem('products', JSON.stringify(correctProducts))
+      setData((prev: any) => ({ ...prev, products: correctProducts }))
+      alert('✅ Productos limpiados y restablecidos con precios correctos')
+    } catch (error) {
+      alert('❌ Error: ' + error)
+    }
+  }
+
   return (
     <div className="p-8 max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">🔍 Verificar Datos</h1>
@@ -137,6 +209,12 @@ export default function Check() {
           className="bg-purple-600 text-white px-4 py-2 rounded mr-4"
         >
           🔧 Corregir Todo
+        </button>
+        <button 
+          onClick={clearAndResetProducts}
+          className="bg-orange-600 text-white px-4 py-2 rounded mr-4"
+        >
+          🗑️ Limpiar y Restablecer
         </button>
         <button 
           onClick={() => window.location.reload()}
