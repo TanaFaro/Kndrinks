@@ -9,6 +9,8 @@ export default function VerificarDatos() {
   const [status, setStatus] = useState('Cargando...')
   const router = useRouter()
 
+  // Forzar redeploy v3.11
+
   useEffect(() => {
     const loadData = () => {
       try {
