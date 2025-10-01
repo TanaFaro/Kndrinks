@@ -242,17 +242,25 @@ export default function Productos() {
                   const product = item as Product
                   return (
                     <div key={product.id} className="bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
-                      <div className="relative h-64 overflow-hidden bg-gray-100">
+                      <div className="relative h-48 sm:h-64 overflow-hidden bg-gradient-to-br from-violet-50 to-purple-50">
                         <img
                           src={product.image}
                           alt={product.name}
-                          className="w-full h-full object-cover transition-opacity duration-300"
+                          className="w-full h-full object-cover transition-all duration-500 hover:scale-105"
                           onError={(e) => {
-                            console.error('Error cargando imagen:', product.image)
-                            e.currentTarget.src = '/images/LogoBebidas.jpeg'
-                            // Ocultar spinner cuando hay error
-                            const spinner = e.currentTarget.nextElementSibling as HTMLElement
-                            if (spinner) spinner.style.display = 'none'
+                            console.error('Error cargando imagen en móvil:', product.image)
+                            // En móviles, mostrar un placeholder más atractivo
+                            e.currentTarget.style.display = 'none'
+                            const container = e.currentTarget.parentElement
+                            if (container) {
+                              container.innerHTML = `
+                                <div class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-violet-100 to-purple-100 text-violet-600">
+                                  <div class="text-4xl mb-2">🍷</div>
+                                  <div class="text-sm font-semibold text-center px-2">${product.name}</div>
+                                  <div class="text-xs text-violet-500 mt-1">Imagen no disponible</div>
+                                </div>
+                              `
+                            }
                           }}
                           onLoad={(e) => {
                             e.currentTarget.style.opacity = '1'
@@ -261,9 +269,13 @@ export default function Productos() {
                             if (spinner) spinner.style.display = 'none'
                           }}
                           style={{ opacity: 0 }}
+                          loading="lazy"
                         />
-                        <div className="absolute inset-0 flex items-center justify-center bg-gray-100" id={`spinner-${product.id}`}>
-                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-violet-600"></div>
+                        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-violet-50 to-purple-50" id={`spinner-${product.id}`}>
+                          <div className="text-center">
+                            <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-violet-600 mx-auto mb-2"></div>
+                            <div className="text-xs text-violet-600">Cargando...</div>
+                          </div>
                         </div>
                       </div>
                       <div className="p-6">

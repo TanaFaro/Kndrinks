@@ -76,7 +76,26 @@
 }
 
 .product-card img {
-  @apply w-full h-32 object-cover;
+  @apply w-full h-40 object-cover;
+  min-height: 160px;
+}
+
+/* Mejoras mobile-first para imágenes */
+.product-image-container {
+  @apply relative overflow-hidden bg-gradient-to-br from-violet-50 to-purple-50;
+  min-height: 160px;
+}
+
+@media (min-width: 640px) {
+  .product-image-container {
+    min-height: 200px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-image-container {
+    min-height: 240px;
+  }
 }
 
 .product-title {
