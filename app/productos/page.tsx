@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useCartStore } from '@/store/cartStore'
 import { Product, Oferta } from '@/lib/types'
+import { getDataWithFallback, diagnoseMobileIssues } from '@/lib/mobileSync'
 
 export default function Productos() {
   const [products, setProducts] = useState<Product[]>([])
@@ -16,28 +17,35 @@ export default function Productos() {
   const { addItem } = useCartStore()
 
   useEffect(() => {
-    const loadData = () => {
+    const loadData = async () => {
       try {
-        // Cargar productos desde localStorage
-        const savedProducts = localStorage.getItem('products')
-        const productsToShow = savedProducts ? JSON.parse(savedProducts) : []
+        console.log('🔄 Iniciando carga de datos con fallback...')
         
-        // Cargar ofertas desde localStorage
-        const savedOfertas = localStorage.getItem('ofertas')
-        const ofertasToShow = savedOfertas ? JSON.parse(savedOfertas) : []
+        // Ejecutar diagnóstico
+        const diagnosis = diagnoseMobileIssues()
         
-        setProducts(productsToShow)
-        setOfertas(ofertasToShow)
+        // Cargar datos con fallback
+        const data = await getDataWithFallback()
+        
+        setProducts(data.products)
+        setOfertas(data.ofertas)
         
         // Combinar productos y ofertas para mostrar todo junto
-        const combinedItems = [...productsToShow, ...ofertasToShow]
+        const combinedItems = [...data.products, ...data.ofertas]
         setAllItems(combinedItems)
         
-        console.log('📦 Productos cargados:', productsToShow.length)
-        console.log('🎁 Ofertas cargadas:', ofertasToShow.length)
+        console.log('📦 Productos cargados:', data.products.length)
+        console.log('🎁 Ofertas cargadas:', data.ofertas.length)
         console.log('📋 Total items:', combinedItems.length)
+        
+        // Si no hay items, mostrar información de diagnóstico
+        if (combinedItems.length === 0) {
+          console.warn('⚠️ No se encontraron items para mostrar')
+          console.log('🔍 Diagnóstico completo:', diagnosis)
+        }
+        
       } catch (error) {
-        console.error('Error cargando datos:', error)
+        console.error('❌ Error crítico cargando datos:', error)
         setProducts([])
         setOfertas([])
         setAllItems([])
@@ -46,7 +54,9 @@ export default function Productos() {
       }
     }
 
-    loadData()
+    // Pequeño delay para asegurar que el DOM esté listo
+    const timer = setTimeout(loadData, 100)
+    return () => clearTimeout(timer)
   }, [])
 
   useEffect(() => {
