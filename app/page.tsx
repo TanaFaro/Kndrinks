@@ -102,15 +102,6 @@ export default function Home() {
               description: "Coca Cola en botella descartable"
             },
             {
-              id: 9,
-              name: "Speed XL",
-              price: 2800,
-              category: "Bebidas",
-              stock: 40,
-              image: "/images/SpeedXL.webp",
-              description: "Bebida energética XL"
-            },
-            {
               id: 10,
               name: "Sprite 2.25L",
               price: 3400,

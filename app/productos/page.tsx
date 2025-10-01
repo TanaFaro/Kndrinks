@@ -147,9 +147,32 @@ export default function Productos() {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
 
+  // Función para eliminar producto (solo admin)
+  const deleteProduct = (productId: number) => {
+    if (!isAdmin) return
+    
+    if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
+      const updatedProducts = products.filter(p => p.id !== productId)
+      setProducts(updatedProducts)
+      setAllItems(updatedProducts)
+      localStorage.setItem('products', JSON.stringify(updatedProducts))
+    }
+  }
+
   useEffect(() => {
     setCurrentPage(1)
   }, [selectedCategory])
+
+  // Verificar si es admin
+  useEffect(() => {
+    const checkAdmin = () => {
+      if (typeof window !== 'undefined') {
+        const adminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true'
+        setIsAdmin(adminLoggedIn)
+      }
+    }
+    checkAdmin()
+  }, [])
 
   if (loading) {
     return (
@@ -226,12 +249,22 @@ export default function Productos() {
                           <span className="text-2xl font-bold text-violet-600">${product.price.toLocaleString()}</span>
                           <span className="text-sm text-gray-500">Stock: {product.stock}</span>
                         </div>
-                        <button 
-                          onClick={() => addItem({ id: product.id, name: product.name, price: product.price, category: product.category, image: product.image, type: 'product' })}
-                          className="w-full bg-violet-600 hover:bg-violet-700 text-white py-3 rounded-2xl font-bold transition-all duration-300"
-                        >
-                          Agregar al carrito
-                        </button>
+                        <div className="space-y-2">
+                          <button 
+                            onClick={() => addItem({ id: product.id, name: product.name, price: product.price, category: product.category, image: product.image, type: 'product' })}
+                            className="w-full bg-violet-600 hover:bg-violet-700 text-white py-3 rounded-2xl font-bold transition-all duration-300"
+                          >
+                            Agregar al carrito
+                          </button>
+                          {isAdmin && (
+                            <button 
+                              onClick={() => deleteProduct(product.id)}
+                              className="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-xl font-medium transition-all duration-300"
+                            >
+                              🗑️ Eliminar
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
                   )
