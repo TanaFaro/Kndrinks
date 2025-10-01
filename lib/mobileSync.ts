@@ -36,47 +36,59 @@ export function getDataWithFallback(): Promise<SyncData> {
         const products = localStorage.getItem('products')
         const ofertas = localStorage.getItem('ofertas')
         
+        let parsedProducts: any[] = []
+        let parsedOfertas: any[] = []
+        
+        try {
+          if (products) {
+            parsedProducts = JSON.parse(products)
+            if (!Array.isArray(parsedProducts)) {
+              console.warn('⚠️ Productos no es un array válido, usando array vacío')
+              parsedProducts = []
+            }
+          }
+        } catch (e) {
+          console.error('❌ Error parseando productos:', e)
+          parsedProducts = []
+        }
+        
+        try {
+          if (ofertas) {
+            parsedOfertas = JSON.parse(ofertas)
+            if (!Array.isArray(parsedOfertas)) {
+              console.warn('⚠️ Ofertas no es un array válido, usando array vacío')
+              parsedOfertas = []
+            }
+          }
+        } catch (e) {
+          console.error('❌ Error parseando ofertas:', e)
+          parsedOfertas = []
+        }
+        
         const result: SyncData = {
-          products: products ? JSON.parse(products) : [],
-          ofertas: ofertas ? JSON.parse(ofertas) : [],
+          products: parsedProducts,
+          ofertas: parsedOfertas,
           lastSync: Date.now()
         }
         
-        console.log('✅ Datos cargados desde localStorage')
+        console.log('✅ Datos cargados desde localStorage:', {
+          products: parsedProducts.length,
+          ofertas: parsedOfertas.length
+        })
         resolve(result)
         return
       }
       
-      // Si localStorage no funciona, intentar cargar datos por defecto
-      console.warn('⚠️ localStorage no funciona, usando datos por defecto')
+      // Si localStorage no funciona, usar arrays vacíos
+      console.warn('⚠️ localStorage no funciona, usando arrays vacíos')
       
-      // Datos por defecto para casos de emergencia
-      const defaultData: SyncData = {
-        products: [
-          {
-            id: 1,
-            name: "Fernet BRANCA",
-            price: 13500,
-            category: "Aperitivos",
-            stock: 6,
-            image: "/images/fernet750.jfif",
-            description: "Fernet italiano de alta calidad"
-          },
-          {
-            id: 2,
-            name: "Skyy saborizado",
-            price: 9500,
-            category: "Licores",
-            stock: 12,
-            image: "/images/skyy.png",
-            description: "Vodka premium americano"
-          }
-        ],
+      const emptyData: SyncData = {
+        products: [],
         ofertas: [],
         lastSync: Date.now()
       }
       
-      resolve(defaultData)
+      resolve(emptyData)
       
     } catch (error) {
       console.error('❌ Error cargando datos:', error)

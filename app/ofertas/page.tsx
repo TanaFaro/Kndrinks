@@ -4,7 +4,6 @@
 import { useState, useEffect } from 'react'
 import { useCartStore } from '@/store/cartStore'
 import { ComboProduct, Oferta } from '@/lib/types'
-import { getDataWithFallback, diagnoseMobileIssues } from '@/lib/mobileSync'
 
 // Función para convertir prioridad a estrellas
 const getPriorityStars = (priority?: number): string => {
@@ -35,37 +34,37 @@ export default function Ofertas() {
   const { addItem } = useCartStore()
 
   useEffect(() => {
-    const loadOfertas = async () => {
+    const loadOfertas = () => {
       try {
-        console.log('🔄 Iniciando carga de ofertas con fallback...')
+        console.log('🔄 Cargando ofertas...')
         
-        // Ejecutar diagnóstico
-        const diagnosis = diagnoseMobileIssues()
+        // Cargar ofertas desde localStorage
+        const savedOfertas = localStorage.getItem('ofertas')
+        const ofertasToShow = savedOfertas ? JSON.parse(savedOfertas) : []
         
-        // Cargar datos con fallback
-        const data = await getDataWithFallback()
+        setOfertas(ofertasToShow)
         
-        setOfertas(data.ofertas)
+        console.log('🎁 Ofertas cargadas:', ofertasToShow.length)
         
-        console.log('🎁 Ofertas cargadas:', data.ofertas.length)
-        
-        // Si no hay ofertas, mostrar información de diagnóstico
-        if (data.ofertas.length === 0) {
-          console.warn('⚠️ No se encontraron ofertas para mostrar')
-          console.log('🔍 Diagnóstico completo:', diagnosis)
+        // Debug para móviles
+        if (ofertasToShow.length === 0) {
+          console.warn('⚠️ No hay ofertas disponibles')
+          console.log('🔍 Debug info:', {
+            userAgent: navigator.userAgent,
+            platform: navigator.platform,
+            localStorageAvailable: typeof window !== 'undefined' && !!window.localStorage
+          })
         }
         
       } catch (error) {
-        console.error('❌ Error crítico cargando ofertas:', error)
+        console.error('❌ Error cargando ofertas:', error)
         setOfertas([])
       } finally {
         setLoading(false)
       }
     }
 
-    // Pequeño delay para asegurar que el DOM esté listo
-    const timer = setTimeout(loadOfertas, 100)
-    return () => clearTimeout(timer)
+    loadOfertas()
   }, [])
 
   useEffect(() => {

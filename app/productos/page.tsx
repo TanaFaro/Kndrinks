@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { useCartStore } from '@/store/cartStore'
 import { Product, Oferta } from '@/lib/types'
-import { getDataWithFallback, diagnoseMobileIssues } from '@/lib/mobileSync'
 
 export default function Productos() {
   const [products, setProducts] = useState<Product[]>([])
@@ -17,35 +16,41 @@ export default function Productos() {
   const { addItem } = useCartStore()
 
   useEffect(() => {
-    const loadData = async () => {
+    const loadData = () => {
       try {
-        console.log('🔄 Iniciando carga de datos con fallback...')
+        console.log('🔄 Cargando productos y ofertas...')
         
-        // Ejecutar diagnóstico
-        const diagnosis = diagnoseMobileIssues()
+        // Cargar productos desde localStorage
+        const savedProducts = localStorage.getItem('products')
+        const productsToShow = savedProducts ? JSON.parse(savedProducts) : []
         
-        // Cargar datos con fallback
-        const data = await getDataWithFallback()
+        // Cargar ofertas desde localStorage
+        const savedOfertas = localStorage.getItem('ofertas')
+        const ofertasToShow = savedOfertas ? JSON.parse(savedOfertas) : []
         
-        setProducts(data.products)
-        setOfertas(data.ofertas)
+        setProducts(productsToShow)
+        setOfertas(ofertasToShow)
         
         // Combinar productos y ofertas para mostrar todo junto
-        const combinedItems = [...data.products, ...data.ofertas]
+        const combinedItems = [...productsToShow, ...ofertasToShow]
         setAllItems(combinedItems)
         
-        console.log('📦 Productos cargados:', data.products.length)
-        console.log('🎁 Ofertas cargadas:', data.ofertas.length)
+        console.log('📦 Productos cargados:', productsToShow.length)
+        console.log('🎁 Ofertas cargadas:', ofertasToShow.length)
         console.log('📋 Total items:', combinedItems.length)
         
-        // Si no hay items, mostrar información de diagnóstico
+        // Debug para móviles
         if (combinedItems.length === 0) {
-          console.warn('⚠️ No se encontraron items para mostrar')
-          console.log('🔍 Diagnóstico completo:', diagnosis)
+          console.warn('⚠️ No hay productos disponibles')
+          console.log('🔍 Debug info:', {
+            userAgent: navigator.userAgent,
+            platform: navigator.platform,
+            localStorageAvailable: typeof window !== 'undefined' && !!window.localStorage
+          })
         }
         
       } catch (error) {
-        console.error('❌ Error crítico cargando datos:', error)
+        console.error('❌ Error cargando datos:', error)
         setProducts([])
         setOfertas([])
         setAllItems([])
@@ -54,9 +59,7 @@ export default function Productos() {
       }
     }
 
-    // Pequeño delay para asegurar que el DOM esté listo
-    const timer = setTimeout(loadData, 100)
-    return () => clearTimeout(timer)
+    loadData()
   }, [])
 
   useEffect(() => {
@@ -80,8 +83,8 @@ export default function Productos() {
   const categories = ['Todas', ...Array.from(new Set(allItems.map(item => item.category)))]
 
   // Filtrar items por categoría
-  const filteredItems = selectedCategory === 'Todas' 
-    ? allItems 
+  const filteredItems = selectedCategory === 'Todas'
+    ? allItems
     : allItems.filter(item => item.category === selectedCategory)
 
   // Paginación
@@ -106,13 +109,13 @@ export default function Productos() {
       <section className="py-24 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-violet-800 via-purple-800 to-indigo-800 bg-clip-text text-transparent mb-8">
-              Nuestros Productos
-            </h1>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+          <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-violet-800 via-purple-800 to-indigo-800 bg-clip-text text-transparent mb-8">
+            Nuestros Productos
+          </h1>
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
               Descubre nuestra amplia selección de bebidas, licores, vinos y ofertas especiales.
-            </p>
-          </div>
+          </p>
+        </div>
 
           {/* Filtros de categoría */}
           <div className="flex flex-wrap justify-center gap-4 mb-8">
@@ -143,8 +146,8 @@ export default function Productos() {
                     <img
                       src={item.image}
                       alt={item.name || item.title}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
                         console.error('❌ Error cargando imagen:', item.image)
                         e.currentTarget.style.display = 'none'
                         const container = e.currentTarget.parentElement
@@ -159,30 +162,30 @@ export default function Productos() {
                         }
                       }}
                       loading="lazy"
-                    />
-                  </div>
-                  <div className="p-6">
+                        />
+                      </div>
+                      <div className="p-6">
                     <h3 className="text-xl font-bold text-gray-800 mb-2">{item.name || item.title}</h3>
                     <p className="text-gray-600 mb-4">{item.description}</p>
                     
                     
-                    <div className="flex justify-between items-center mb-4">
+                        <div className="flex justify-between items-center mb-4">
                       <span className="text-2xl font-bold text-violet-600">
                         ${(item.price || item.finalPrice).toLocaleString()}
                       </span>
                       <span className="text-sm text-gray-500">
                         {item.stock ? `Stock: ${item.stock}` : 'Combo'}
                       </span>
-                    </div>
+                        </div>
                     
-                    <button 
+                          <button 
                       onClick={() => handleAddToCart(item)}
                       className="w-full bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white py-3 rounded-2xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
-                    >
-                      Agregar al carrito
-                    </button>
-                  </div>
-                </div>
+                          >
+                            Agregar al carrito
+                          </button>
+                        </div>
+                      </div>
               ))}
             </div>
           ) : (
@@ -206,7 +209,7 @@ export default function Productos() {
                 </button>
                 
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                  <button
+                <button
                     key={page}
                     onClick={() => setCurrentPage(page)}
                     className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
@@ -216,8 +219,8 @@ export default function Productos() {
                     }`}
                   >
                     {page}
-                  </button>
-                ))}
+                </button>
+              ))}
                 
                 <button
                   onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
