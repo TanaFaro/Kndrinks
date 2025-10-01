@@ -30,7 +30,7 @@ export default function Check() {
             : p
         )
         localStorage.setItem('products', JSON.stringify(fixed))
-        setData(prev => ({ ...prev, products: fixed }))
+        setData((prev: any) => ({ ...prev, products: fixed }))
         alert('✅ Coca Cola corregida')
       }
     } catch (error) {

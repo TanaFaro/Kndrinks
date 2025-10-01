@@ -52,7 +52,7 @@ export default function DebugMobile() {
                 const parsedProducts = JSON.parse(products)
                 info.productsCount = parsedProducts.length
                 info.productsValid = Array.isArray(parsedProducts)
-                setLocalStorageData(prev => ({ ...prev, products: parsedProducts }))
+                setLocalStorageData((prev: any) => ({ ...prev, products: parsedProducts }))
               } catch (e) {
                 info.productsValid = false
                 errorsList.push(`Error parseando productos: ${e}`)
@@ -64,7 +64,7 @@ export default function DebugMobile() {
                 const parsedOfertas = JSON.parse(ofertas)
                 info.ofertasCount = parsedOfertas.length
                 info.ofertasValid = Array.isArray(parsedOfertas)
-                setLocalStorageData(prev => ({ ...prev, ofertas: parsedOfertas }))
+                setLocalStorageData((prev: any) => ({ ...prev, ofertas: parsedOfertas }))
               } catch (e) {
                 info.ofertasValid = false
                 errorsList.push(`Error parseando ofertas: ${e}`)
