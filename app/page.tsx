@@ -1,5 +1,6 @@
 'use client'
 
+// Versión actualizada con precios de ofertas corregidos - v2.3
 import { useState, useEffect } from 'react'
 import { useCartStore } from '@/store/cartStore'
 
