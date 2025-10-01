@@ -20,29 +20,53 @@ export default function Home() {
   const { addItem } = useCartStore()
 
   useEffect(() => {
-    // Cargar productos solo desde localStorage (administrador debe cargarlos)
-    const loadProducts = () => {
-      try {
-        const savedProducts = localStorage.getItem('products')
-        if (savedProducts) {
-          const parsedProducts: Product[] = JSON.parse(savedProducts)
-          console.log('📦 Productos cargados desde localStorage:', parsedProducts)
-          console.log('🔍 Primer producto:', parsedProducts[0])
-          setProducts(parsedProducts)
-        } else {
-          // Sin productos hardcodeados - el administrador debe cargarlos
-          setProducts([])
-          console.log('⚠️ No hay productos cargados. Usa el panel de administración para agregar productos.')
-        }
-      } catch (error) {
-        console.error('Error cargando productos:', error)
-        setProducts([])
-      } finally {
-        setLoading(false)
+    // Productos fijos para la página de inicio (no interfieren con productos/admin)
+    const featuredProducts: Product[] = [
+      {
+        id: 1,
+        name: "Fernet BRANCA",
+        price: 13500,
+        category: "Aperitivos",
+        stock: 6,
+        image: "/images/fernet750.jfif",
+        description: "Fernet italiano de alta calidad",
+        type: 'product'
+      },
+      {
+        id: 2,
+        name: "Skyy saborizado",
+        price: 9500,
+        category: "Licores",
+        stock: 12,
+        image: "/images/skyy.png",
+        description: "Vodka premium americano",
+        type: 'product'
+      },
+      {
+        id: 3,
+        name: "Smirnoff Saborizado",
+        price: 8000,
+        category: "Licores",
+        stock: 12,
+        image: "/images/Smirnoffsolo.jpeg",
+        description: "Vodka ruso premium",
+        type: 'product'
+      },
+      {
+        id: 4,
+        name: "Gancia",
+        price: 8000,
+        category: "Aperitivos",
+        stock: 6,
+        image: "/images/Gancia.jfif",
+        description: "Aperitivo italiano clásico",
+        type: 'product'
       }
-    }
-
-    loadProducts()
+    ]
+    
+    setProducts(featuredProducts)
+    setLoading(false)
+    console.log('🏠 Productos destacados cargados para página de inicio')
   }, [])
 
   const handleAddToCart = (product: Product) => {
