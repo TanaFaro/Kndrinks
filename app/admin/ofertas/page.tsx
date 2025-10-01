@@ -28,6 +28,8 @@ export default function AdminOfertas() {
   const [ofertas, setOfertas] = useState<Oferta[]>([])
   const [loading, setLoading] = useState(true)
   const router = useRouter()
+  
+  // Versión actualizada del sistema de ofertas - v2.0
 
   useEffect(() => {
     // Verificar si el admin está logueado
