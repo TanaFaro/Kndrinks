@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import ImageSelector from '@/components/ImageSelector'
+import { auth } from '@/lib/auth'
 
 interface Product {
   id: number
@@ -29,13 +30,13 @@ export default function NewProduct() {
 
   useEffect(() => {
     // Verificar si el admin está logueado
-    const isLoggedIn = localStorage.getItem('adminLoggedIn')
+    const isLoggedIn = auth.isLoggedIn()
     if (!isLoggedIn) {
       router.push('/admin')
       return
     }
-
   }, [router])
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

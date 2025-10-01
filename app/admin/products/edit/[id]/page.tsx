@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
+import { auth } from '@/lib/auth'
 
 interface Product {
   id: number
@@ -31,12 +32,12 @@ export default function EditProduct() {
 
   useEffect(() => {
     // Verificar si el admin está logueado
-    const isLoggedIn = localStorage.getItem('adminLoggedIn')
+    const isLoggedIn = auth.isLoggedIn()
     if (!isLoggedIn) {
       router.push('/admin')
       return
     }
-
+  
     // Cargar datos del producto
     const savedProducts = localStorage.getItem('products')
     if (savedProducts) {
@@ -61,7 +62,7 @@ export default function EditProduct() {
       router.push('/admin/dashboard')
       return
     }
-    
+  
     setLoading(false)
   }, [productId, router])
 

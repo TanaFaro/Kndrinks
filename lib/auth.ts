@@ -12,7 +12,7 @@ export const auth = {
   // Iniciar sesión
   login: (username: string, password: string): boolean => {
     // Credenciales simples
-    if (username === 'KNDrinks' && password === 'KNDrinks2025') {
+    if (username === 'KNDrinks' && password === 'KNDrinks2025') { {
       const session: AdminSession = {
         isLoggedIn: true,
         username: username,
