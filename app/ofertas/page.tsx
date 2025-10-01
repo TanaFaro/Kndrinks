@@ -40,6 +40,13 @@ export default function Ofertas() {
           const parsedOfertas: Oferta[] = JSON.parse(savedOfertas)
           console.log('📦 Ofertas cargadas desde localStorage:', parsedOfertas)
           setOfertas(parsedOfertas)
+          
+          // Forzar precarga de imágenes de ofertas
+          parsedOfertas.forEach(oferta => {
+            const img = new Image()
+            img.src = `${oferta.image}?v=${Date.now()}`
+            console.log('🖼️ Precargando imagen de oferta:', oferta.title, img.src)
+          })
         } else {
           console.log('⚠️ No hay ofertas guardadas')
           setOfertas([])
@@ -109,12 +116,17 @@ export default function Ofertas() {
                 <div key={oferta.id} className="bg-gradient-to-br from-violet-50 to-purple-50 rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105 border border-violet-200">
                   <div className="relative h-48 sm:h-64 overflow-hidden bg-gradient-to-br from-violet-50 to-purple-50">
                     <img
-                      src={oferta.image}
+                      src={`${oferta.image}?v=${Date.now()}`}
                       alt={oferta.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-all duration-300"
                       onError={(e) => {
                         console.error('❌ Error cargando imagen de oferta:', oferta.title, oferta.image)
-                        // Mostrar placeholder inmediatamente en móviles
+                        // Intentar cargar sin cache primero
+                        if (!e.currentTarget.src.includes('?nocache')) {
+                          e.currentTarget.src = `${oferta.image}?nocache=${Date.now()}`
+                          return
+                        }
+                        // Si sigue fallando, mostrar placeholder
                         e.currentTarget.style.display = 'none'
                         const container = e.currentTarget.parentElement
                         if (container) {
@@ -128,6 +140,7 @@ export default function Ofertas() {
                         }
                       }}
                       onLoad={(e) => {
+                        console.log('✅ Imagen de oferta cargada exitosamente:', oferta.title)
                         e.currentTarget.style.opacity = '1'
                         // Ocultar spinner inmediatamente
                         const spinner = e.currentTarget.nextElementSibling as HTMLElement
