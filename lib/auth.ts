@@ -102,4 +102,3 @@ export const auth = {
     return isAuth
   }
 }
-// Force Vercel update - Version 2
