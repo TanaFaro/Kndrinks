@@ -24,7 +24,8 @@ export default function Productos() {
         category: "Bebidas",
         stock: 50,
         image: "/images/cocacola.jfif",
-        description: "Refresco clásico de Coca Cola"
+        description: "Refresco clásico de Coca Cola",
+        type: 'product'
       },
       {
         id: 2,
@@ -33,7 +34,8 @@ export default function Productos() {
         category: "Licores",
         stock: 30,
         image: "/images/fernet750.jfif",
-        description: "Fernet italiano de alta calidad"
+        description: "Fernet italiano de alta calidad",
+        type: 'product'
       },
       {
         id: 3,
@@ -42,7 +44,8 @@ export default function Productos() {
         category: "Licores",
         stock: 25,
         image: "/images/skyy.png",
-        description: "Vodka premium americano"
+        description: "Vodka premium americano",
+        type: 'product'
       },
       {
         id: 4,
@@ -51,7 +54,8 @@ export default function Productos() {
         category: "Licores",
         stock: 20,
         image: "/images/Smirnoffsolo.jpeg",
-        description: "Vodka ruso premium"
+        description: "Vodka ruso premium",
+        type: 'product'
       },
       {
         id: 5,
@@ -60,7 +64,8 @@ export default function Productos() {
         category: "Bebidas",
         stock: 40,
         image: "/images/pritty2250.jfif",
-        description: "Gaseosa sabor limón"
+        description: "Gaseosa sabor limón",
+        type: 'product'
       },
       {
         id: 6,
@@ -69,7 +74,8 @@ export default function Productos() {
         category: "Bebidas",
         stock: 30,
         image: "/images/prittyde3lts.webp",
-        description: "Gaseosa sabor limón 3 litros"
+        description: "Gaseosa sabor limón 3 litros",
+        type: 'product'
       },
       {
         id: 7,
@@ -78,7 +84,8 @@ export default function Productos() {
         category: "Bebidas",
         stock: 60,
         image: "/images/cocadescartable.jpg",
-        description: "Coca Cola en botella descartable"
+        description: "Coca Cola en botella descartable",
+        type: 'product'
       },
       {
         id: 8,
@@ -87,7 +94,8 @@ export default function Productos() {
         category: "Bebidas",
         stock: 40,
         image: "/images/SpeedXL.webp",
-        description: "Bebida energética XL"
+        description: "Bebida energética XL",
+        type: 'product'
       },
       {
         id: 9,
@@ -96,7 +104,8 @@ export default function Productos() {
         category: "Vinos",
         stock: 15,
         image: "/images/DURenaissance.jfif",
-        description: "Vino DU Renaissance"
+        description: "Vino DU Renaissance",
+        type: 'product'
       },
       {
         id: 10,
@@ -105,7 +114,8 @@ export default function Productos() {
         category: "Vinos",
         stock: 25,
         image: "/images/vinotoro.jfif",
-        description: "Vino Toro tinto 750ml"
+        description: "Vino Toro tinto 750ml",
+        type: 'product'
       },
       {
         id: 11,
@@ -114,7 +124,8 @@ export default function Productos() {
         category: "Vinos",
         stock: 25,
         image: "/images/balbomaspritty.png",
-        description: "Vino tinto premium"
+        description: "Vino tinto premium",
+        type: 'product'
       },
       {
         id: 12,
@@ -123,7 +134,8 @@ export default function Productos() {
         category: "Aperitivos",
         stock: 18,
         image: "/images/Gancia.jfif",
-        description: "Gancia aperitivo"
+        description: "Gancia aperitivo",
+        type: 'product'
       }
     ]
 
