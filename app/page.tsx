@@ -119,15 +119,16 @@ export default function Home() {
                       alt={product.name}
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        console.error('❌ Error cargando imagen:', product.image)
+                        console.error('❌ Error cargando imagen:', product.image, 'para producto:', product.name)
                         e.currentTarget.style.display = 'none'
                         const container = e.currentTarget.parentElement
                         if (container) {
                           container.innerHTML = `
-                            <div class="w-full h-full flex flex-col items-center justify-center text-violet-600">
-                              <div class="text-4xl mb-2">🍷</div>
+                            <div class="w-full h-full flex flex-col items-center justify-center text-violet-600 bg-gradient-to-br from-violet-100 to-purple-100">
+                              <div class="text-4xl mb-2">${product.name.includes('Fernet') ? '🍷' : '🍷'}</div>
                               <div class="text-sm font-semibold text-center px-2">${product.name}</div>
-                              <div class="text-xs text-violet-500 mt-1">Imagen no disponible</div>
+                              <div class="text-xs text-violet-500 mt-1">$${product.price.toLocaleString()}</div>
+                              <div class="text-xs text-violet-400 mt-1">Imagen no disponible</div>
                             </div>
                           `
                         }
