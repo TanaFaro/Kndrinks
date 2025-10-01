@@ -34,10 +34,37 @@ export default function Ofertas() {
   const { addItem } = useCartStore()
 
   useEffect(() => {
-    // Página de ofertas vacía - se cargarán desde el panel de administrador
-    setOfertas([])
-    setLoading(false)
-    console.log('🎁 Página de ofertas vacía - esperando ofertas del administrador')
+    const loadOfertas = async () => {
+      try {
+        console.log('🔄 Cargando ofertas desde API unificada...')
+        
+        // Cargar ofertas desde API (misma fuente para todos los dispositivos)
+        const response = await fetch('/api/offers')
+        const ofertasToShow = await response.json()
+        
+        setOfertas(ofertasToShow)
+        
+        console.log('🎁 Ofertas cargadas desde API:', ofertasToShow.length)
+        
+        // Debug para móviles
+        if (ofertasToShow.length === 0) {
+          console.warn('⚠️ No hay ofertas disponibles en API')
+          console.log('🔍 Debug info:', {
+            userAgent: navigator.userAgent,
+            platform: navigator.platform,
+            apiAvailable: typeof window !== 'undefined' && !!window.fetch
+          })
+        }
+        
+      } catch (error) {
+        console.error('❌ Error cargando ofertas desde API:', error)
+        setOfertas([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadOfertas()
   }, [])
 
   useEffect(() => {

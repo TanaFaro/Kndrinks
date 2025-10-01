@@ -16,12 +16,41 @@ export default function Productos() {
   const { addItem } = useCartStore()
 
   useEffect(() => {
-    // Página de productos vacía - se cargarán desde el panel de administrador
-    setProducts([])
-    setOfertas([])
-    setAllItems([])
-    setLoading(false)
-    console.log('📦 Página de productos vacía - esperando productos del administrador')
+    const loadProducts = async () => {
+      try {
+        console.log('🔄 Cargando productos desde API unificada...')
+        
+        // Cargar productos desde API (misma fuente para todos los dispositivos)
+        const response = await fetch('/api/products')
+        const productsToShow = await response.json()
+        
+        setProducts(productsToShow)
+        setOfertas([]) // Sin ofertas en la página de productos
+        setAllItems(productsToShow) // Solo productos, sin ofertas
+        
+        console.log('📦 Productos cargados desde API:', productsToShow.length)
+        
+        // Debug para móviles
+        if (productsToShow.length === 0) {
+          console.warn('⚠️ No hay productos disponibles en API')
+          console.log('🔍 Debug info:', {
+            userAgent: navigator.userAgent,
+            platform: navigator.platform,
+            apiAvailable: typeof window !== 'undefined' && !!window.fetch
+          })
+        }
+        
+      } catch (error) {
+        console.error('❌ Error cargando productos desde API:', error)
+        setProducts([])
+        setOfertas([])
+        setAllItems([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadProducts()
   }, [])
 
   useEffect(() => {
