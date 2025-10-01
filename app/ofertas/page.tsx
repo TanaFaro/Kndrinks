@@ -35,22 +35,140 @@ export default function Ofertas() {
   useEffect(() => {
     const loadOfertas = () => {
       try {
-        const savedOfertas = localStorage.getItem('ofertas')
-        if (savedOfertas) {
-          const parsedOfertas: Oferta[] = JSON.parse(savedOfertas)
-          console.log('📦 Ofertas cargadas desde localStorage:', parsedOfertas)
-          setOfertas(parsedOfertas)
-          
-          // Forzar precarga de imágenes de ofertas
-          parsedOfertas.forEach(oferta => {
-            const img = new Image()
-            img.src = `${oferta.image}?v=${Date.now()}`
-            console.log('🖼️ Precargando imagen de oferta:', oferta.title, img.src)
-          })
-        } else {
-          console.log('⚠️ No hay ofertas guardadas')
-          setOfertas([])
-        }
+        // Limpiar localStorage de ofertas para forzar recarga
+        localStorage.removeItem('ofertas')
+        console.log('🧹 Limpiando localStorage de ofertas')
+        
+        // Cargar ofertas correctas desde el sistema de administración
+        const correctOffers: Oferta[] = [
+          {
+            id: 1,
+            title: "Du + Speed",
+            description: "Combo DU Renaissance + Speed XL",
+            comboProducts: [
+              { productId: 11, productName: "DU Renaissance 750ml", quantity: 1, price: 5000 },
+              { productId: 13, productName: "Speed XL", quantity: 1, price: 2800 }
+            ],
+            finalPrice: 7500,
+            image: "/images/Duconspeed.jfif",
+            category: "Combos",
+            active: true
+          },
+          {
+            id: 2,
+            title: "Branca 750ml + 1 Coca 2.25L",
+            description: "Fernet Branca + Coca Cola descartable",
+            comboProducts: [
+              { productId: 2, productName: "Fernet Branca 750ml", quantity: 1, price: 13500 },
+              { productId: 8, productName: "Coca Cola Descartable 2.25L", quantity: 1, price: 4200 }
+            ],
+            finalPrice: 17000,
+            image: "/images/fernetmascocadescartable.jpg",
+            category: "Combos",
+            active: true
+          },
+          {
+            id: 3,
+            title: "Branca 750ml + 2 Coca 2.25L",
+            description: "Fernet Branca + 2 Coca Cola descartable",
+            comboProducts: [
+              { productId: 2, productName: "Fernet Branca 750ml", quantity: 1, price: 13500 },
+              { productId: 8, productName: "Coca Cola Descartable 2.25L", quantity: 2, price: 4200 }
+            ],
+            finalPrice: 21200,
+            image: "/images/fernetmas2cocas.jfif",
+            category: "Combos",
+            active: true
+          },
+          {
+            id: 4,
+            title: "Skyy 750ml + 2 Speed XL",
+            description: "Skyy Vodka + 2 Speed XL",
+            comboProducts: [
+              { productId: 3, productName: "Skyy Vodka 750ml", quantity: 1, price: 9500 },
+              { productId: 13, productName: "Speed XL", quantity: 2, price: 2800 }
+            ],
+            finalPrice: 15500,
+            image: "/images/skyymasspeed.jfif",
+            category: "Combos",
+            active: true
+          },
+          {
+            id: 5,
+            title: "Smirnoff 750ml + 2 Speed XL",
+            description: "Smirnoff Vodka + 2 Speed XL",
+            comboProducts: [
+              { productId: 4, productName: "Smirnoff Vodka 750ml", quantity: 1, price: 8000 },
+              { productId: 13, productName: "Speed XL", quantity: 2, price: 2800 }
+            ],
+            finalPrice: 14500,
+            image: "/images/Smirnoffmas2speed.png",
+            category: "Combos",
+            active: true
+          },
+          {
+            id: 6,
+            title: "Toro Tinto 1L + 1 Pritty 2.25L",
+            description: "Vino Toro + Pritty Limón",
+            comboProducts: [
+              { productId: 13, productName: "Vino Toro 1L", quantity: 1, price: 2200 },
+              { productId: 5, productName: "Pritty Limón 2.25L", quantity: 1, price: 2600 }
+            ],
+            finalPrice: 4500,
+            image: "/images/vinotoromaspritty.jpg",
+            category: "Combos",
+            active: true
+          },
+          {
+            id: 7,
+            title: "Gancia + Sprite 2.25L",
+            description: "Gancia + Sprite descartable",
+            comboProducts: [
+              { productId: 12, productName: "Gancia", quantity: 1, price: 8000 },
+              { productId: 10, productName: "Sprite 2.25L", quantity: 1, price: 3400 }
+            ],
+            finalPrice: 12000,
+            image: "/images/ganciamassprite.jpeg",
+            category: "Combos",
+            active: true
+          },
+          {
+            id: 8,
+            title: "Du + Speed XL",
+            description: "DU Renaissance + Speed XL",
+            comboProducts: [
+              { productId: 11, productName: "DU Renaissance 750ml", quantity: 1, price: 5000 },
+              { productId: 13, productName: "Speed XL", quantity: 1, price: 2800 }
+            ],
+            finalPrice: 7500,
+            image: "/images/Duconspeed.jfif",
+            category: "Combos",
+            active: true
+          },
+          {
+            id: 9,
+            title: "Viñas de Balbo + Pritty",
+            description: "Vino Viña de Balbo + Pritty de 2.25L",
+            comboProducts: [
+              { productId: 11, productName: "Vino Viña de Balbo Tinto", quantity: 1, price: 2800 },
+              { productId: 5, productName: "Pritty Limón 2.25L", quantity: 1, price: 2600 }
+            ],
+            finalPrice: 5500,
+            image: "/images/balbomaspritty.jpg",
+            category: "Combos",
+            active: true
+          }
+        ]
+        
+        console.log('📦 Cargando ofertas correctas:', correctOffers)
+        setOfertas(correctOffers)
+        localStorage.setItem('ofertas', JSON.stringify(correctOffers))
+        
+        // Debug de precios
+        correctOffers.forEach(oferta => {
+          console.log('💰 Precio correcto:', oferta.title, oferta.finalPrice)
+        })
+        
       } catch (error) {
         console.error('❌ Error cargando ofertas:', error)
         setOfertas([])
