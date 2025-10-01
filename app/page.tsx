@@ -19,7 +19,7 @@ export default function Home() {
   const { addItem } = useCartStore()
 
   useEffect(() => {
-    // Cargar productos desde localStorage o mantener vacío
+    // Cargar productos desde localStorage o productos de ejemplo
     const loadProducts = () => {
       try {
         const savedProducts = localStorage.getItem('products')
@@ -27,7 +27,127 @@ export default function Home() {
           const parsedProducts: Product[] = JSON.parse(savedProducts)
           setProducts(parsedProducts)
         } else {
-          setProducts([]) // Sin productos por defecto
+          // Productos de ejemplo con tus imágenes
+          const exampleProducts: Product[] = [
+            {
+              id: 1,
+              name: "Coca Cola 2.25L",
+              price: 3800,
+              category: "Bebidas",
+              stock: 50,
+              image: "/images/cocacola.jfif",
+              description: "Refresco clásico de Coca Cola"
+            },
+            {
+              id: 2,
+              name: "Fernet Branca 750ml",
+              price: 13500,
+              category: "Licores",
+              stock: 30,
+              image: "/images/fernet750.jfif",
+              description: "Fernet italiano de alta calidad"
+            },
+            {
+              id: 3,
+              name: "Skyy Vodka 750ml",
+              price: 9500,
+              category: "Licores",
+              stock: 25,
+              image: "/images/skyy.png",
+              description: "Vodka premium americano"
+            },
+            {
+              id: 4,
+              name: "Smirnoff Vodka 750ml",
+              price: 8000,
+              category: "Licores",
+              stock: 20,
+              image: "/images/Smirnoffsolo.jpeg",
+              description: "Vodka ruso premium"
+            },
+            {
+              id: 5,
+              name: "Pritty Limón 2.25L",
+              price: 2600,
+              category: "Bebidas",
+              stock: 40,
+              image: "/images/pritty2250.jfif",
+              description: "Gaseosa sabor limón"
+            },
+            {
+              id: 6,
+              name: "Pritty Limón 3L",
+              price: 3000,
+              category: "Bebidas",
+              stock: 30,
+              image: "/images/prittyde3lts.webp",
+              description: "Gaseosa sabor limón 3 litros"
+            },
+            {
+              id: 7,
+              name: "Gancia 1L",
+              price: 8000,
+              category: "Licores",
+              stock: 25,
+              image: "/images/Gancia.jfif",
+              description: "Aperitivo italiano clásico"
+            },
+            {
+              id: 8,
+              name: "Coca Cola Descartable 2.25L",
+              price: 4200,
+              category: "Bebidas",
+              stock: 60,
+              image: "/images/cocadescartable.jpg",
+              description: "Coca Cola en botella descartable"
+            },
+            {
+              id: 9,
+              name: "Speed XL",
+              price: 2800,
+              category: "Bebidas",
+              stock: 40,
+              image: "/images/SpeedXL.webp",
+              description: "Bebida energética XL"
+            },
+            {
+              id: 10,
+              name: "Sprite 2.25L",
+              price: 3400,
+              category: "Bebidas",
+              stock: 40,
+              image: "/images/Sprite.webp",
+              description: "Refresco sabor lima-limón"
+            },
+            {
+              id: 11,
+              name: "DU Renaissance 750ml",
+              price: 5000,
+              category: "Licores",
+              stock: 15,
+              image: "/images/DURenaissance.jfif",
+              description: "Vodka premium francés"
+            },
+            {
+              id: 12,
+              name: "Vino Viña de Balbo Tinto 1.25L",
+              price: 2800,
+              category: "Vinos",
+              stock: 25,
+              image: "/images/balbomaspritty.png",
+              description: "Vino tinto premium"
+            },
+            {
+              id: 13, 
+              name: "Vino Toro 1L",
+              price: 2200,
+              category: "Vinos",
+              stock: 30,
+              image: "/images/vinotoro.jfif",
+              description: "Vino tinto de calidad"
+            }
+          ]
+          setProducts(exampleProducts)
         }
       } catch (error) {
         console.error('Error cargando productos:', error)
