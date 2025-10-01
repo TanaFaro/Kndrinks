@@ -1,50 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 // Datos de ofertas unificados (en producción esto vendría de una base de datos)
-let offers = [
-  {
-    id: 1,
-    title: "Du + Speed",
-    description: "Combo DU Renaissance + Speed XL",
-    comboProducts: [
-      { name: "DU Renaissance 750ml", quantity: 1, price: 5000 },
-      { name: "Speed XL", quantity: 1, price: 2800 }
-    ],
-    finalPrice: 7500,
-    image: "/images/Duconspeed.jfif",
-    category: "Combos",
-    active: true,
-    priority: 1
-  },
-  {
-    id: 2,
-    title: "Branca 750ml + 1 Coca 2.25L",
-    description: "Fernet Branca + Coca Cola descartable",
-    comboProducts: [
-      { name: "Fernet Branca 750ml", quantity: 1, price: 13500 },
-      { name: "Coca Cola Descartable 2.25L", quantity: 1, price: 4200 }
-    ],
-    finalPrice: 17000,
-    image: "/images/fernetmascocadescartable.jpg",
-    category: "Combos",
-    active: true,
-    priority: 2
-  },
-  {
-    id: 3,
-    title: "Branca 750ml + 2 Coca 2.25L",
-    description: "Fernet Branca + 2 Coca Cola descartable",
-    comboProducts: [
-      { name: "Fernet Branca 750ml", quantity: 1, price: 13500 },
-      { name: "Coca Cola Descartable 2.25L", quantity: 2, price: 4200 }
-    ],
-    finalPrice: 21200,
-    image: "/images/fernetmas2cocas.jfif",
-    category: "Combos",
-    active: true,
-    priority: 3
-  }
-]
+// Iniciando vacío - se cargarán desde el panel de administrador
+let offers: any[] = []
 
 // GET - Obtener ofertas
 export async function GET() {

@@ -1,62 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 // Datos de productos unificados (en producción esto vendría de una base de datos)
-let products = [
-  {
-    id: 1,
-    name: "Fernet BRANCA",
-    price: 13500,
-    category: "Aperitivos",
-    stock: 6,
-    image: "/images/fernet750.jfif",
-    description: "Fernet italiano de alta calidad"
-  },
-  {
-    id: 2,
-    name: "Skyy saborizado",
-    price: 9500,
-    category: "Licores",
-    stock: 12,
-    image: "/images/skyy.png",
-    description: "Vodka premium americano"
-  },
-  {
-    id: 3,
-    name: "Smirnoff Saborizado",
-    price: 8000,
-    category: "Licores",
-    stock: 12,
-    image: "/images/Smirnoffsolo.jpeg",
-    description: "Vodka ruso premium"
-  },
-  {
-    id: 4,
-    name: "Gancia",
-    price: 8000,
-    category: "Aperitivos",
-    stock: 6,
-    image: "/images/Gancia.jfif",
-    description: "Aperitivo italiano clásico"
-  },
-  {
-    id: 5,
-    name: "Coca-cola x 2.25 lt",
-    price: 4200,
-    category: "Sin Alcohol",
-    stock: 12,
-    image: "/images/cocacola.jfif",
-    description: "Refresco clásico de Coca Cola"
-  },
-  {
-    id: 6,
-    name: "Speed XL",
-    price: 2800,
-    category: "Sin Alcohol",
-    stock: 12,
-    image: "/images/SpeedXL.webp",
-    description: "Bebida energética"
-  }
-]
+// Iniciando vacío - se cargarán desde el panel de administrador
+let products: any[] = []
 
 // GET - Obtener productos
 export async function GET() {

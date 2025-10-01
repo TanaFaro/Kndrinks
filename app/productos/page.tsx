@@ -16,50 +16,12 @@ export default function Productos() {
   const { addItem } = useCartStore()
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        console.log('🔄 Cargando productos y ofertas desde API unificada...')
-        
-        // Cargar productos desde API (misma fuente para todos los dispositivos)
-        const productsResponse = await fetch('/api/products')
-        const productsToShow = await productsResponse.json()
-        
-        // Cargar ofertas desde API (misma fuente para todos los dispositivos)
-        const offersResponse = await fetch('/api/offers')
-        const ofertasToShow = await offersResponse.json()
-        
-        setProducts(productsToShow)
-        setOfertas(ofertasToShow)
-        
-        // Combinar productos y ofertas para mostrar todo junto
-        const combinedItems = [...productsToShow, ...ofertasToShow]
-        setAllItems(combinedItems)
-        
-        console.log('📦 Productos cargados desde API:', productsToShow.length)
-        console.log('🎁 Ofertas cargadas desde API:', ofertasToShow.length)
-        console.log('📋 Total items:', combinedItems.length)
-        
-        // Debug para móviles
-        if (combinedItems.length === 0) {
-          console.warn('⚠️ No hay productos disponibles en API')
-          console.log('🔍 Debug info:', {
-            userAgent: navigator.userAgent,
-            platform: navigator.platform,
-            apiAvailable: typeof window !== 'undefined' && !!window.fetch
-          })
-        }
-        
-      } catch (error) {
-        console.error('❌ Error cargando datos desde API:', error)
-        setProducts([])
-        setOfertas([])
-        setAllItems([])
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadData()
+    // Página de productos vacía - se cargarán desde el panel de administrador
+    setProducts([])
+    setOfertas([])
+    setAllItems([])
+    setLoading(false)
+    console.log('📦 Página de productos vacía - esperando productos del administrador')
   }, [])
 
   useEffect(() => {
@@ -193,6 +155,14 @@ export default function Productos() {
               <div className="text-6xl mb-4">🍷</div>
               <h3 className="text-2xl font-bold text-gray-700 mb-2">No hay productos disponibles</h3>
               <p className="text-gray-600">Los productos se cargarán desde la administración.</p>
+              <div className="mt-4">
+                <a 
+                  href="/admin" 
+                  className="inline-block bg-violet-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-violet-700 transition-colors"
+                >
+                  Ir a Administración
+                </a>
+              </div>
             </div>
           )}
 
