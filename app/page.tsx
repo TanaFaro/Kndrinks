@@ -62,7 +62,7 @@ export default function Home() {
     
     setProducts(featuredProducts)
     setLoading(false)
-    console.log('🏠 Productos destacados cargados para página de inicio')
+    console.log('🏠 Productos destacados cargados para página de inicio - v3.13')
   }, [])
 
   const handleAddToCart = (product: Product) => {
