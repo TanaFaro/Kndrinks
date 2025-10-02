@@ -6,7 +6,6 @@ import Link from 'next/link'
 import { auth } from '@/lib/auth'
 import { dataManager, Product, Oferta, ComboProduct } from '@/lib/dataManager'
 import { normalizeImagePath } from '@/lib/imageUtils'
-import { useImageRefresh } from '@/lib/useImageRefresh'
 import ImageSelector from '@/components/ImageSelector'
 
 type ItemType = 'product' | 'offer'
@@ -53,7 +52,6 @@ export default function AdminItems() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const router = useRouter()
-  const { images, refreshImages } = useImageRefresh()
 
   useEffect(() => {
     if (!auth.isLoggedIn()) {
@@ -603,10 +601,8 @@ export default function AdminItems() {
                       Imagen *
                     </label>
                     <ImageSelector
-                      images={images}
                       selectedImage={selectedImage}
                       onImageSelect={handleImageSelect}
-                      onRefresh={refreshImages}
                     />
                   </div>
 
