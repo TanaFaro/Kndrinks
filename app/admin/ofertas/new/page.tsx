@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { normalizeImagePath } from '@/lib/imageUtils'
 import { useImageRefresh } from '@/lib/useImageRefresh'
-import { saveOfertas, notifyDataChange } from '@/lib/dataSync'
+import { dataManager } from '@/lib/dataManager'
 import ImageSelector from '@/components/ImageSelector'
 
 interface ComboProduct {
@@ -231,14 +231,10 @@ export default function NewOferta() {
         return
       }
 
-      const savedOfertas = localStorage.getItem('ofertas')
-      const ofertas: Oferta[] = savedOfertas ? JSON.parse(savedOfertas) : []
-
       // Normalizar la ruta de la imagen
       const imagePath = normalizeImagePath(selectedImage)
 
-      const newOferta: Oferta = {
-        id: Date.now(),
+      const newOferta: Omit<Oferta, 'id'> = {
         title: formData.title,
         description: formData.description,
         comboProducts: selectedProducts,
@@ -252,10 +248,11 @@ export default function NewOferta() {
 
       console.log('✅ Nuevo combo creado:', newOferta)
       console.log('🖼️ Imagen guardada:', imagePath)
-      ofertas.push(newOferta)
-      saveOfertas(ofertas)
-      console.log('✅ Combo guardado exitosamente')
-      console.log('📦 Total de ofertas guardadas:', ofertas.length)
+      
+      // Usar dataManager para agregar la oferta
+      const savedOferta = dataManager.addOferta(newOferta)
+      console.log('✅ Combo guardado exitosamente:', savedOferta)
+      console.log('📦 Total de ofertas guardadas:', dataManager.getOfertas().length)
       alert('¡Combo creado exitosamente!')
       router.push('/admin/ofertas')
     } catch (error) {
