@@ -225,7 +225,7 @@ export default function AdminDashboard() {
                       <div className="flex items-center space-x-2">
                         <span className="text-sm font-medium text-gray-900">${product.price.toLocaleString()}</span>
                         <Link
-                          href={`/admin/products/edit/${product.id}`}
+                          href="/admin/items"
                           className="text-blue-600 hover:text-blue-900 text-sm font-medium"
                         >
                           Editar

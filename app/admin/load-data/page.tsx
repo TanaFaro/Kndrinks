@@ -198,7 +198,7 @@ export default function LoadData() {
           </Link>
           
           <Link 
-            href="/admin/products" 
+            href="/admin/items" 
             className="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
           >
             Ver Productos →
