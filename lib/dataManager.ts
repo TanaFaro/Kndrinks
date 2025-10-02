@@ -54,6 +54,8 @@ class DataManager {
     try {
       // Solo usar localStorage en el cliente
       if (typeof window !== 'undefined') {
+        console.log('🔍 Inicializando dataManager en cliente...')
+        
         // Cargar productos desde localStorage
         const savedProducts = localStorage.getItem('kndrinks_products')
         if (savedProducts) {
@@ -66,15 +68,19 @@ class DataManager {
 
         // Cargar ofertas desde localStorage
         const savedOfertas = localStorage.getItem('kndrinks_ofertas')
+        console.log('🔍 savedOfertas en localStorage:', savedOfertas)
+        
         if (savedOfertas) {
           this.ofertas = JSON.parse(savedOfertas)
-          console.log('🎁 Ofertas cargadas desde localStorage:', this.ofertas.length, 'ofertas')
+          console.log('🎁 Ofertas cargadas desde localStorage:', this.ofertas.length, 'ofertas', this.ofertas)
         } else {
           // Si no hay ofertas, cargar ofertas base
+          console.log('⚠️ No hay ofertas en localStorage, cargando base...')
           this.loadBaseOfertas()
         }
       } else {
         // En el servidor, solo cargar datos base
+        console.log('🔍 Inicializando dataManager en servidor...')
         this.loadBaseProducts()
         this.loadBaseOfertas()
       }
@@ -234,6 +240,7 @@ class DataManager {
   // Métodos públicos para ofertas
   public getOfertas(): Oferta[] {
     this.initializeData()
+    console.log('🔍 dataManager.getOfertas() - ofertas actuales:', this.ofertas.length, this.ofertas)
     return [...this.ofertas]
   }
 
