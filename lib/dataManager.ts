@@ -52,23 +52,30 @@ class DataManager {
     if (this.initialized) return
 
     try {
-      // Cargar productos desde localStorage
-      const savedProducts = localStorage.getItem('kndrinks_products')
-      if (savedProducts) {
-        this.products = JSON.parse(savedProducts)
-        console.log('📦 Datos cargados desde localStorage:', this.products.length, 'productos')
-      } else {
-        // Si no hay datos, cargar productos base
-        this.loadBaseProducts()
-      }
+      // Solo usar localStorage en el cliente
+      if (typeof window !== 'undefined') {
+        // Cargar productos desde localStorage
+        const savedProducts = localStorage.getItem('kndrinks_products')
+        if (savedProducts) {
+          this.products = JSON.parse(savedProducts)
+          console.log('📦 Datos cargados desde localStorage:', this.products.length, 'productos')
+        } else {
+          // Si no hay datos, cargar productos base
+          this.loadBaseProducts()
+        }
 
-      // Cargar ofertas desde localStorage
-      const savedOfertas = localStorage.getItem('kndrinks_ofertas')
-      if (savedOfertas) {
-        this.ofertas = JSON.parse(savedOfertas)
-        console.log('🎁 Ofertas cargadas desde localStorage:', this.ofertas.length, 'ofertas')
+        // Cargar ofertas desde localStorage
+        const savedOfertas = localStorage.getItem('kndrinks_ofertas')
+        if (savedOfertas) {
+          this.ofertas = JSON.parse(savedOfertas)
+          console.log('🎁 Ofertas cargadas desde localStorage:', this.ofertas.length, 'ofertas')
+        } else {
+          // Si no hay ofertas, cargar ofertas base
+          this.loadBaseOfertas()
+        }
       } else {
-        // Si no hay ofertas, cargar ofertas base
+        // En el servidor, solo cargar datos base
+        this.loadBaseProducts()
         this.loadBaseOfertas()
       }
 
@@ -137,8 +144,10 @@ class DataManager {
 
   private saveProducts() {
     try {
-      localStorage.setItem('kndrinks_products', JSON.stringify(this.products))
-      console.log('💾 Productos guardados en localStorage')
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('kndrinks_products', JSON.stringify(this.products))
+        console.log('💾 Productos guardados en localStorage')
+      }
     } catch (error) {
       console.error('❌ Error guardando productos:', error)
     }
@@ -146,8 +155,10 @@ class DataManager {
 
   private saveOfertas() {
     try {
-      localStorage.setItem('kndrinks_ofertas', JSON.stringify(this.ofertas))
-      console.log('💾 Ofertas guardadas en localStorage')
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('kndrinks_ofertas', JSON.stringify(this.ofertas))
+        console.log('💾 Ofertas guardadas en localStorage')
+      }
     } catch (error) {
       console.error('❌ Error guardando ofertas:', error)
     }
