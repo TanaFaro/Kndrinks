@@ -5,28 +5,8 @@ import { useRouter } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { normalizeImagePath } from '@/lib/imageUtils'
 import { useImageRefresh } from '@/lib/useImageRefresh'
-import { dataManager } from '@/lib/dataManager'
+import { dataManager, ComboProduct, Oferta } from '@/lib/dataManager'
 import ImageSelector from '@/components/ImageSelector'
-
-interface ComboProduct {
-  productId: number
-  productName: string
-  quantity: number
-  price: number
-}
-
-interface Oferta {
-  id: number
-  title: string
-  description: string
-  comboProducts: ComboProduct[]
-  finalPrice: number
-  image: string
-  category: string
-  active: boolean
-  featured?: boolean
-  priority?: number
-}
 
 interface Product {
   id: number
@@ -129,14 +109,14 @@ export default function NewOferta() {
     console.log('🔍 Productos actualmente seleccionados:', selectedProducts)
     
     // Verificar si el producto ya está en el combo
-    const existingProduct = selectedProducts.find(p => p.productId === product.id)
+    const existingProduct = selectedProducts.find(p => p.name === product.name)
     console.log('🔍 Producto existente encontrado:', existingProduct)
     
     if (existingProduct) {
       console.log('➕ Incrementando cantidad del producto existente')
       setSelectedProducts(prev => {
         const updated = prev.map(p => 
-          p.productId === product.id 
+          p.name === product.name 
             ? { ...p, quantity: p.quantity + 1 }
             : p
         )
@@ -146,8 +126,7 @@ export default function NewOferta() {
     } else {
       console.log('➕ Agregando nuevo producto al combo')
       const newComboProduct: ComboProduct = {
-        productId: product.id,
-        productName: product.name,
+        name: product.name,
         quantity: 1,
         price: product.price
       }
@@ -175,20 +154,20 @@ export default function NewOferta() {
     }
   }
 
-  const handleQuantityChange = (productId: number, newQuantity: number) => {
+  const handleQuantityChange = (productName: string, newQuantity: number) => {
     if (newQuantity <= 0) {
-      setSelectedProducts(prev => prev.filter(p => p.productId !== productId))
+      setSelectedProducts(prev => prev.filter(p => p.name !== productName))
     } else {
       setSelectedProducts(prev => prev.map(p => 
-        p.productId === productId 
+        p.name === productName 
           ? { ...p, quantity: newQuantity }
           : p
       ))
     }
   }
 
-  const removeProduct = (productId: number) => {
-    setSelectedProducts(prev => prev.filter(p => p.productId !== productId))
+  const removeProduct = (productName: string) => {
+    setSelectedProducts(prev => prev.filter(p => p.name !== productName))
   }
 
   const isFormValid = () => {
@@ -589,36 +568,33 @@ export default function NewOferta() {
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Productos del Combo</h3>
                 <div className="space-y-3">
                   {selectedProducts.map((comboProduct) => {
-                    const product = products.find(p => p.id === comboProduct.productId)
                     return (
-                      <div key={comboProduct.productId} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div key={comboProduct.name} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                         <div className="flex items-center gap-3">
-                          <img
-                            src={product?.image || '/images/LogoBebidas.jpeg'}
-                            alt={product?.name}
-                            className="w-10 h-10 object-cover rounded-lg"
-                          />
+                          <div className="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center">
+                            <span className="text-gray-500">📦</span>
+                          </div>
                           <div>
-                            <p className="font-medium text-gray-800">{product?.name}</p>
-                            <p className="text-sm text-gray-600">${product?.price} c/u</p>
+                            <p className="font-medium text-gray-800">{comboProduct.name}</p>
+                            <p className="text-sm text-gray-600">${comboProduct.price.toLocaleString()} c/u</p>
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
                           <button
-                            onClick={() => handleQuantityChange(comboProduct.productId, comboProduct.quantity - 1)}
+                            onClick={() => handleQuantityChange(comboProduct.name, comboProduct.quantity - 1)}
                             className="w-8 h-8 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-colors flex items-center justify-center"
                           >
                             -
                           </button>
                           <span className="w-8 text-center font-medium">{comboProduct.quantity}</span>
                           <button
-                            onClick={() => handleQuantityChange(comboProduct.productId, comboProduct.quantity + 1)}
+                            onClick={() => handleQuantityChange(comboProduct.name, comboProduct.quantity + 1)}
                             className="w-8 h-8 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-colors flex items-center justify-center"
                           >
                             +
                           </button>
                           <button
-                            onClick={() => removeProduct(comboProduct.productId)}
+                            onClick={() => removeProduct(comboProduct.name)}
                             className="ml-2 text-red-500 hover:text-red-700 transition-colors"
                           >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
