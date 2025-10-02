@@ -9,7 +9,8 @@ function loadProductsFromStorage() {
   // En un entorno real, esto vendría de una base de datos
   // Por ahora, mantenemos los datos en memoria con algunos productos de ejemplo
   if (products.length === 0) {
-    products = [
+    // Productos base que siempre estarán disponibles
+    const baseProducts = [
       {
         id: 1,
         name: "Fernet BRANCA",
@@ -47,6 +48,9 @@ function loadProductsFromStorage() {
         description: "Aperitivo italiano clásico"
       }
     ]
+    
+    products = [...baseProducts]
+    console.log('🔄 API: Productos base cargados:', products.length)
   }
   return products
 }
