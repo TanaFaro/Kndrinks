@@ -54,33 +54,23 @@ class DataManager {
     try {
       // Solo usar localStorage en el cliente
       if (typeof window !== 'undefined') {
-        console.log('🔍 Inicializando dataManager en cliente...')
-        
         // Cargar productos desde localStorage
         const savedProducts = localStorage.getItem('kndrinks_products')
         if (savedProducts) {
           this.products = JSON.parse(savedProducts)
-          console.log('📦 Datos cargados desde localStorage:', this.products.length, 'productos')
         } else {
-          // Si no hay datos, cargar productos base
           this.loadBaseProducts()
         }
 
         // Cargar ofertas desde localStorage
         const savedOfertas = localStorage.getItem('kndrinks_ofertas')
-        console.log('🔍 savedOfertas en localStorage:', savedOfertas)
-        
         if (savedOfertas) {
           this.ofertas = JSON.parse(savedOfertas)
-          console.log('🎁 Ofertas cargadas desde localStorage:', this.ofertas.length, 'ofertas', this.ofertas)
         } else {
-          // Si no hay ofertas, cargar ofertas base
-          console.log('⚠️ No hay ofertas en localStorage, cargando base...')
           this.loadBaseOfertas()
         }
       } else {
         // En el servidor, solo cargar datos base
-        console.log('🔍 Inicializando dataManager en servidor...')
         this.loadBaseProducts()
         this.loadBaseOfertas()
       }
@@ -164,35 +154,9 @@ class DataManager {
       if (typeof window !== 'undefined') {
         localStorage.setItem('kndrinks_ofertas', JSON.stringify(this.ofertas))
         console.log('💾 Ofertas guardadas en localStorage')
-        
-        // También sincronizar con el servidor
-        this.syncWithServer('ofertas', this.ofertas)
       }
     } catch (error) {
       console.error('❌ Error guardando ofertas:', error)
-    }
-  }
-
-  private async syncWithServer(type: 'products' | 'ofertas', data: any[]) {
-    try {
-      if (typeof window !== 'undefined') {
-        const endpoint = type === 'products' ? '/api/products' : '/api/offers'
-        
-        // Enviar datos al servidor para sincronización
-        await fetch(endpoint, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ 
-            action: 'sync',
-            data: data 
-          })
-        })
-        console.log(`🔄 ${type} sincronizados con servidor`)
-      }
-    } catch (error) {
-      console.error(`❌ Error sincronizando ${type}:`, error)
     }
   }
 
@@ -240,7 +204,6 @@ class DataManager {
   // Métodos públicos para ofertas
   public getOfertas(): Oferta[] {
     this.initializeData()
-    console.log('🔍 dataManager.getOfertas() - ofertas actuales:', this.ofertas.length, this.ofertas)
     return [...this.ofertas]
   }
 
