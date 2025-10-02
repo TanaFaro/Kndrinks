@@ -129,24 +129,10 @@ class DataManager {
   }
 
   private loadBaseOfertas() {
-    this.ofertas = [
-      {
-        id: 1,
-        title: "Fernet + 2 Cocas",
-        description: "Fernet BRANCA 750ml + 2 Coca Cola 2.25L",
-        comboProducts: [
-          { name: "Fernet BRANCA", quantity: 1, price: 13500 },
-          { name: "Coca Cola 2.25L", quantity: 2, price: 4200 }
-        ],
-        finalPrice: 21900,
-        image: "/images/fernetmas2cocas.jfif",
-        category: "Combos",
-        active: true,
-        priority: 5
-      }
-    ]
+    // Iniciar con ofertas vacías - el administrador las cargará
+    this.ofertas = []
     this.saveOfertas()
-    console.log('🔄 Ofertas base cargadas:', this.ofertas.length)
+    console.log('🔄 Ofertas base inicializadas (vacías) - esperando carga del administrador')
   }
 
   private saveProducts() {

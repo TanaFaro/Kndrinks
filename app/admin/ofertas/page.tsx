@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { normalizeImagePath, handleImageError } from '@/lib/imageUtils'
+import { dataManager } from '@/lib/dataManager'
 import Link from 'next/link'
 
 interface ComboProduct {
@@ -38,20 +39,14 @@ export default function AdminOfertas() {
       return
     }
 
-    // Cargar ofertas desde localStorage
-    const savedOfertas = localStorage.getItem('ofertas')
-    if (savedOfertas) {
-      try {
-        const parsedOfertas: Oferta[] = JSON.parse(savedOfertas)
-        console.log('📦 Ofertas cargadas desde localStorage:', parsedOfertas)
-        setOfertas(parsedOfertas)
-      } catch (error) {
-        console.error('❌ Error parseando ofertas:', error)
-        setOfertas([])
-      }
-    } else {
-      console.log('📦 No hay ofertas guardadas, cargando ofertas iniciales...')
-      loadInitialOffers()
+    // Cargar ofertas desde dataManager
+    try {
+      const ofertasData = dataManager.getOfertas()
+      console.log('🎁 Ofertas cargadas desde dataManager:', ofertasData.length)
+      setOfertas(ofertasData)
+    } catch (error) {
+      console.error('❌ Error cargando ofertas:', error)
+      setOfertas([])
     }
     setLoading(false)
   }, [router])
@@ -184,24 +179,33 @@ export default function AdminOfertas() {
   }
 
   const deleteOferta = (id: number) => {
-    const updatedOfertas = ofertas.filter(oferta => oferta.id !== id)
-    setOfertas(updatedOfertas)
-    localStorage.setItem('ofertas', JSON.stringify(updatedOfertas))
+    const success = dataManager.deleteOferta(id)
+    if (success) {
+      const updatedOfertas = dataManager.getOfertas()
+      setOfertas(updatedOfertas)
+      console.log('🗑️ Oferta eliminada:', id)
+    }
   }
 
   const toggleOfertaStatus = (id: number) => {
-    const updatedOfertas = ofertas.map(oferta => 
-      oferta.id === id ? { ...oferta, active: !oferta.active } : oferta
-    )
-    setOfertas(updatedOfertas)
-    localStorage.setItem('ofertas', JSON.stringify(updatedOfertas))
+    const oferta = ofertas.find(o => o.id === id)
+    if (oferta) {
+      const updated = dataManager.updateOferta(id, { active: !oferta.active })
+      if (updated) {
+        const updatedOfertas = dataManager.getOfertas()
+        setOfertas(updatedOfertas)
+        console.log('🔄 Estado de oferta actualizado:', oferta.title)
+      }
+    }
   }
 
   const deleteOfertasByCategory = (category: string) => {
     if (confirm(`¿Estás seguro de que quieres eliminar todas las ofertas de la categoría "${category}"?`)) {
-      const updatedOfertas = ofertas.filter(oferta => oferta.category !== category)
+      const ofertasToDelete = ofertas.filter(oferta => oferta.category === category)
+      ofertasToDelete.forEach(oferta => dataManager.deleteOferta(oferta.id))
+      
+      const updatedOfertas = dataManager.getOfertas()
       setOfertas(updatedOfertas)
-      localStorage.setItem('ofertas', JSON.stringify(updatedOfertas))
       alert(`Se eliminaron todas las ofertas de la categoría "${category}"`)
     }
   }
