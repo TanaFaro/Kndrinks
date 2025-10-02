@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { dataManager } from '@/lib/dataManager'
 
 interface Product {
   id: number
@@ -25,14 +26,11 @@ export default function AdminProducts() {
   const loadProducts = async () => {
     try {
       setLoading(true)
-      console.log('🔄 Admin: Cargando productos desde API...')
-      const response = await fetch('/api/products')
-      console.log('📡 Admin: Respuesta de API:', response.status, response.ok)
+      console.log('🔄 Admin: Cargando productos desde dataManager...')
       
-      if (!response.ok) throw new Error('Error cargando productos')
-      
-      const data = await response.json()
-      console.log('📦 Admin: Productos recibidos:', data.length, data)
+      // Usar dataManager directamente para mejor rendimiento
+      const data = dataManager.getProducts()
+      console.log('📦 Admin: Productos cargados:', data.length, data)
       setProducts(data)
     } catch (err) {
       console.error('❌ Admin: Error cargando productos:', err)
@@ -46,11 +44,11 @@ export default function AdminProducts() {
     if (!confirm('¿Estás seguro de que quieres eliminar este producto?')) return
 
     try {
-      const response = await fetch(`/api/products?id=${id}`, {
-        method: 'DELETE'
-      })
+      const success = dataManager.deleteProduct(id)
       
-      if (!response.ok) throw new Error('Error eliminando producto')
+      if (!success) {
+        throw new Error('Producto no encontrado')
+      }
       
       // Recargar productos
       await loadProducts()
