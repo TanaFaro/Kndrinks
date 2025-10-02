@@ -13,10 +13,22 @@ export async function GET() {
   }
 }
 
-// POST - Agregar oferta
+// POST - Agregar oferta o sincronizar
 export async function POST(request: NextRequest) {
   try {
-    const newOffer = await request.json()
+    const body = await request.json()
+    
+    // Si es una sincronización desde el cliente
+    if (body.action === 'sync') {
+      console.log('🔄 API: Sincronizando ofertas desde cliente:', body.data.length)
+      // Aquí podrías guardar en una base de datos o archivo
+      // Por ahora solo devolvemos las ofertas actuales
+      const ofertas = dataManager.getOfertas()
+      return NextResponse.json({ message: 'Sincronización exitosa', count: ofertas.length })
+    }
+    
+    // Si es una nueva oferta
+    const newOffer = body
     const oferta = dataManager.addOferta(newOffer)
     console.log('✅ API: Oferta agregada:', oferta.title)
     return NextResponse.json(oferta, { status: 201 })

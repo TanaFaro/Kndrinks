@@ -4,6 +4,7 @@
 import { useState, useEffect } from 'react'
 import { useCartStore } from '@/store/cartStore'
 import { ComboProduct, Oferta } from '@/lib/types'
+import { dataManager } from '@/lib/dataManager'
 
 // Función para convertir prioridad a estrellas
 const getPriorityStars = (priority?: number): string => {
@@ -34,30 +35,29 @@ export default function Ofertas() {
   const { addItem } = useCartStore()
 
   useEffect(() => {
-    const loadOfertas = async () => {
+    const loadOfertas = () => {
       try {
-        console.log('🔄 Cargando ofertas desde API unificada...')
+        console.log('🔄 Cargando ofertas desde dataManager...')
         
-        // Cargar ofertas desde API (misma fuente para todos los dispositivos)
-        const response = await fetch('/api/offers')
-        const ofertasToShow = await response.json()
+        // Cargar ofertas directamente desde dataManager (misma fuente que admin)
+        const ofertasToShow = dataManager.getOfertas()
         
         setOfertas(ofertasToShow)
         
-        console.log('🎁 Ofertas cargadas desde API:', ofertasToShow.length)
+        console.log('🎁 Ofertas cargadas desde dataManager:', ofertasToShow.length)
         
         // Debug para móviles
         if (ofertasToShow.length === 0) {
-          console.warn('⚠️ No hay ofertas disponibles en API')
+          console.warn('⚠️ No hay ofertas disponibles en dataManager')
           console.log('🔍 Debug info:', {
             userAgent: navigator.userAgent,
             platform: navigator.platform,
-            apiAvailable: typeof window !== 'undefined' && !!window.fetch
+            dataManagerAvailable: typeof window !== 'undefined' && !!dataManager
           })
         }
         
       } catch (error) {
-        console.error('❌ Error cargando ofertas desde API:', error)
+        console.error('❌ Error cargando ofertas desde dataManager:', error)
         setOfertas([])
       } finally {
         setLoading(false)

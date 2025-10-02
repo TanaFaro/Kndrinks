@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useCartStore } from '@/store/cartStore'
 import { Product, Oferta } from '@/lib/types'
+import { dataManager } from '@/lib/dataManager'
 
 export default function Productos() {
   const [products, setProducts] = useState<Product[]>([])
@@ -16,32 +17,31 @@ export default function Productos() {
   const { addItem } = useCartStore()
 
   useEffect(() => {
-    const loadProducts = async () => {
+    const loadProducts = () => {
       try {
-        console.log('🔄 Cargando productos desde API unificada...')
+        console.log('🔄 Cargando productos desde dataManager...')
         
-        // Cargar productos desde API (misma fuente para todos los dispositivos)
-        const response = await fetch('/api/products')
-        const productsToShow = await response.json()
+        // Cargar productos directamente desde dataManager (misma fuente que admin)
+        const productsToShow = dataManager.getProducts()
         
         setProducts(productsToShow)
         setOfertas([]) // Sin ofertas en la página de productos
         setAllItems(productsToShow) // Solo productos, sin ofertas
         
-        console.log('📦 Productos cargados desde API:', productsToShow.length)
+        console.log('📦 Productos cargados desde dataManager:', productsToShow.length)
         
         // Debug para móviles
         if (productsToShow.length === 0) {
-          console.warn('⚠️ No hay productos disponibles en API')
+          console.warn('⚠️ No hay productos disponibles en dataManager')
           console.log('🔍 Debug info:', {
             userAgent: navigator.userAgent,
             platform: navigator.platform,
-            apiAvailable: typeof window !== 'undefined' && !!window.fetch
+            dataManagerAvailable: typeof window !== 'undefined' && !!dataManager
           })
         }
         
       } catch (error) {
-        console.error('❌ Error cargando productos desde API:', error)
+        console.error('❌ Error cargando productos desde dataManager:', error)
         setProducts([])
         setOfertas([])
         setAllItems([])

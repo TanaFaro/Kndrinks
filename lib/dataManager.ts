@@ -158,9 +158,35 @@ class DataManager {
       if (typeof window !== 'undefined') {
         localStorage.setItem('kndrinks_ofertas', JSON.stringify(this.ofertas))
         console.log('💾 Ofertas guardadas en localStorage')
+        
+        // También sincronizar con el servidor
+        this.syncWithServer('ofertas', this.ofertas)
       }
     } catch (error) {
       console.error('❌ Error guardando ofertas:', error)
+    }
+  }
+
+  private async syncWithServer(type: 'products' | 'ofertas', data: any[]) {
+    try {
+      if (typeof window !== 'undefined') {
+        const endpoint = type === 'products' ? '/api/products' : '/api/offers'
+        
+        // Enviar datos al servidor para sincronización
+        await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 
+            action: 'sync',
+            data: data 
+          })
+        })
+        console.log(`🔄 ${type} sincronizados con servidor`)
+      }
+    } catch (error) {
+      console.error(`❌ Error sincronizando ${type}:`, error)
     }
   }
 
