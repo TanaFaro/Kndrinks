@@ -263,6 +263,3 @@ class DataManager {
 
 // Exportar instancia singleton
 export const dataManager = DataManager.getInstance()
-
-// Exportar tipos para compatibilidad
-export type { Product, Oferta, ComboProduct }
