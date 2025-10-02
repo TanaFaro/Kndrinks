@@ -1,26 +1,80 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 // Datos de productos unificados (en producción esto vendría de una base de datos)
-// Iniciando vacío - se cargarán desde el panel de administrador
+// Usando un sistema de persistencia temporal
 let products: any[] = []
+
+// Función para cargar productos desde localStorage (simulado)
+function loadProductsFromStorage() {
+  // En un entorno real, esto vendría de una base de datos
+  // Por ahora, mantenemos los datos en memoria con algunos productos de ejemplo
+  if (products.length === 0) {
+    products = [
+      {
+        id: 1,
+        name: "Fernet BRANCA",
+        price: 13500,
+        category: "Aperitivos",
+        stock: 6,
+        image: "/images/fernet750.jfif",
+        description: "Fernet italiano de alta calidad"
+      },
+      {
+        id: 2,
+        name: "Skyy saborizado",
+        price: 9500,
+        category: "Licores",
+        stock: 12,
+        image: "/images/skyy.png",
+        description: "Vodka premium americano"
+      },
+      {
+        id: 3,
+        name: "Smirnoff Saborizado",
+        price: 8000,
+        category: "Licores",
+        stock: 12,
+        image: "/images/Smirnoffsolo.jpeg",
+        description: "Vodka ruso premium"
+      },
+      {
+        id: 4,
+        name: "Gancia",
+        price: 8000,
+        category: "Aperitivos",
+        stock: 6,
+        image: "/images/Gancia.jfif",
+        description: "Aperitivo italiano clásico"
+      }
+    ]
+  }
+  return products
+}
 
 // GET - Obtener productos
 export async function GET() {
-  return NextResponse.json(products)
+  const currentProducts = loadProductsFromStorage()
+  console.log('📦 API: Devolviendo productos:', currentProducts.length)
+  return NextResponse.json(currentProducts)
 }
 
 // POST - Agregar producto
 export async function POST(request: NextRequest) {
   try {
     const newProduct = await request.json()
+    const currentProducts = loadProductsFromStorage()
+    
     const product = {
-      id: products.length + 1,
+      id: currentProducts.length + 1,
       ...newProduct,
       createdAt: new Date().toISOString()
     }
+    
     products.push(product)
+    console.log('✅ API: Producto agregado:', product.name, 'Total productos:', products.length)
     return NextResponse.json(product, { status: 201 })
   } catch (error) {
+    console.error('❌ API: Error al crear producto:', error)
     return NextResponse.json({ error: 'Error al crear producto' }, { status: 500 })
   }
 }

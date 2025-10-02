@@ -1,26 +1,58 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 // Datos de ofertas unificados (en producción esto vendría de una base de datos)
-// Iniciando vacío - se cargarán desde el panel de administrador
+// Usando un sistema de persistencia temporal
 let offers: any[] = []
+
+// Función para cargar ofertas desde localStorage (simulado)
+function loadOffersFromStorage() {
+  // En un entorno real, esto vendría de una base de datos
+  // Por ahora, mantenemos los datos en memoria
+  if (offers.length === 0) {
+    offers = [
+      {
+        id: 1,
+        title: "Fernet + 2 Cocas",
+        description: "Fernet BRANCA 750ml + 2 Coca Cola 2.25L",
+        comboProducts: [
+          { name: "Fernet BRANCA", quantity: 1, price: 13500 },
+          { name: "Coca Cola 2.25L", quantity: 2, price: 4200 }
+        ],
+        finalPrice: 21900,
+        image: "/images/fernetmas2cocas.jfif",
+        category: "Combos",
+        active: true,
+        priority: 5
+      }
+    ]
+  }
+  return offers
+}
 
 // GET - Obtener ofertas
 export async function GET() {
-  return NextResponse.json(offers)
+  const currentOffers = loadOffersFromStorage()
+  console.log('🎁 API: Devolviendo ofertas:', currentOffers.length)
+  return NextResponse.json(currentOffers)
 }
 
 // POST - Agregar oferta
 export async function POST(request: NextRequest) {
   try {
     const newOffer = await request.json()
+    const currentOffers = loadOffersFromStorage()
+    
     const offer = {
-      id: offers.length + 1,
+      id: currentOffers.length + 1,
       ...newOffer,
       createdAt: new Date().toISOString()
     }
+    
     offers.push(offer)
+    console.log('✅ API: Oferta agregada:', offer.title, 'Total ofertas:', offers.length)
     return NextResponse.json(offer, { status: 201 })
   } catch (error) {
+    console.error('❌ API: Error al crear oferta:', error)
     return NextResponse.json({ error: 'Error al crear oferta' }, { status: 500 })
   }
 }
