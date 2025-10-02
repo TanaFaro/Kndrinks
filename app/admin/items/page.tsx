@@ -62,6 +62,14 @@ export default function AdminItems() {
     }
     loadItems()
     loadProducts()
+    
+    // Verificar si hay parámetro de tipo en la URL
+    const urlParams = new URLSearchParams(window.location.search)
+    const type = urlParams.get('type')
+    if (type === 'product' || type === 'offer') {
+      setFormData(prev => ({ ...prev, type: type as ItemType }))
+      setShowForm(true)
+    }
   }, [router])
 
   const loadItems = () => {
@@ -236,38 +244,40 @@ export default function AdminItems() {
   const handleEdit = (item: Product | Oferta) => {
     if ('itemType' in item) {
       if (item.itemType === 'product') {
+        const product = item as Product & { itemType: 'product' }
         setFormData({
           type: 'product',
-          name: item.name,
+          name: product.name,
           title: '',
-          price: item.price.toString(),
+          price: product.price.toString(),
           finalPrice: '',
-          category: item.category,
-          stock: item.stock.toString(),
-          description: item.description,
-          image: item.image,
+          category: product.category,
+          stock: product.stock.toString(),
+          description: product.description,
+          image: product.image,
           active: true,
           featured: false,
           priority: 1,
           comboProducts: []
         })
       } else {
+        const oferta = item as Oferta & { itemType: 'offer' }
         setFormData({
           type: 'offer',
           name: '',
-          title: item.title,
+          title: oferta.title,
           price: '',
-          finalPrice: item.finalPrice.toString(),
-          category: item.category,
+          finalPrice: oferta.finalPrice.toString(),
+          category: oferta.category,
           stock: '',
-          description: item.description,
-          image: item.image,
-          active: item.active,
-          featured: item.featured || false,
-          priority: item.priority || 1,
-          comboProducts: item.comboProducts || []
+          description: oferta.description,
+          image: oferta.image,
+          active: oferta.active,
+          featured: oferta.featured || false,
+          priority: oferta.priority || 1,
+          comboProducts: oferta.comboProducts || []
         })
-        setSelectedProducts(item.comboProducts || [])
+        setSelectedProducts(oferta.comboProducts || [])
       }
       setSelectedImage(item.image)
       setEditingItem(item)
