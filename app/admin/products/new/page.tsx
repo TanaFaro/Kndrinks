@@ -5,16 +5,8 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import ImageSelector from '@/components/ImageSelector'
 import { auth } from '@/lib/auth'
+import { dataManager, Product } from '@/lib/dataManager'
 
-interface Product {
-  id: number
-  name: string
-  price: number
-  category: string
-  stock: number
-  image: string
-  description: string
-}
 
 export default function NewProduct() {
   const [formData, setFormData] = useState({
@@ -63,23 +55,11 @@ export default function NewProduct() {
         description: formData.description
       }
 
-      console.log('Enviando producto a API unificada:', newProduct)
+      console.log('Creando producto con dataManager:', newProduct)
 
-      // Enviar a la API unificada (se actualizará en todos los dispositivos)
-      const response = await fetch('/api/products', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newProduct)
-      })
-
-      if (!response.ok) {
-        throw new Error('Error al crear producto en la API')
-      }
-
-      const createdProduct = await response.json()
-      console.log('Producto creado en API:', createdProduct)
+      // Usar dataManager para agregar el producto
+      const createdProduct = dataManager.addProduct(newProduct)
+      console.log('Producto creado con dataManager:', createdProduct)
 
       // Mostrar mensaje de éxito
       alert('✅ ¡Producto creado exitosamente! Se actualizará automáticamente en todos los dispositivos.')
