@@ -185,7 +185,8 @@ export default function AdminItems() {
           category: formData.category,
           stock: parseInt(formData.stock),
           image: normalizeImagePath(formData.image || selectedImage),
-          description: formData.description
+          description: formData.description,
+          type: 'product' as const
         }
 
         if (editingItem && 'itemType' in editingItem && editingItem.itemType === 'product') {
