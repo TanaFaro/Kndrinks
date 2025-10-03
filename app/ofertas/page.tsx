@@ -80,25 +80,26 @@ export default function Ofertas() {
         
         console.log('🎁 Ofertas cargadas:', ofertasToShow.length)
         
-        // Si no hay ofertas, cargar desde API (igual que en la web)
-        if (ofertasToShow.length === 0) {
-          console.warn('⚠️ No hay ofertas en localStorage, cargando desde API...')
-          
-          // Cargar ofertas desde la API existente (igual que en la web)
-          fetch('/api/offers')
-            .then(response => response.json())
-            .then(data => {
-              if (data.ofertas && data.ofertas.length > 0) {
-                console.log('✅ Ofertas cargadas desde API:', data.ofertas.length)
-                setOfertas(data.ofertas)
-                // Guardar en localStorage para futuras visitas
-                safeLocalStorage.setItem('ofertas', JSON.stringify(data.ofertas))
-              }
-            })
-            .catch(error => {
-              console.error('❌ Error cargando ofertas desde API:', error)
-            })
-        }
+        // SIEMPRE cargar desde API - UNA SOLA APLICACIÓN para todos los dispositivos
+        console.log('🔄 Cargando ofertas desde API (UNA SOLA APLICACIÓN)...')
+        
+        fetch('/api/offers')
+          .then(response => response.json())
+          .then(data => {
+            if (data.ofertas && data.ofertas.length > 0) {
+              console.log('✅ Ofertas cargadas desde API:', data.ofertas.length)
+              setOfertas(data.ofertas)
+              // Guardar en localStorage solo para optimización (opcional)
+              safeLocalStorage.setItem('ofertas', JSON.stringify(data.ofertas))
+            } else {
+              console.warn('⚠️ No hay ofertas disponibles en la API')
+              setOfertas([])
+            }
+          })
+          .catch(error => {
+            console.error('❌ Error cargando ofertas desde API:', error)
+            setOfertas([])
+          })
         
       } catch (error) {
         console.error('❌ Error cargando ofertas:', error)

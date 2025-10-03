@@ -65,26 +65,29 @@ export default function Productos() {
         console.log('📦 Productos cargados:', productsToShow.length)
         console.log('📋 Total items:', productsToShow.length)
         
-        // Si no hay productos, cargar desde API (igual que en la web)
-        if (productsToShow.length === 0) {
-          console.warn('⚠️ No hay productos en localStorage, cargando desde API...')
-          
-          // Cargar productos desde la API existente (igual que en la web)
-          fetch('/api/images')
-            .then(response => response.json())
-            .then(data => {
-              if (data.products && data.products.length > 0) {
-                console.log('✅ Productos cargados desde API:', data.products.length)
-                setProducts(data.products)
-                setAllItems(data.products)
-                // Guardar en localStorage para futuras visitas
-                safeLocalStorage.setItem('products', JSON.stringify(data.products))
-              }
-            })
-            .catch(error => {
-              console.error('❌ Error cargando desde API:', error)
-            })
-        }
+        // SIEMPRE cargar desde API - UNA SOLA APLICACIÓN para todos los dispositivos
+        console.log('🔄 Cargando productos desde API (UNA SOLA APLICACIÓN)...')
+        
+        fetch('/api/images')
+          .then(response => response.json())
+          .then(data => {
+            if (data.products && data.products.length > 0) {
+              console.log('✅ Productos cargados desde API:', data.products.length)
+              setProducts(data.products)
+              setAllItems(data.products)
+              // Guardar en localStorage solo para optimización (opcional)
+              safeLocalStorage.setItem('products', JSON.stringify(data.products))
+            } else {
+              console.warn('⚠️ No hay productos disponibles en la API')
+              setProducts([])
+              setAllItems([])
+            }
+          })
+          .catch(error => {
+            console.error('❌ Error cargando desde API:', error)
+            setProducts([])
+            setAllItems([])
+          })
         
       } catch (error) {
         console.error('❌ Error cargando datos:', error)
