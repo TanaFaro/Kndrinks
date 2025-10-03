@@ -80,48 +80,24 @@ export default function Ofertas() {
         
         console.log('🎁 Ofertas cargadas:', ofertasToShow.length)
         
-        // Si no hay ofertas, cargar ofertas básicas correctas
+        // Si no hay ofertas, cargar desde API (igual que en la web)
         if (ofertasToShow.length === 0) {
-          console.warn('⚠️ No hay ofertas en localStorage, cargando ofertas básicas...')
+          console.warn('⚠️ No hay ofertas en localStorage, cargando desde API...')
           
-          // Ofertas básicas con precios correctos
-          const basicOfertas = [
-            {
-              id: 1,
-              title: "Fernet + Coca Cola",
-              description: "Combo perfecto para disfrutar con amigos",
-              finalPrice: 17000,
-              active: true,
-              image: "/images/fernetmas2cocas.jfif",
-              category: "Combos",
-              comboProducts: [
-                { name: "Fernet Branca 750ml", quantity: 1, price: 13500 },
-                { name: "Coca Cola 2.25L", quantity: 1, price: 4200 }
-              ],
-              featured: true,
-              priority: 5
-            },
-            {
-              id: 2,
-              title: "Skyy + Speed",
-              description: "Combo energético para la noche",
-              finalPrice: 15500,
-              active: true,
-              image: "/images/skyymasspeed.jfif",
-              category: "Combos",
-              comboProducts: [
-                { name: "Skyy Vodka 750ml", quantity: 1, price: 9500 },
-                { name: "Speed XL", quantity: 2, price: 3000 }
-              ],
-              featured: true,
-              priority: 4
-            }
-          ]
-          
-          console.log('✅ Ofertas básicas cargadas:', basicOfertas.length)
-          setOfertas(basicOfertas)
-          // Guardar en localStorage para futuras visitas
-          safeLocalStorage.setItem('ofertas', JSON.stringify(basicOfertas))
+          // Cargar ofertas desde la API existente (igual que en la web)
+          fetch('/api/offers')
+            .then(response => response.json())
+            .then(data => {
+              if (data.ofertas && data.ofertas.length > 0) {
+                console.log('✅ Ofertas cargadas desde API:', data.ofertas.length)
+                setOfertas(data.ofertas)
+                // Guardar en localStorage para futuras visitas
+                safeLocalStorage.setItem('ofertas', JSON.stringify(data.ofertas))
+              }
+            })
+            .catch(error => {
+              console.error('❌ Error cargando ofertas desde API:', error)
+            })
         }
         
       } catch (error) {

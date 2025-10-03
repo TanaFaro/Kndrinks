@@ -65,26 +65,25 @@ export default function Productos() {
         console.log('📦 Productos cargados:', productsToShow.length)
         console.log('📋 Total items:', productsToShow.length)
         
-        // Si no hay productos, cargar productos básicos correctos
+        // Si no hay productos, cargar desde API (igual que en la web)
         if (productsToShow.length === 0) {
-          console.warn('⚠️ No hay productos en localStorage, cargando productos básicos...')
+          console.warn('⚠️ No hay productos en localStorage, cargando desde API...')
           
-          // Productos básicos con precios correctos (solo productos, no combos ni logos)
-          const basicProducts: Product[] = [
-            { id: 1, name: "Coca Cola 2.25L", price: 4200, category: "Bebidas", stock: 50, image: "/images/cocacola.jfif", description: "Refresco clásico de Coca Cola", type: "product" as const },
-            { id: 2, name: "Fernet Branca 750ml", price: 13500, category: "Licores", stock: 30, image: "/images/fernet750.jfif", description: "Fernet italiano de alta calidad", type: "product" as const },
-            { id: 3, name: "Skyy Vodka 750ml", price: 9500, category: "Licores", stock: 25, image: "/images/skyy.png", description: "Vodka premium americano", type: "product" as const },
-            { id: 4, name: "Smirnoff Vodka 750ml", price: 8000, category: "Licores", stock: 20, image: "/images/Smirnoffsolo.jpeg", description: "Vodka ruso premium", type: "product" as const },
-            { id: 5, name: "Pritty Limón 2.25L", price: 2600, category: "Bebidas", stock: 40, image: "/images/pritty2250.jfif", description: "Gaseosa sabor limón", type: "product" as const },
-            { id: 6, name: "Vino Toro 750ml", price: 2200, category: "Vinos", stock: 25, image: "/images/vinotoro.jfif", description: "Vino tinto de calidad", type: "product" as const },
-            { id: 7, name: "Gancia", price: 8000, category: "Aperitivos", stock: 18, image: "/images/Gancia.jfif", description: "Aperitivo italiano", type: "product" as const }
-          ]
-          
-          console.log('✅ Productos básicos cargados:', basicProducts.length)
-          setProducts(basicProducts)
-          setAllItems(basicProducts)
-          // Guardar en localStorage para futuras visitas
-          safeLocalStorage.setItem('products', JSON.stringify(basicProducts))
+          // Cargar productos desde la API existente (igual que en la web)
+          fetch('/api/images')
+            .then(response => response.json())
+            .then(data => {
+              if (data.products && data.products.length > 0) {
+                console.log('✅ Productos cargados desde API:', data.products.length)
+                setProducts(data.products)
+                setAllItems(data.products)
+                // Guardar en localStorage para futuras visitas
+                safeLocalStorage.setItem('products', JSON.stringify(data.products))
+              }
+            })
+            .catch(error => {
+              console.error('❌ Error cargando desde API:', error)
+            })
         }
         
       } catch (error) {
