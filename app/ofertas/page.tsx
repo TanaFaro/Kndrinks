@@ -100,8 +100,8 @@ export default function Ofertas() {
       }
     }
 
-    // Pequeño delay para asegurar que el DOM esté listo en móviles
-    const timer = setTimeout(loadOfertas, 100)
+    // Delay más largo para móviles con conexión lenta
+    const timer = setTimeout(loadOfertas, 300)
     return () => clearTimeout(timer)
   }, [])
 

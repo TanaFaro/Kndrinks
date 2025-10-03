@@ -87,8 +87,8 @@ export default function Productos() {
       }
     }
 
-    // Pequeño delay para asegurar que el DOM esté listo en móviles
-    const timer = setTimeout(loadData, 100)
+    // Delay más largo para móviles con conexión lenta
+    const timer = setTimeout(loadData, 300)
     return () => clearTimeout(timer)
   }, [])
 
