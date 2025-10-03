@@ -95,8 +95,8 @@ export default function Ofertas() {
               image: "/images/fernetmas2cocas.jfif",
               category: "Combos",
               comboProducts: [
-                { name: "Fernet Branca 750ml", quantity: 1 },
-                { name: "Coca Cola 2.25L", quantity: 1 }
+                { name: "Fernet Branca 750ml", quantity: 1, price: 4500 },
+                { name: "Coca Cola 2.25L", quantity: 1, price: 2500 }
               ],
               featured: true,
               priority: 5
@@ -110,8 +110,8 @@ export default function Ofertas() {
               image: "/images/skyymasspeed.jfif",
               category: "Combos",
               comboProducts: [
-                { name: "Skyy Vodka 750ml", quantity: 1 },
-                { name: "Speed XL", quantity: 2 }
+                { name: "Skyy Vodka 750ml", quantity: 1, price: 3800 },
+                { name: "Speed XL", quantity: 2, price: 1500 }
               ],
               featured: true,
               priority: 4
