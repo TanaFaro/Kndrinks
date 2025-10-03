@@ -80,16 +80,48 @@ export default function Ofertas() {
         
         console.log('🎁 Ofertas cargadas:', ofertasToShow.length)
         
-        // Debug mejorado para móviles
+        // Fallback para móviles: cargar ofertas básicas si no hay ninguna
         if (ofertasToShow.length === 0) {
-          console.warn('⚠️ No hay ofertas disponibles')
-          console.log('🔍 Debug info móvil:', {
-            userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'N/A',
-            platform: typeof navigator !== 'undefined' ? navigator.platform : 'N/A',
-            localStorageAvailable: safeLocalStorage.getItem('test') !== null,
-            windowAvailable: typeof window !== 'undefined',
-            savedOfertasExists: !!savedOfertas
-          })
+          console.warn('⚠️ No hay ofertas disponibles, cargando fallback...')
+          
+          // Solo cargar si no hay ofertas en localStorage
+          const fallbackOfertas = [
+            {
+              id: 1,
+              title: "Fernet + Coca Cola",
+              description: "Combo perfecto para disfrutar con amigos",
+              finalPrice: 5999,
+              active: true,
+              image: "/images/fernetmas2cocas.jfif",
+              category: "Combos",
+              comboProducts: [
+                { name: "Fernet Branca 750ml", quantity: 1 },
+                { name: "Coca Cola 2.25L", quantity: 1 }
+              ],
+              featured: true,
+              priority: 5
+            },
+            {
+              id: 2,
+              title: "Skyy + Speed",
+              description: "Combo energético para la noche",
+              finalPrice: 4999,
+              active: true,
+              image: "/images/skyymasspeed.jfif",
+              category: "Combos",
+              comboProducts: [
+                { name: "Skyy Vodka 750ml", quantity: 1 },
+                { name: "Speed XL", quantity: 2 }
+              ],
+              featured: true,
+              priority: 4
+            }
+          ]
+          
+          // Actualizar estado con fallback
+          setOfertas(fallbackOfertas)
+          
+          console.log('✅ Fallback ofertas cargado para móviles:', fallbackOfertas.length)
         }
         
       } catch (error) {

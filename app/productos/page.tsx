@@ -65,16 +65,26 @@ export default function Productos() {
         console.log('📦 Productos cargados:', productsToShow.length)
         console.log('📋 Total items:', productsToShow.length)
         
-        // Debug mejorado para móviles
+        // Fallback para móviles: cargar productos básicos si no hay ninguno
         if (productsToShow.length === 0) {
-          console.warn('⚠️ No hay productos disponibles')
-          console.log('🔍 Debug info móvil:', {
-            userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'N/A',
-            platform: typeof navigator !== 'undefined' ? navigator.platform : 'N/A',
-            localStorageAvailable: safeLocalStorage.getItem('test') !== null,
-            windowAvailable: typeof window !== 'undefined',
-            savedProductsExists: !!savedProducts
-          })
+          console.warn('⚠️ No hay productos disponibles, cargando fallback...')
+          
+          // Solo cargar si no hay productos en localStorage
+          const fallbackProducts = [
+            { id: 1, name: "Coca Cola 2.25L", price: 2500, category: "Bebidas", stock: 50, image: "/images/cocacola.jfif", description: "Refresco clásico" },
+            { id: 2, name: "Fernet Branca 750ml", price: 4500, category: "Licores", stock: 30, image: "/images/fernet750.jfif", description: "Fernet italiano" },
+            { id: 3, name: "Skyy Vodka 750ml", price: 3800, category: "Licores", stock: 25, image: "/images/skyy.png", description: "Vodka premium" },
+            { id: 4, name: "Smirnoff Vodka 750ml", price: 3500, category: "Licores", stock: 20, image: "/images/Smirnoffsolo.jpeg", description: "Vodka ruso" },
+            { id: 5, name: "Pritty Limón 2.25L", price: 1200, category: "Bebidas", stock: 40, image: "/images/pritty2250.jfif", description: "Gaseosa limón" },
+            { id: 6, name: "Vino Toro 750ml", price: 2200, category: "Vinos", stock: 25, image: "/images/vinotoro.jfif", description: "Vino tinto" },
+            { id: 7, name: "Gancia", price: 8000, category: "Aperitivos", stock: 18, image: "/images/Gancia.jfif", description: "Aperitivo italiano" }
+          ]
+          
+          // Actualizar estado con fallback
+          setProducts(fallbackProducts)
+          setAllItems(fallbackProducts)
+          
+          console.log('✅ Fallback cargado para móviles:', fallbackProducts.length)
         }
         
       } catch (error) {
