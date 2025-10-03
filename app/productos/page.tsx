@@ -65,16 +65,25 @@ export default function Productos() {
         console.log('📦 Productos cargados:', productsToShow.length)
         console.log('📋 Total items:', productsToShow.length)
         
-        // Debug mejorado para móviles
+        // Si no hay productos, intentar cargar desde API
         if (productsToShow.length === 0) {
-          console.warn('⚠️ No hay productos disponibles')
-          console.log('🔍 Debug info móvil:', {
-            userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'N/A',
-            platform: typeof navigator !== 'undefined' ? navigator.platform : 'N/A',
-            localStorageAvailable: safeLocalStorage.getItem('test') !== null,
-            windowAvailable: typeof window !== 'undefined',
-            savedProductsExists: !!savedProducts
-          })
+          console.warn('⚠️ No hay productos en localStorage, cargando desde API...')
+          
+          // Cargar productos desde la API existente
+          fetch('/api/images')
+            .then(response => response.json())
+            .then(data => {
+              if (data.products && data.products.length > 0) {
+                console.log('✅ Productos cargados desde API:', data.products.length)
+                setProducts(data.products)
+                setAllItems(data.products)
+                // Guardar en localStorage para futuras visitas
+                safeLocalStorage.setItem('products', JSON.stringify(data.products))
+              }
+            })
+            .catch(error => {
+              console.error('❌ Error cargando desde API:', error)
+            })
         }
         
       } catch (error) {

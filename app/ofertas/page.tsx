@@ -80,16 +80,24 @@ export default function Ofertas() {
         
         console.log('🎁 Ofertas cargadas:', ofertasToShow.length)
         
-        // Debug mejorado para móviles
+        // Si no hay ofertas, intentar cargar desde API
         if (ofertasToShow.length === 0) {
-          console.warn('⚠️ No hay ofertas disponibles')
-          console.log('🔍 Debug info móvil:', {
-            userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'N/A',
-            platform: typeof navigator !== 'undefined' ? navigator.platform : 'N/A',
-            localStorageAvailable: safeLocalStorage.getItem('test') !== null,
-            windowAvailable: typeof window !== 'undefined',
-            savedOfertasExists: !!savedOfertas
-          })
+          console.warn('⚠️ No hay ofertas en localStorage, cargando desde API...')
+          
+          // Cargar ofertas desde la API existente
+          fetch('/api/offers')
+            .then(response => response.json())
+            .then(data => {
+              if (data.ofertas && data.ofertas.length > 0) {
+                console.log('✅ Ofertas cargadas desde API:', data.ofertas.length)
+                setOfertas(data.ofertas)
+                // Guardar en localStorage para futuras visitas
+                safeLocalStorage.setItem('ofertas', JSON.stringify(data.ofertas))
+              }
+            })
+            .catch(error => {
+              console.error('❌ Error cargando ofertas desde API:', error)
+            })
         }
         
       } catch (error) {
