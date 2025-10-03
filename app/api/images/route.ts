@@ -18,13 +18,13 @@ export async function GET() {
     // Mapeo de nombres de archivos a información del producto
         // Mapeo de nombres de archivos a información del producto
         const imageMapping: Record<string, any> = {
-          'cocacola.jfif': { category: 'Bebidas', price: 2500, description: 'Refresco clásico de Coca Cola', type: 'product' },
-          'fernet750.jfif': { category: 'Licores', price: 4500, description: 'Fernet italiano de alta calidad', type: 'product' },
-          'skyy.png': { category: 'Licores', price: 3800, description: 'Vodka premium americano', type: 'product' },
-          'Smirnoffsolo.jpeg': { category: 'Licores', price: 3500, description: 'Vodka ruso premium', type: 'product' },
-          'prittyde2250-lt.jpg': { category: 'Bebidas', price: 1200, description: 'Gaseosa sabor limón 2.25L', type: 'product' },
-          'pritty2250.jfif': { category: 'Bebidas', price: 1200, description: 'Gaseosa sabor limón 2.25L', type: 'product' },
-          'Gancia.jfif': { category: 'Licores', price: 3200, description: 'Aperitivo italiano clásico', type: 'product' },
+          'cocacola.jfif': { category: 'Bebidas', price: 4200, description: 'Refresco clásico de Coca Cola', type: 'product' },
+          'fernet750.jfif': { category: 'Licores', price: 13500, description: 'Fernet italiano de alta calidad', type: 'product' },
+          'skyy.png': { category: 'Licores', price: 9500, description: 'Vodka premium americano', type: 'product' },
+          'Smirnoffsolo.jpeg': { category: 'Licores', price: 8000, description: 'Vodka ruso premium', type: 'product' },
+          'prittyde2250-lt.jpg': { category: 'Bebidas', price: 2600, description: 'Gaseosa sabor limón 2.25L', type: 'product' },
+          'pritty2250.jfif': { category: 'Bebidas', price: 2600, description: 'Gaseosa sabor limón 2.25L', type: 'product' },
+          'Gancia.jfif': { category: 'Licores', price: 8000, description: 'Aperitivo italiano clásico', type: 'product' },
           'Sprite.webp': { category: 'Bebidas', price: 1000, description: 'Refresco sabor lima-limón', type: 'product' },
           'prittyde3lts.webp': { category: 'Bebidas', price: 1800, description: 'Gaseosa sabor limón 3 litros', type: 'product' },
           'SpeedXL.webp': { category: 'Bebidas', price: 1500, description: 'Bebida energética XL', type: 'product' },
@@ -69,15 +69,20 @@ export async function GET() {
         }
       } else {
         // Imagen nueva sin mapeo - crear producto automáticamente
-          const ext = path.extname(file).toLowerCase()
+        const fileName = file.toLowerCase()
+        
+        // Excluir logos y archivos que no son productos
+        if (fileName.includes('logo') || fileName.includes('brand') || fileName.includes('icon')) {
+          continue // Saltar este archivo
+        }
+        
+        const ext = path.extname(file).toLowerCase()
         const name = file.replace(ext, '').replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
         
         // Detectar categoría basándose en el nombre del archivo
         let category = 'Nuevo'
         let price = 2000
         let description = `Producto nuevo: ${name}`
-        
-        const fileName = file.toLowerCase()
         
         // Detectar categorías por palabras clave
         if (fileName.includes('fernet') || fileName.includes('vodka') || fileName.includes('whisky') || 
