@@ -65,25 +65,26 @@ export default function Productos() {
         console.log('📦 Productos cargados:', productsToShow.length)
         console.log('📋 Total items:', productsToShow.length)
         
-        // Si no hay productos, intentar cargar desde API
+        // Si no hay productos, cargar productos básicos correctos
         if (productsToShow.length === 0) {
-          console.warn('⚠️ No hay productos en localStorage, cargando desde API...')
+          console.warn('⚠️ No hay productos en localStorage, cargando productos básicos...')
           
-          // Cargar productos desde la API existente
-          fetch('/api/images')
-            .then(response => response.json())
-            .then(data => {
-              if (data.products && data.products.length > 0) {
-                console.log('✅ Productos cargados desde API:', data.products.length)
-                setProducts(data.products)
-                setAllItems(data.products)
-                // Guardar en localStorage para futuras visitas
-                safeLocalStorage.setItem('products', JSON.stringify(data.products))
-              }
-            })
-            .catch(error => {
-              console.error('❌ Error cargando desde API:', error)
-            })
+          // Productos básicos con precios correctos (solo productos, no combos ni logos)
+          const basicProducts = [
+            { id: 1, name: "Coca Cola 2.25L", price: 4200, category: "Bebidas", stock: 50, image: "/images/cocacola.jfif", description: "Refresco clásico de Coca Cola", type: "product" },
+            { id: 2, name: "Fernet Branca 750ml", price: 13500, category: "Licores", stock: 30, image: "/images/fernet750.jfif", description: "Fernet italiano de alta calidad", type: "product" },
+            { id: 3, name: "Skyy Vodka 750ml", price: 12000, category: "Licores", stock: 25, image: "/images/skyy.png", description: "Vodka premium americano", type: "product" },
+            { id: 4, name: "Smirnoff Vodka 750ml", price: 11000, category: "Licores", stock: 20, image: "/images/Smirnoffsolo.jpeg", description: "Vodka ruso premium", type: "product" },
+            { id: 5, name: "Pritty Limón 2.25L", price: 3800, category: "Bebidas", stock: 40, image: "/images/pritty2250.jfif", description: "Gaseosa sabor limón", type: "product" },
+            { id: 6, name: "Vino Toro 750ml", price: 7000, category: "Vinos", stock: 25, image: "/images/vinotoro.jfif", description: "Vino tinto de calidad", type: "product" },
+            { id: 7, name: "Gancia", price: 25000, category: "Aperitivos", stock: 18, image: "/images/Gancia.jfif", description: "Aperitivo italiano", type: "product" }
+          ]
+          
+          console.log('✅ Productos básicos cargados:', basicProducts.length)
+          setProducts(basicProducts)
+          setAllItems(basicProducts)
+          // Guardar en localStorage para futuras visitas
+          safeLocalStorage.setItem('products', JSON.stringify(basicProducts))
         }
         
       } catch (error) {

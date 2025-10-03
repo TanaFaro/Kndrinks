@@ -80,24 +80,48 @@ export default function Ofertas() {
         
         console.log('🎁 Ofertas cargadas:', ofertasToShow.length)
         
-        // Si no hay ofertas, intentar cargar desde API
+        // Si no hay ofertas, cargar ofertas básicas correctas
         if (ofertasToShow.length === 0) {
-          console.warn('⚠️ No hay ofertas en localStorage, cargando desde API...')
+          console.warn('⚠️ No hay ofertas en localStorage, cargando ofertas básicas...')
           
-          // Cargar ofertas desde la API existente
-          fetch('/api/offers')
-            .then(response => response.json())
-            .then(data => {
-              if (data.ofertas && data.ofertas.length > 0) {
-                console.log('✅ Ofertas cargadas desde API:', data.ofertas.length)
-                setOfertas(data.ofertas)
-                // Guardar en localStorage para futuras visitas
-                safeLocalStorage.setItem('ofertas', JSON.stringify(data.ofertas))
-              }
-            })
-            .catch(error => {
-              console.error('❌ Error cargando ofertas desde API:', error)
-            })
+          // Ofertas básicas con precios correctos
+          const basicOfertas = [
+            {
+              id: 1,
+              title: "Fernet + Coca Cola",
+              description: "Combo perfecto para disfrutar con amigos",
+              finalPrice: 15000,
+              active: true,
+              image: "/images/fernetmas2cocas.jfif",
+              category: "Combos",
+              comboProducts: [
+                { name: "Fernet Branca 750ml", quantity: 1, price: 13500 },
+                { name: "Coca Cola 2.25L", quantity: 1, price: 4200 }
+              ],
+              featured: true,
+              priority: 5
+            },
+            {
+              id: 2,
+              title: "Skyy + Speed",
+              description: "Combo energético para la noche",
+              finalPrice: 14000,
+              active: true,
+              image: "/images/skyymasspeed.jfif",
+              category: "Combos",
+              comboProducts: [
+                { name: "Skyy Vodka 750ml", quantity: 1, price: 12000 },
+                { name: "Speed XL", quantity: 2, price: 2000 }
+              ],
+              featured: true,
+              priority: 4
+            }
+          ]
+          
+          console.log('✅ Ofertas básicas cargadas:', basicOfertas.length)
+          setOfertas(basicOfertas)
+          // Guardar en localStorage para futuras visitas
+          safeLocalStorage.setItem('ofertas', JSON.stringify(basicOfertas))
         }
         
       } catch (error) {
