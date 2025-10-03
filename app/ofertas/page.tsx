@@ -80,26 +80,28 @@ export default function Ofertas() {
         
         console.log('🎁 Ofertas cargadas:', ofertasToShow.length)
         
-        // SIEMPRE cargar desde API - UNA SOLA APLICACIÓN para todos los dispositivos
-        console.log('🔄 Cargando ofertas desde API (UNA SOLA APLICACIÓN)...')
-        
-        fetch('/api/offers')
-          .then(response => response.json())
-          .then(data => {
-            if (data.ofertas && data.ofertas.length > 0) {
-              console.log('✅ Ofertas cargadas desde API:', data.ofertas.length)
-              setOfertas(data.ofertas)
-              // Guardar en localStorage solo para optimización (opcional)
-              safeLocalStorage.setItem('ofertas', JSON.stringify(data.ofertas))
-            } else {
-              console.warn('⚠️ No hay ofertas disponibles en la API')
+        // Si no hay ofertas en localStorage, cargar desde API como respaldo
+        if (ofertasToShow.length === 0) {
+          console.log('🔄 No hay ofertas en localStorage, cargando desde API como respaldo...')
+          
+          fetch('/api/offers')
+            .then(response => response.json())
+            .then(data => {
+              if (data.ofertas && data.ofertas.length > 0) {
+                console.log('✅ Ofertas cargadas desde API:', data.ofertas.length)
+                setOfertas(data.ofertas)
+                // Guardar en localStorage para futuras visitas
+                safeLocalStorage.setItem('ofertas', JSON.stringify(data.ofertas))
+              } else {
+                console.warn('⚠️ No hay ofertas disponibles en la API')
+                setOfertas([])
+              }
+            })
+            .catch(error => {
+              console.error('❌ Error cargando ofertas desde API:', error)
               setOfertas([])
-            }
-          })
-          .catch(error => {
-            console.error('❌ Error cargando ofertas desde API:', error)
-            setOfertas([])
-          })
+            })
+        }
         
       } catch (error) {
         console.error('❌ Error cargando ofertas:', error)
@@ -111,7 +113,19 @@ export default function Ofertas() {
 
     // Delay más largo para móviles con conexión lenta
     const timer = setTimeout(loadOfertas, 300)
-    return () => clearTimeout(timer)
+    
+    // Escuchar cambios en localStorage para actualizar cuando el admin elimina ofertas
+    const handleStorageChange = () => {
+      console.log('🔄 Cambio detectado en localStorage, recargando ofertas...')
+      loadOfertas()
+    }
+    
+    window.addEventListener('storage', handleStorageChange)
+    
+    return () => {
+      clearTimeout(timer)
+      window.removeEventListener('storage', handleStorageChange)
+    }
   }, [])
 
   useEffect(() => {

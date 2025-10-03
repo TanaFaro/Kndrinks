@@ -65,29 +65,31 @@ export default function Productos() {
         console.log('📦 Productos cargados:', productsToShow.length)
         console.log('📋 Total items:', productsToShow.length)
         
-        // SIEMPRE cargar desde API - UNA SOLA APLICACIÓN para todos los dispositivos
-        console.log('🔄 Cargando productos desde API (UNA SOLA APLICACIÓN)...')
-        
-        fetch('/api/images')
-          .then(response => response.json())
-          .then(data => {
-            if (data.products && data.products.length > 0) {
-              console.log('✅ Productos cargados desde API:', data.products.length)
-              setProducts(data.products)
-              setAllItems(data.products)
-              // Guardar en localStorage solo para optimización (opcional)
-              safeLocalStorage.setItem('products', JSON.stringify(data.products))
-            } else {
-              console.warn('⚠️ No hay productos disponibles en la API')
+        // Si no hay productos en localStorage, cargar desde API como respaldo
+        if (productsToShow.length === 0) {
+          console.log('🔄 No hay productos en localStorage, cargando desde API como respaldo...')
+          
+          fetch('/api/images')
+            .then(response => response.json())
+            .then(data => {
+              if (data.products && data.products.length > 0) {
+                console.log('✅ Productos cargados desde API:', data.products.length)
+                setProducts(data.products)
+                setAllItems(data.products)
+                // Guardar en localStorage para futuras visitas
+                safeLocalStorage.setItem('products', JSON.stringify(data.products))
+              } else {
+                console.warn('⚠️ No hay productos disponibles en la API')
+                setProducts([])
+                setAllItems([])
+              }
+            })
+            .catch(error => {
+              console.error('❌ Error cargando desde API:', error)
               setProducts([])
               setAllItems([])
-            }
-          })
-          .catch(error => {
-            console.error('❌ Error cargando desde API:', error)
-            setProducts([])
-            setAllItems([])
-          })
+            })
+        }
         
       } catch (error) {
         console.error('❌ Error cargando datos:', error)
@@ -101,7 +103,19 @@ export default function Productos() {
 
     // Delay más largo para móviles con conexión lenta
     const timer = setTimeout(loadData, 300)
-    return () => clearTimeout(timer)
+    
+    // Escuchar cambios en localStorage para actualizar cuando el admin elimina productos
+    const handleStorageChange = () => {
+      console.log('🔄 Cambio detectado en localStorage, recargando productos...')
+      loadData()
+    }
+    
+    window.addEventListener('storage', handleStorageChange)
+    
+    return () => {
+      clearTimeout(timer)
+      window.removeEventListener('storage', handleStorageChange)
+    }
   }, [])
 
   useEffect(() => {
