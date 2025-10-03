@@ -65,11 +65,30 @@ export default function Productos() {
         console.log('📦 Productos cargados:', productsToShow.length)
         console.log('📋 Total items:', productsToShow.length)
         
-        // Solo localStorage - Sin API, sin complicaciones
+        // Si no hay productos en localStorage, cargar desde API (para móvil)
         if (productsToShow.length === 0) {
-          console.warn('⚠️ No hay productos en localStorage. Carga productos desde el admin.')
-          setProducts([])
-          setAllItems([])
+          console.warn('⚠️ No hay productos en localStorage, cargando desde API para móvil...')
+          
+          fetch('/api/images')
+            .then(response => response.json())
+            .then(data => {
+              if (data.products && data.products.length > 0) {
+                console.log('✅ Productos cargados desde API para móvil:', data.products.length)
+                setProducts(data.products)
+                setAllItems(data.products)
+                // Guardar en localStorage para futuras visitas
+                safeLocalStorage.setItem('products', JSON.stringify(data.products))
+              } else {
+                console.warn('⚠️ No hay productos disponibles en la API')
+                setProducts([])
+                setAllItems([])
+              }
+            })
+            .catch(error => {
+              console.error('❌ Error cargando desde API:', error)
+              setProducts([])
+              setAllItems([])
+            })
         }
         
       } catch (error) {
