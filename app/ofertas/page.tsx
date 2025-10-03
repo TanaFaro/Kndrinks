@@ -80,27 +80,10 @@ export default function Ofertas() {
         
         console.log('🎁 Ofertas cargadas:', ofertasToShow.length)
         
-        // Si no hay ofertas en localStorage, cargar desde API como respaldo
+        // Solo localStorage - Sin API, sin complicaciones
         if (ofertasToShow.length === 0) {
-          console.log('🔄 No hay ofertas en localStorage, cargando desde API como respaldo...')
-          
-          fetch('/api/offers')
-            .then(response => response.json())
-            .then(data => {
-              if (data.ofertas && data.ofertas.length > 0) {
-                console.log('✅ Ofertas cargadas desde API:', data.ofertas.length)
-                setOfertas(data.ofertas)
-                // Guardar en localStorage para futuras visitas
-                safeLocalStorage.setItem('ofertas', JSON.stringify(data.ofertas))
-              } else {
-                console.warn('⚠️ No hay ofertas disponibles en la API')
-                setOfertas([])
-              }
-            })
-            .catch(error => {
-              console.error('❌ Error cargando ofertas desde API:', error)
-              setOfertas([])
-            })
+          console.warn('⚠️ No hay ofertas en localStorage. Carga ofertas desde el admin.')
+          setOfertas([])
         }
         
       } catch (error) {
