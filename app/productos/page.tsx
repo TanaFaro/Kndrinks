@@ -29,18 +29,17 @@ export default function Productos() {
         const ofertasToShow = savedOfertas ? JSON.parse(savedOfertas) : []
         
         setProducts(productsToShow)
-        setOfertas(ofertasToShow)
+        setOfertas([]) // No mostrar ofertas en la página de productos
         
-        // Combinar productos y ofertas para mostrar todo junto
-        const combinedItems = [...productsToShow, ...ofertasToShow]
-        setAllItems(combinedItems)
+        // Solo mostrar productos, no ofertas
+        setAllItems(productsToShow)
         
         console.log('📦 Productos cargados:', productsToShow.length)
-        console.log('🎁 Ofertas cargadas:', ofertasToShow.length)
-        console.log('📋 Total items:', combinedItems.length)
+        console.log('🎁 Ofertas cargadas: 0 (no se muestran en productos)')
+        console.log('📋 Total items:', productsToShow.length)
         
         // Debug para móviles
-        if (combinedItems.length === 0) {
+        if (productsToShow.length === 0) {
           console.warn('⚠️ No hay productos disponibles')
           console.log('🔍 Debug info:', {
             userAgent: navigator.userAgent,

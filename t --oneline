@@ -1,0 +1,25 @@
+[33m087bc8d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Eliminar ofertas pre-cargadas y actualizar admin de ofertas para usar dataManager
+[33m3251ec7[m Corregir error de TypeScript - eliminar export duplicado de tipos
+[33mf94b044[m Implementar sistema de datos persistente definitivo con localStorage como respaldo
+[33m249e6ff[m Agregar página de carga de datos base para solucionar problema de APIs que se reinician
+[33m3904c40[m Agregar productos base a las APIs para que siempre haya datos disponibles
+[33m8304dd3[m Corregir carga de productos y ofertas desde API - ahora si se cargan
+[33mb564bbc[m RESTAURAR pagina de inicio con 4 productos estaticos - NO TOCAR MAS
+[33m7d0aff5[m Vaciar paginas de productos y ofertas - listo para cargar desde administrador
+[33m94fd875[m Actualizar panel admin para usar API unificada - cambios se reflejan en todos los dispositivos
+[33md719701[m UNIFICAR DATOS: Crear API unificada para sincronizar todos los dispositivos
+[33m00e18cf[m Corregir precios incorrectos y mejorar carga de imagenes con preload
+[33m94e0d26[m Corregir precios incorrectos en mapeo de imagenes y productos estaticos
+[33ma54b037[m Agregar funcion para limpiar y restablecer productos con precios correctos
+[33m79a0925[m Restaurar productos fijos en inicio: Fernet, Skyy, Smirnoff, Gancia con precios correctos
+[33m16e2397[m Agregar funcion completa para corregir precios, categorias e imagenes
+[33m110c236[m Unificar fuentes de datos: pagina principal ahora usa localStorage como productos
+[33m5c9d026[m Agregar función para corregir precios incorrectos en móvil
+[33md3c0691[m Limpiar proyecto: eliminar archivos de debugging y simplificar configuracion v4.0
+[33m5464d9d[m FORZAR VERCEL DEFINITIVO: Agregar archivo de fuerza y configurar vercel.json v3.22
+[33mf8e6141[m FORZAR VERCEL: Agregar timestamp al título para forzar actualización v3.21
+[33m76cc5eb[m SOLUCIONAR VERCEL: Corregir errores TypeScript para que el build funcione v3.20
+[33m6036352[m Limpiar página principal: eliminar banners y versiones v3.19
+[33m437e801[m FORZAR ACTUALIZACIÓN VERCEL: Banner rojo urgente v3.18
+[33md1d1716[m Corregir error TypeScript en página check para que Vercel pueda compilar v3.17
+[33ma5df668[m CONFIGURAR VERCEL: Agregar .vercelignore y timestamp único v3.16
