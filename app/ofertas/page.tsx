@@ -90,7 +90,7 @@ export default function Ofertas() {
               id: 1,
               title: "Fernet + Coca Cola",
               description: "Combo perfecto para disfrutar con amigos",
-              finalPrice: 15000,
+              finalPrice: 17000,
               active: true,
               image: "/images/fernetmas2cocas.jfif",
               category: "Combos",
@@ -105,13 +105,13 @@ export default function Ofertas() {
               id: 2,
               title: "Skyy + Speed",
               description: "Combo energético para la noche",
-              finalPrice: 14000,
+              finalPrice: 15500,
               active: true,
               image: "/images/skyymasspeed.jfif",
               category: "Combos",
               comboProducts: [
-                { name: "Skyy Vodka 750ml", quantity: 1, price: 12000 },
-                { name: "Speed XL", quantity: 2, price: 2000 }
+                { name: "Skyy Vodka 750ml", quantity: 1, price: 9500 },
+                { name: "Speed XL", quantity: 2, price: 3000 }
               ],
               featured: true,
               priority: 4
