@@ -59,54 +59,70 @@ export default function Ofertas() {
   const { addItem } = useCartStore()
 
   useEffect(() => {
-    const loadOfertas = () => {
+    // 1. Obtener datos de la API
+    const fetchDataFromAPI = async () => {
       try {
-        console.log('🔄 Cargando ofertas...')
-        
-        // Cargar ofertas desde localStorage de forma segura
-        const savedOfertas = safeLocalStorage.getItem('ofertas')
-        let ofertasToShow: Oferta[] = []
-        
-        if (savedOfertas) {
-          try {
-            ofertasToShow = JSON.parse(savedOfertas)
-          } catch (parseError) {
-            console.warn('⚠️ Error parseando ofertas:', parseError)
-            ofertasToShow = []
-          }
-        }
-        
-        setOfertas(ofertasToShow)
-        
-        console.log('🎁 Ofertas cargadas:', ofertasToShow.length)
-        
-        // Si no hay ofertas en localStorage, cargar desde API (para móvil)
-        if (ofertasToShow.length === 0) {
-          console.warn('⚠️ No hay ofertas en localStorage, cargando desde API para móvil...')
-          
-          fetch('/api/offers')
-            .then(response => response.json())
-            .then(data => {
-              if (data.ofertas && data.ofertas.length > 0) {
-                console.log('✅ Ofertas cargadas desde API para móvil:', data.ofertas.length)
-                setOfertas(data.ofertas)
-                // Guardar en localStorage para futuras visitas
-                safeLocalStorage.setItem('ofertas', JSON.stringify(data.ofertas))
-              } else {
-                console.warn('⚠️ No hay ofertas disponibles en la API')
-                setOfertas([])
-              }
-            })
-            .catch(error => {
-              console.error('❌ Error cargando ofertas desde API:', error)
-              setOfertas([])
-            })
-        }
-        
+        const response = await fetch('/api/offers')
+        const data = await response.json()
+        return data.ofertas || []
       } catch (error) {
-        console.error('❌ Error cargando ofertas:', error)
-        setOfertas([])
-      } finally {
+        console.error('❌ Error cargando desde API:', error)
+        return []
+      }
+    }
+
+    // 2. Almacenar datos en LocalStorage
+    const saveDataToLocalStorage = (ofertas: Oferta[]) => {
+      try {
+        safeLocalStorage.setItem('ofertas', JSON.stringify(ofertas))
+        console.log('💾 Ofertas guardadas en localStorage:', ofertas.length)
+      } catch (error) {
+        console.error('❌ Error guardando en localStorage:', error)
+      }
+    }
+
+    // 3. Recuperar datos de LocalStorage
+    const getDataFromLocalStorage = () => {
+      try {
+        const storedDataString = safeLocalStorage.getItem('ofertas')
+        if (storedDataString) {
+          const storedData = JSON.parse(storedDataString)
+          console.log('🎁 Ofertas recuperadas de localStorage:', storedData.length)
+          return storedData
+        }
+        return null
+      } catch (error) {
+        console.error('❌ Error recuperando de localStorage:', error)
+        return null
+      }
+    }
+
+    // 4. Función principal de carga
+    const loadOfertas = async () => {
+      console.log('🔄 Cargando ofertas (API + localStorage)...')
+      
+      // Primero intentar cargar desde localStorage
+      const localOfertas = getDataFromLocalStorage()
+      
+      if (localOfertas && localOfertas.length > 0) {
+        // Si hay ofertas en localStorage, usarlas
+        console.log('✅ Usando ofertas de localStorage')
+        setOfertas(localOfertas)
+        setLoading(false)
+      } else {
+        // Si no hay ofertas en localStorage, cargar desde API
+        console.log('🔄 No hay ofertas en localStorage, cargando desde API...')
+        const apiOfertas = await fetchDataFromAPI()
+        
+        if (apiOfertas.length > 0) {
+          console.log('✅ Ofertas cargadas desde API:', apiOfertas.length)
+          setOfertas(apiOfertas)
+          // Guardar en localStorage para futuras visitas
+          saveDataToLocalStorage(apiOfertas)
+        } else {
+          console.warn('⚠️ No hay ofertas disponibles')
+          setOfertas([])
+        }
         setLoading(false)
       }
     }

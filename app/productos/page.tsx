@@ -41,62 +41,75 @@ export default function Productos() {
   const { addItem } = useCartStore()
 
   useEffect(() => {
-    const loadData = () => {
+    // 1. Obtener datos de la API
+    const fetchDataFromAPI = async () => {
       try {
-        console.log('🔄 Cargando productos...')
-        
-        // Cargar productos desde localStorage de forma segura
-        const savedProducts = safeLocalStorage.getItem('products')
-        let productsToShow: Product[] = []
-        
-        if (savedProducts) {
-          try {
-            productsToShow = JSON.parse(savedProducts)
-          } catch (parseError) {
-            console.warn('⚠️ Error parseando productos:', parseError)
-            productsToShow = []
-          }
-        }
-        
-        setProducts(productsToShow)
-        setOfertas([]) // No mostrar ofertas en la página de productos
-        setAllItems(productsToShow)
-        
-        console.log('📦 Productos cargados:', productsToShow.length)
-        console.log('📋 Total items:', productsToShow.length)
-        
-        // Si no hay productos en localStorage, cargar desde API (para móvil)
-        if (productsToShow.length === 0) {
-          console.warn('⚠️ No hay productos en localStorage, cargando desde API para móvil...')
-          
-          fetch('/api/images')
-            .then(response => response.json())
-            .then(data => {
-              if (data.products && data.products.length > 0) {
-                console.log('✅ Productos cargados desde API para móvil:', data.products.length)
-                setProducts(data.products)
-                setAllItems(data.products)
-                // Guardar en localStorage para futuras visitas
-                safeLocalStorage.setItem('products', JSON.stringify(data.products))
-              } else {
-                console.warn('⚠️ No hay productos disponibles en la API')
-                setProducts([])
-                setAllItems([])
-              }
-            })
-            .catch(error => {
-              console.error('❌ Error cargando desde API:', error)
-              setProducts([])
-              setAllItems([])
-            })
-        }
-        
+        const response = await fetch('/api/images')
+        const data = await response.json()
+        return data.products || []
       } catch (error) {
-        console.error('❌ Error cargando datos:', error)
-        setProducts([])
+        console.error('❌ Error cargando desde API:', error)
+        return []
+      }
+    }
+
+    // 2. Almacenar datos en LocalStorage
+    const saveDataToLocalStorage = (products: Product[]) => {
+      try {
+        safeLocalStorage.setItem('products', JSON.stringify(products))
+        console.log('💾 Productos guardados en localStorage:', products.length)
+      } catch (error) {
+        console.error('❌ Error guardando en localStorage:', error)
+      }
+    }
+
+    // 3. Recuperar datos de LocalStorage
+    const getDataFromLocalStorage = () => {
+      try {
+        const storedDataString = safeLocalStorage.getItem('products')
+        if (storedDataString) {
+          const storedData = JSON.parse(storedDataString)
+          console.log('📦 Productos recuperados de localStorage:', storedData.length)
+          return storedData
+        }
+        return null
+      } catch (error) {
+        console.error('❌ Error recuperando de localStorage:', error)
+        return null
+      }
+    }
+
+    // 4. Función principal de carga
+    const loadData = async () => {
+      console.log('🔄 Cargando productos (API + localStorage)...')
+      
+      // Primero intentar cargar desde localStorage
+      const localProducts = getDataFromLocalStorage()
+      
+      if (localProducts && localProducts.length > 0) {
+        // Si hay productos en localStorage, usarlos
+        console.log('✅ Usando productos de localStorage')
+        setProducts(localProducts)
+        setAllItems(localProducts)
         setOfertas([])
-        setAllItems([])
-      } finally {
+        setLoading(false)
+      } else {
+        // Si no hay productos en localStorage, cargar desde API
+        console.log('🔄 No hay productos en localStorage, cargando desde API...')
+        const apiProducts = await fetchDataFromAPI()
+        
+        if (apiProducts.length > 0) {
+          console.log('✅ Productos cargados desde API:', apiProducts.length)
+          setProducts(apiProducts)
+          setAllItems(apiProducts)
+          setOfertas([])
+          // Guardar en localStorage para futuras visitas
+          saveDataToLocalStorage(apiProducts)
+        } else {
+          console.warn('⚠️ No hay productos disponibles')
+          setProducts([])
+          setAllItems([])
+        }
         setLoading(false)
       }
     }
