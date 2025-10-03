@@ -1,0 +1,4 @@
+FORZAR VERCEL kndrinksgood: UNA SOLA APLICACIÓN
+Timestamp: $(Get-Date)
+Commit: ea02948
+Cambios: SIEMPRE cargar desde API - cambios admin se ven inmediatamente en móvil
