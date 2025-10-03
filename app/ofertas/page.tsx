@@ -27,6 +27,31 @@ const getPopularityText = (priority?: number): string => {
   return 'NUEVO'
 }
 
+// Función helper robusta para localStorage en móviles
+const safeLocalStorage = {
+  getItem: (key: string): string | null => {
+    try {
+      if (typeof window === 'undefined') return null
+      if (!window.localStorage) return null
+      return window.localStorage.getItem(key)
+    } catch (error) {
+      console.warn('⚠️ Error accediendo a localStorage:', error)
+      return null
+    }
+  },
+  setItem: (key: string, value: string): boolean => {
+    try {
+      if (typeof window === 'undefined') return false
+      if (!window.localStorage) return false
+      window.localStorage.setItem(key, value)
+      return true
+    } catch (error) {
+      console.warn('⚠️ Error guardando en localStorage:', error)
+      return false
+    }
+  }
+}
+
 export default function Ofertas() {
   const [ofertas, setOfertas] = useState<Oferta[]>([])
   const [loading, setLoading] = useState(true)
@@ -38,21 +63,32 @@ export default function Ofertas() {
       try {
         console.log('🔄 Cargando ofertas...')
         
-        // Cargar ofertas desde localStorage
-        const savedOfertas = localStorage.getItem('ofertas')
-        const ofertasToShow = savedOfertas ? JSON.parse(savedOfertas) : []
+        // Cargar ofertas desde localStorage de forma segura
+        const savedOfertas = safeLocalStorage.getItem('ofertas')
+        let ofertasToShow: Oferta[] = []
+        
+        if (savedOfertas) {
+          try {
+            ofertasToShow = JSON.parse(savedOfertas)
+          } catch (parseError) {
+            console.warn('⚠️ Error parseando ofertas:', parseError)
+            ofertasToShow = []
+          }
+        }
         
         setOfertas(ofertasToShow)
         
         console.log('🎁 Ofertas cargadas:', ofertasToShow.length)
         
-        // Debug para móviles
+        // Debug mejorado para móviles
         if (ofertasToShow.length === 0) {
           console.warn('⚠️ No hay ofertas disponibles')
-          console.log('🔍 Debug info:', {
-            userAgent: navigator.userAgent,
-            platform: navigator.platform,
-            localStorageAvailable: typeof window !== 'undefined' && !!window.localStorage
+          console.log('🔍 Debug info móvil:', {
+            userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'N/A',
+            platform: typeof navigator !== 'undefined' ? navigator.platform : 'N/A',
+            localStorageAvailable: safeLocalStorage.getItem('test') !== null,
+            windowAvailable: typeof window !== 'undefined',
+            savedOfertasExists: !!savedOfertas
           })
         }
         
@@ -64,11 +100,13 @@ export default function Ofertas() {
       }
     }
 
-    loadOfertas()
+    // Pequeño delay para asegurar que el DOM esté listo en móviles
+    const timer = setTimeout(loadOfertas, 100)
+    return () => clearTimeout(timer)
   }, [])
 
   useEffect(() => {
-    const isAdminUser = localStorage.getItem('isAdmin') === 'true'
+    const isAdminUser = safeLocalStorage.getItem('isAdmin') === 'true'
     setIsAdmin(isAdminUser)
   }, [])
 

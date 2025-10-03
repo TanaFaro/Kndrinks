@@ -4,6 +4,31 @@ import { useState, useEffect } from 'react'
 import { useCartStore } from '@/store/cartStore'
 import { Product, Oferta } from '@/lib/types'
 
+// Función helper robusta para localStorage en móviles
+const safeLocalStorage = {
+  getItem: (key: string): string | null => {
+    try {
+      if (typeof window === 'undefined') return null
+      if (!window.localStorage) return null
+      return window.localStorage.getItem(key)
+    } catch (error) {
+      console.warn('⚠️ Error accediendo a localStorage:', error)
+      return null
+    }
+  },
+  setItem: (key: string, value: string): boolean => {
+    try {
+      if (typeof window === 'undefined') return false
+      if (!window.localStorage) return false
+      window.localStorage.setItem(key, value)
+      return true
+    } catch (error) {
+      console.warn('⚠️ Error guardando en localStorage:', error)
+      return false
+    }
+  }
+}
+
 export default function Productos() {
   const [products, setProducts] = useState<Product[]>([])
   const [ofertas, setOfertas] = useState<Oferta[]>([])
@@ -18,33 +43,37 @@ export default function Productos() {
   useEffect(() => {
     const loadData = () => {
       try {
-        console.log('🔄 Cargando productos y ofertas...')
+        console.log('🔄 Cargando productos...')
         
-        // Cargar productos desde localStorage
-        const savedProducts = localStorage.getItem('products')
-        const productsToShow = savedProducts ? JSON.parse(savedProducts) : []
+        // Cargar productos desde localStorage de forma segura
+        const savedProducts = safeLocalStorage.getItem('products')
+        let productsToShow: Product[] = []
         
-        // Cargar ofertas desde localStorage
-        const savedOfertas = localStorage.getItem('ofertas')
-        const ofertasToShow = savedOfertas ? JSON.parse(savedOfertas) : []
+        if (savedProducts) {
+          try {
+            productsToShow = JSON.parse(savedProducts)
+          } catch (parseError) {
+            console.warn('⚠️ Error parseando productos:', parseError)
+            productsToShow = []
+          }
+        }
         
         setProducts(productsToShow)
         setOfertas([]) // No mostrar ofertas en la página de productos
-        
-        // Solo mostrar productos, no ofertas
         setAllItems(productsToShow)
         
         console.log('📦 Productos cargados:', productsToShow.length)
-        console.log('🎁 Ofertas cargadas: 0 (no se muestran en productos)')
         console.log('📋 Total items:', productsToShow.length)
         
-        // Debug para móviles
+        // Debug mejorado para móviles
         if (productsToShow.length === 0) {
           console.warn('⚠️ No hay productos disponibles')
-          console.log('🔍 Debug info:', {
-            userAgent: navigator.userAgent,
-            platform: navigator.platform,
-            localStorageAvailable: typeof window !== 'undefined' && !!window.localStorage
+          console.log('🔍 Debug info móvil:', {
+            userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'N/A',
+            platform: typeof navigator !== 'undefined' ? navigator.platform : 'N/A',
+            localStorageAvailable: safeLocalStorage.getItem('test') !== null,
+            windowAvailable: typeof window !== 'undefined',
+            savedProductsExists: !!savedProducts
           })
         }
         
@@ -58,11 +87,13 @@ export default function Productos() {
       }
     }
 
-    loadData()
+    // Pequeño delay para asegurar que el DOM esté listo en móviles
+    const timer = setTimeout(loadData, 100)
+    return () => clearTimeout(timer)
   }, [])
 
   useEffect(() => {
-    const isAdminUser = localStorage.getItem('isAdmin') === 'true'
+    const isAdminUser = safeLocalStorage.getItem('isAdmin') === 'true'
     setIsAdmin(isAdminUser)
   }, [])
 
