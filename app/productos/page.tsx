@@ -81,37 +81,27 @@ export default function Productos() {
 
     // 4. Función principal de carga
     const loadData = async () => {
-      console.log('🔄 Cargando productos (API + localStorage)...')
+      console.log('🔄 Cargando productos (SIEMPRE desde API centralizada)...')
       
-      // Primero intentar cargar desde localStorage
-      const localProducts = getDataFromLocalStorage()
+      // SIEMPRE cargar desde API para tener datos centralizados
+      const apiProducts = await fetchDataFromAPI()
       
-      if (localProducts && localProducts.length > 0) {
-        // Si hay productos en localStorage, usarlos
-        console.log('✅ Usando productos de localStorage')
-        setProducts(localProducts)
-        setAllItems(localProducts)
+      if (apiProducts.length > 0) {
+        console.log('✅ Productos cargados desde API centralizada:', apiProducts.length)
+        setProducts(apiProducts)
+        setAllItems(apiProducts)
         setOfertas([])
-        setLoading(false)
-      } else {
-        // Si no hay productos en localStorage, cargar desde API
-        console.log('🔄 No hay productos en localStorage, cargando desde API...')
-        const apiProducts = await fetchDataFromAPI()
         
-        if (apiProducts.length > 0) {
-          console.log('✅ Productos cargados desde API:', apiProducts.length)
-          setProducts(apiProducts)
-          setAllItems(apiProducts)
-          setOfertas([])
-          // Guardar en localStorage para futuras visitas
-          saveDataToLocalStorage(apiProducts)
-        } else {
-          console.warn('⚠️ No hay productos disponibles')
-          setProducts([])
-          setAllItems([])
-        }
-        setLoading(false)
+        // Guardar en localStorage para velocidad en futuras cargas
+        saveDataToLocalStorage(apiProducts)
+        console.log('💾 Productos guardados en localStorage para velocidad')
+      } else {
+        console.warn('⚠️ No hay productos disponibles en la API')
+        setProducts([])
+        setAllItems([])
       }
+      
+      setLoading(false)
     }
 
     // Delay más largo para móviles con conexión lenta

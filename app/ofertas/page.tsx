@@ -99,32 +99,24 @@ export default function Ofertas() {
 
     // 4. Función principal de carga
     const loadOfertas = async () => {
-      console.log('🔄 Cargando ofertas (API + localStorage)...')
+      console.log('🔄 Cargando ofertas (SIEMPRE desde API centralizada)...')
       
-      // Primero intentar cargar desde localStorage
-      const localOfertas = getDataFromLocalStorage()
+      // SIEMPRE cargar desde API para tener datos centralizados
+      const apiOfertas = await fetchDataFromAPI()
       
-      if (localOfertas && localOfertas.length > 0) {
-        // Si hay ofertas en localStorage, usarlas
-        console.log('✅ Usando ofertas de localStorage')
-        setOfertas(localOfertas)
-        setLoading(false)
-      } else {
-        // Si no hay ofertas en localStorage, cargar desde API
-        console.log('🔄 No hay ofertas en localStorage, cargando desde API...')
-        const apiOfertas = await fetchDataFromAPI()
+      if (apiOfertas.length > 0) {
+        console.log('✅ Ofertas cargadas desde API centralizada:', apiOfertas.length)
+        setOfertas(apiOfertas)
         
-        if (apiOfertas.length > 0) {
-          console.log('✅ Ofertas cargadas desde API:', apiOfertas.length)
-          setOfertas(apiOfertas)
-          // Guardar en localStorage para futuras visitas
-          saveDataToLocalStorage(apiOfertas)
-        } else {
-          console.warn('⚠️ No hay ofertas disponibles')
-          setOfertas([])
-        }
-        setLoading(false)
+        // Guardar en localStorage para velocidad en futuras cargas
+        saveDataToLocalStorage(apiOfertas)
+        console.log('💾 Ofertas guardadas en localStorage para velocidad')
+      } else {
+        console.warn('⚠️ No hay ofertas disponibles en la API')
+        setOfertas([])
       }
+      
+      setLoading(false)
     }
 
     // Delay más largo para móviles con conexión lenta
