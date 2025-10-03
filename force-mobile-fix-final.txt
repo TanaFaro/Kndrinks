@@ -1,0 +1,4 @@
+FORZAR VERCEL: Corregir móvil - precios correctos y sin logo
+Timestamp: $(Get-Date)
+Commit: 6fd8011
+Cambios: API con precios correctos, logo excluido, móvil carga desde API
