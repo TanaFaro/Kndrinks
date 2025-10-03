@@ -29,7 +29,7 @@ export async function GET() {
           'prittyde3lts.webp': { category: 'Bebidas', price: 1800, description: 'Gaseosa sabor limón 3 litros', type: 'product' },
           'SpeedXL.webp': { category: 'Bebidas', price: 1500, description: 'Bebida energética XL', type: 'product' },
           'DURenaissance.jfif': { category: 'Licores', price: 6500, description: 'Vodka premium francés', type: 'product' },
-          'VINOVINADEBALBO.png': { category: 'Vinos', price: 2200, description: 'Vino tinto premium', type: 'product' },
+          'balbomaspritty.png': { category: 'Combos', price: 4000, description: 'Combo Viña de Balbo + Pritty', type: 'combo' },
           'vinotoro.jfif': { category: 'Vinos', price: 2200, description: 'Vino tinto de calidad', type: 'product' },
           'cocadescartable.jpg': { category: 'Bebidas', price: 800, description: 'Coca Cola en botella descartable', type: 'product' },
           'skyymasspeed.jfif': { category: 'Combos', price: 4800, description: 'Combo Skyy + Speed', type: 'combo' },

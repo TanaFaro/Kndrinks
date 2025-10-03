@@ -18,7 +18,7 @@ export default function SyncProducts() {
         { id: 8, name: "Speed XL", price: 1500, category: "Bebidas", stock: 40, image: "/images/SpeedXL.webp", description: "Bebida energética XL" },
         { id: 9, name: "DU Renaissance", price: 5000, category: "Vinos", stock: 15, image: "/images/DURenaissance.jfif", description: "Vino DU Renaissance" },
         { id: 10, name: "Vino Toro 750ml", price: 2200, category: "Vinos", stock: 25, image: "/images/vinotoro.jfif", description: "Vino Toro tinto 750ml" },
-        { id: 11, name: "Vino Viña de Balbo Tinto", price: 2200, category: "Vinos", stock: 25, image: "/images/balbomaspritty.png", description: "Vino tinto premium" },
+        { id: 11, name: "Vino Viña de Balbo Tinto", price: 2200, category: "Vinos", stock: 25, image: "/images/vinotoro.jfif", description: "Vino tinto premium" },
         { id: 12, name: "Gancia", price: 8000, category: "Aperitivos", stock: 18, image: "/images/Gancia.jfif", description: "Gancia aperitivo" }
       ]
 
