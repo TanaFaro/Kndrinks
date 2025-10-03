@@ -1,0 +1,5 @@
+Force Vercel deploy - Precios corregidos
+Timestamp: 2024-10-02 21:45
+Commit: e92cf0d
+Fix: Precios reales y eliminar logos
+Status: READY
