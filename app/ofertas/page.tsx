@@ -97,20 +97,17 @@ export default function Ofertas() {
       }
     }
 
-    // 4. Función principal de carga
+    // 4. Función principal de carga - SOLO API CENTRALIZADA
     const loadOfertas = async () => {
-      console.log('🔄 Cargando ofertas (SIEMPRE desde API centralizada)...')
+      console.log('🔄 Cargando ofertas desde API CENTRALIZADA (misma para todos los dispositivos)...')
       
-      // SIEMPRE cargar desde API para tener datos centralizados
+      // SIEMPRE cargar desde API - NO usar localStorage
       const apiOfertas = await fetchDataFromAPI()
       
       if (apiOfertas.length > 0) {
         console.log('✅ Ofertas cargadas desde API centralizada:', apiOfertas.length)
         setOfertas(apiOfertas)
-        
-        // Guardar en localStorage para velocidad en futuras cargas
-        saveDataToLocalStorage(apiOfertas)
-        console.log('💾 Ofertas guardadas en localStorage para velocidad')
+        console.log('🎯 Todos los dispositivos verán las mismas ofertas')
       } else {
         console.warn('⚠️ No hay ofertas disponibles en la API')
         setOfertas([])

@@ -79,11 +79,11 @@ export default function Productos() {
       }
     }
 
-    // 4. Función principal de carga
+    // 4. Función principal de carga - SOLO API CENTRALIZADA
     const loadData = async () => {
-      console.log('🔄 Cargando productos (SIEMPRE desde API centralizada)...')
+      console.log('🔄 Cargando productos desde API CENTRALIZADA (misma para todos los dispositivos)...')
       
-      // SIEMPRE cargar desde API para tener datos centralizados
+      // SIEMPRE cargar desde API - NO usar localStorage
       const apiProducts = await fetchDataFromAPI()
       
       if (apiProducts.length > 0) {
@@ -91,10 +91,7 @@ export default function Productos() {
         setProducts(apiProducts)
         setAllItems(apiProducts)
         setOfertas([])
-        
-        // Guardar en localStorage para velocidad en futuras cargas
-        saveDataToLocalStorage(apiProducts)
-        console.log('💾 Productos guardados en localStorage para velocidad')
+        console.log('🎯 Todos los dispositivos verán los mismos productos')
       } else {
         console.warn('⚠️ No hay productos disponibles en la API')
         setProducts([])
