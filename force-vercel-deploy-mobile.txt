@@ -1,0 +1,4 @@
+Force Vercel deploy - Mobile compatibility fix
+Timestamp: 2024-10-02
+Commit: 52ca179
+Mobile fix: Auto-load from API when localStorage is empty
